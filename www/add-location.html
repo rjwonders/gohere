@@ -1,0 +1,48 @@
+<div data-role="page" data-theme="a" id="addLocationPage">
+	<div class="bgimage"></div>
+    <div role="main" class="ui-content" data-position="left" data-display="reveal" data-theme="a" id="nav-panel2" class="sidebar-menu">
+    	<div class="staticPage">
+    		<div data-tap-toggle="false" data-position="fixed" data-theme="a" class="header-block no-fix-header">
+            	<a class="ui-btn-left ui-btn ui-icon-carat-l ui-btn-icon-left menu2" href="#" data-role="button" role="button" style="margin-top: -10px !important">Menu</a>
+                <div class="menu"><a href="">Menu</a></div>
+				<h1 class="addLocationHeading" id="commentHeading">Add A Location</h1>
+			</div>
+            <div class="ui-body mapContainer" style="margin-top:0px!important;">
+            	<div class="addPage">
+                	<form>
+						<input type="text" placeholder="Name of Business" id="nameBusiness">
+                        <input type="text" placeholder="Add Address" id="addLocationAddress">
+                        <input type="text" placeholder="Postal Code" id="addLocationPostalCode">
+                        <label>
+                        	<input name="checkbox-0 " type="checkbox" id="myCheckbox"><span id="disability">Please check if this washroom has an international disability logo, Add Google Image</span>
+						</label>
+                        <textarea placeholder="Add Comment" id="addLocationComment"></textarea>
+						<div class="swtichBlock">
+                        	<label for="flip-min" id="updateCurrentLocation">Update Current Location</label>
+                            <select name="flip-7" id="flip-8" data-role="slider" data-mini="true">
+                            	<option value="off">Off</option>
+                                <option value="on">On</option>
+							</select>
+						</div>
+						<div class="swtichBlock">
+                        	<label for="flip-min" id="addGoogleImage">Add Google Image</label>
+                            <select name="flip-7" id="flip-7" data-role="slider" data-mini="true">
+                            	<option value="off">Off</option>
+                                <option value="on">On</option>
+							</select>
+						</div>
+						<div class="swtichBlock paddingBt RateAddLocation">
+                        	<label for="flip-min" id="rateThisWashroom">Rate this Washroom</label>
+                            <a href="" class="rightArrow"></a>
+						</div>
+                        <div class="inputBtn">
+                        	<div class="clearBoth"></div>
+                            <input type="submit" value="Submit" id="addLocationSubmit">
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+    <div menu></div>
+</div>
