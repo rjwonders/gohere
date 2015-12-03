@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.GoHere.GoHere" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>GoHere</name>
+    <description>
+        Find washroom near to you.
+    </description>
+    <author email="rjwonders@gmail.com" href="http://cordova.io">
+        GoHere
+    </author>
+    <content src="index.html" />
+    <plugin name="cordova-plugin-whitelist" spec="1" />
+    <access origin="*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+    
+    <engine name="android" spec="~4.1.1" />
+    <engine name="ios" spec="~3.9.2" />
+	<preference name="android-minSdkVersion" value="14" />
+	<preference name="android-targetSdkVersion" value="22" />
+	<platform name="android">
+		<allow-intent href="market:*" />
+		<splash src="res/screen/android/hdpi.png" density="port-hdpi"/>
+		<splash src="res/screen/android/mdpi.png" density="port-mdpi"/>
+		<splash src="res/screen/android/xhdpi.png" density="port-xhdpi"/>
+	</platform>
+	
+	<platform name="ios">
+		<allow-intent href="itms:*" />
+        <allow-intent href="itms-apps:*" />
+		<!-- images are determined by width and height. The following are supported -->
+		<splash src="res/screen/ios/Default~iphone.png" width="320" height="480"/>
+		<splash src="res/screen/ios/Default@2x~iphone.png" width="640" height="960"/>
+		<splash src="res/screen/ios/Default-Portrait~ipad.png" width="768" height="1024"/>
+		<splash src="res/screen/ios/Default-Portrait@2x~ipad.png" width="1536" height="2048"/>
+		<splash src="res/screen/ios/Default-568h@2x~iphone.png" width="640" height="1136"/>
+		<splash src="res/screen/ios/Default-667h.png" width="750" height="1334"/>
+		<splash src="res/screen/ios/Default-736h.png" width="1242" height="2208"/>
+	</platform>
+	
+	<preference name="SplashScreenDelay" value="10000" />
+</widget>
