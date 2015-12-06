@@ -16,6 +16,21 @@
     </feature>
     <allow-intent href="itms:*" />
     <allow-intent href="itms-apps:*" />
+    <icon height="180" src="res/icon/ios/Icon-60@3x.png" width="180" />
+    <icon height="60" src="res/icon/ios/Icon-60.png" width="60" />
+    <icon height="120" src="res/icon/ios/Icon-60@2x.png" width="120" />
+    <icon height="76" src="res/icon/ios/Icon-76.png" width="76" />
+    <icon height="152" src="res/icon/ios/Icon-76@2x.png" width="152" />
+    <icon height="40" src="res/icon/ios/Icon-40.png" width="40" />
+    <icon height="80" src="res/icon/ios/Icon-40@2x.png" width="80" />
+    <icon height="57" src="res/icon/ios/Icon.png" width="57" />
+    <icon height="114" src="res/icon/ios/Icon@2x.png" width="114" />
+    <icon height="72" src="res/icon/ios/Icon-72.png" width="72" />
+    <icon height="144" src="res/icon/ios/Icon-72@2x.png" width="144" />
+    <icon height="29" src="res/icon/ios/Icon-small.png" width="29" />
+    <icon height="58" src="res/icon/ios/Icon-small@2x.png" width="58" />
+    <icon height="50" src="res/icon/ios/Icon-small-50.png" width="50" />
+    <icon height="100" src="res/icon/ios/Icon-small-50@2x.png" width="100" />
     <splash height="480" src="res/screen/ios/Default~iphone.png" width="320" />
     <splash height="960" src="res/screen/ios/Default@2x~iphone.png" width="640" />
     <splash height="1024" src="res/screen/ios/Default-Portrait~ipad.png" width="768" />

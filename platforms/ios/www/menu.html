@@ -1,47 +1,15 @@
-<div data-role="panel" data-display="push" data-theme="a" id="nav-panel" class="sidebar-menu">
-            <div class="ui-grid-solo">
-                <div class="ui-block-a">
-                    <!-- After Login Box -->
-                    <div class="userBlock">
-                        <div class="userInfo">
-                            <div class="profileImage">
-                                <img src="img/gohere.png" alt="">
-                                <!--<a href="" class="editIcon panel" id="editIcon"></a>-->
-                            </div>
-                            <div class="username">
-                                <div class="name"></div>
-                                <span class="member"></span>
-                            </div>
-                            <div class="scoreButton">
-                                <div class="userscore"></div>
-                                <a href="#" class="editinfo">
-                                    <i class="icons icon-editinfo"></i>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="userName">
-                            <h2 class="registeredUsername"></h2>
-                            <h4 class="registeredUserAddress"></h4>
-                        </div>
-                    </div>
-                    <!-- End After Login Box -->
-                </div>
-            </div>
-            <ul class="category">
-                <li class="panel currentLocation">
-                    <a href="#" class="active showActive"> <i class="menuIcons location"></i> my Current Location</a>
-                </li>
-                <li class="panel mapMyRoute"><a href="#" class="showActive"><i class="menuIcons route"></i>Map My Route</a></li>
-                <li class="panel addLocation" id="addLocation"><a href="#" class="showActive"><i class="menuIcons addlocation"></i>Add location</a></li>
-                <li class="panel WahroomAccess" id="WahroomAccess"><a href="#" class="showActive"><i class="menuIcons card"></i>Washroom Access card</a></li>
-                <li class='panel panelFavourites' id="panelFavourites"><a href="#" class="showActive"><i class="menuIcons favourites"></i>Favourites</a></li>
-                <li class="panel saveroute" style="display:none"><a href="#" class="showActive"><i class="menuIcons supporters"></i>Saved Routes</a></li>
-                <li class="panel aboutSidebar"><a href="#" class="showActive"><i class="menuIcons about"></i>About GoHere</a></li>
-                <li class="panel setting" style="display:none"><a href="#" class="showActive"><i class="menuIcons setting"></i>Profile Settings</a></li>
-                <li class="panel userLogout" style="display:none"><a href="#" class="showActive"><i class="menuIcons logout"></i>logout</a></li>
-            </ul>
-            <div class="clearBoth"></div>
-            <div class="menulogo"> <img src="img/logo.png" alt=""> </div>
-            <div class="copyright">Copyright©Go<span>Here</span></div>
-        </div>
+<div class="snap-drawer snap-drawer-left">        
+    <div class="sidebar-header-left">
+        <a href="javascript:void(0)"><img src="images/head-logo.png" alt="img"></a>
+        <a class="close-sidebar" href="javascript:void(0)"><i class="fa fa-times"></i></a>
+    </div>      
+    <div class="sidebar-menu">
+        <a class="menu-item" href="/map"><i class="fa fa-location-arrow"></i><em>{{ 'CURRENT_LOCATION' | translate}}</em></a> 
+        <a class="menu-item" href="/map"><i class="fa fa-globe"></i><em>{{ 'MAP' | translate}}</em></a>     
+        <a class="menu-item" href="/add-location"><i class="fa fa-map-marker"></i><em>{{ 'ADD_LOCATION' | translate}}</em></a>     
+        <a class="menu-item" href="/card"><i class="fa fa-credit-card"></i><em>{{ 'ACCESS_CARD' | translate}}</em></a>
+        <a class="menu-item" href="/favourite"><i class="fa fa-star"></i><em>{{ 'FAVOURITE' | translate}}</em></a>   
+        <a class="menu-item menu-item-active" href="/about"><i class="fa fa-info-circle"></i><em>{{ 'ABOUT_BUTTON' | translate}}</em></a>                
+    	<p class="sidebar-footer">Copyright@GoHere</p>
+	</div>
+</div>

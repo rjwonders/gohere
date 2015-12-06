@@ -23,6 +23,14 @@
 	<preference name="android-targetSdkVersion" value="22" />
 	<platform name="android">
 		<allow-intent href="market:*" />
+		
+		<icon src="res/icon/android/drawable-ldpi/ic_launcher.png" density="ldpi" />
+		<icon src="res/icon/android/drawable-mdpi/ic_launcher.png" density="mdpi" />
+		<icon src="res/icon/android/drawable-hdpi/ic_launcher.png" density="hdpi" />
+		<icon src="res/icon/android/drawable-xhdpi/ic_launcher.png" density="xhdpi" />
+		<icon src="res/icon/android/drawable-xxhdpi/ic_launcher.png" density="xxhdpi" />
+		<icon src="res/icon/android/drawable-xxxhdpi/ic_launcher.png" density="xxxhdpi" />
+		
 		<splash src="res/screen/android/hdpi.png" density="port-hdpi"/>
 		<splash src="res/screen/android/mdpi.png" density="port-mdpi"/>
 		<splash src="res/screen/android/xhdpi.png" density="port-xhdpi"/>
@@ -31,6 +39,31 @@
 	<platform name="ios">
 		<allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
+		
+		<icon src="res/icon/ios/Icon-60@3x.png" width="180" height="180" />
+		<!-- iOS 7.0+ -->
+		<!-- iPhone / iPod Touch  -->
+		<icon src="res/icon/ios/Icon-60.png" width="60" height="60" />
+		<icon src="res/icon/ios/Icon-60@2x.png" width="120" height="120" />
+		<!-- iPad -->
+		<icon src="res/icon/ios/Icon-76.png" width="76" height="76" />
+		<icon src="res/icon/ios/Icon-76@2x.png" width="152" height="152" />
+		<!-- iOS 6.1 -->
+		<!-- Spotlight Icon -->
+		<icon src="res/icon/ios/Icon-40.png" width="40" height="40" />
+		<icon src="res/icon/ios/Icon-40@2x.png" width="80" height="80" />
+		<!-- iPhone / iPod Touch -->
+		<icon src="res/icon/ios/Icon.png" width="57" height="57" />
+		<icon src="res/icon/ios/Icon@2x.png" width="114" height="114" />
+		<!-- iPad -->
+		<icon src="res/icon/ios/Icon-72.png" width="72" height="72" />
+		<icon src="res/icon/ios/Icon-72@2x.png" width="144" height="144" />
+		<!-- iPhone Spotlight and Settings Icon -->
+		<icon src="res/icon/ios/Icon-small.png" width="29" height="29" />
+		<icon src="res/icon/ios/Icon-small@2x.png" width="58" height="58" />
+		<!-- iPad Spotlight and Settings Icon -->
+		<icon src="res/icon/ios/Icon-small-50.png" width="50" height="50" />
+		<icon src="res/icon/ios/Icon-small-50@2x.png" width="100" height="100" />
 		<!-- images are determined by width and height. The following are supported -->
 		<splash src="res/screen/ios/Default~iphone.png" width="320" height="480"/>
 		<splash src="res/screen/ios/Default@2x~iphone.png" width="640" height="960"/>
