@@ -4,18 +4,48 @@
         <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">
         <meta name="format-detection" content="telephone=no">
         <meta name="msapplication-tap-highlight" content="no">
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
         <title>Go Here</title>
-        <link rel="stylesheet" type="text/css" href="css/style.css">
-        <script type="text/javascript" src="js/angular.js"></script>
-        <script type="text/javascript" src="js/angular-route.min.js"></script>
-        <script type="text/javascript" src="js/angular-animate.min.js"></script>
-        <script type="text/javascript" src="js/angular-gettext.min.js"></script>
-        <script type="text/javascript" src="js/angular-sanitize.min.js"></script>
-		<script type="text/javascript" src="js/angular-localize.min.js"></script>
-	    <script type="text/javascript" src="js/controller.js"></script>
+        
+        <link href="styles/bootstrap.css"           rel="stylesheet" type="text/css">
+        <link href="styles/bootstrap-theme.css"           rel="stylesheet" type="text/css">
+        <link href="styles/style.css"           rel="stylesheet" type="text/css">
+		<link href="styles/framework.css"       rel="stylesheet" type="text/css">
+		<link href="styles/font-awesome.css"    rel="stylesheet" type="text/css">
+		<link href="styles/animate.css"         rel="stylesheet" type="text/css">
+
+		<script type="text/javascript" src="scripts/jquery.js"></script>
+		<script type="text/javascript" src="scripts/jqueryui.js"></script>
+		<script type="text/javascript" src="scripts/framework-plugins.js"></script>
+		<script type="text/javascript" src="scripts/custom.js"></script>
+        
+        <script type="text/javascript" src="scripts/angular.js"></script>
+        <script type="text/javascript" src="scripts/angular-route.min.js"></script>
+        <script type="text/javascript" src="scripts/angular-animate.min.js"></script>
+        <script type="text/javascript" src="scripts/angular-sanitize.min.js"></script>
+		<script type="text/javascript" src="scripts/angular-translate.js"></script>
+	    <script type="text/javascript" src="scripts/controller.js"></script>
     </head>
-    <body>
-        <div ng-view class="slide"></div>
+    <body class="left-sidebar">
+    	<div id="preloader">
+        	<div id="status">
+            	<div class="preloader-logo"></div>
+                <h3 class="center-text">Welcome</h3>
+                <p class="center-text smaller-text">
+                    We're loading the content, give us a second. This won't take long!
+                </p>
+            </div>
+        </div>
+        <div class="bgimage"></div>
+        <div header class="custom-header"></div>
+        <div class="all-elements">
+    		<div class="snap-drawers">
+        		<div menu></div>
+        		<div id="content" class="snap-content">
+        			<div class="slide" ng-view></div>
+    			</div>
+			</div>
+    		<div id="footer-fixed" class="not-active"></div>
+		</div>
     </body>
 </html>
