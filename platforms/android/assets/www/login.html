@@ -1,0 +1,24 @@
+<div class="content">
+	<div class="header-clear"></div>
+    <div class="decoration"></div>
+	<div class="page-login full-bottom">
+    	<form novalidate>
+          <a href="javascript:void(0)" class="page-login-logo"></a>
+          <div class="login-input">
+              <i class="fa fa-user"></i>
+              <input type="text" value="Email" ng-model="Email" onfocus="if (this.value=='Email') this.value = ''" onblur="if (this.value=='') this.value = 'Email'">
+          </div>
+          <div class="login-password">
+              <i class="fa fa-lock"></i>
+              <input type="password" value="password"  ng-model="Password" onfocus="if (this.value=='password') this.value = ''" onblur="if (this.value=='') this.value = 'password'">
+          </div>
+          <a href="#/forget-password" class="login-forgot"><i class="fa fa-eye"></i>Forgot Credentials</a>
+          <a href="#/create-account" class="login-create">Create Account<i class="fa fa-user"></i></a>
+          <div class="clear"></div>
+          <a href="javascript:void(0)" ng-click="checkLogin()" class="login-button button button-small button-green button-fullscreen full-bottom">Login</a>
+          <div class="decoration"></div>
+          <div class="clear"></div>
+          <a href="javascript:void(0)" ng-click="facebookLogin()" class="facebook-login facebook-color"><i class="fa fa-facebook"></i>Login with Facebook</a>
+		</form>
+    </div>
+</div>
