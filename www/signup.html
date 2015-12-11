@@ -1,0 +1,29 @@
+<div class="content">
+	<div class="header-clear"></div>
+    <div class="decoration"></div>
+    
+	<div class="page-login full-bottom">
+    	<form name="userForm" ng-submit="checkRegister(userForm.$valid)" novalidate>
+          <a href="javascript:void(0)" class="page-login-logo"></a>
+          <div class="login-input" ng-class="{ 'has-error' : userForm.Name.$invalid && !userForm.name.$pristine }">
+              <i class="fa fa-user"></i>
+              <input type="text" value="Full Name" ng-model="Name" onfocus="if (this.value=='Full Name') this.value = ''" onblur="if (this.value=='') this.value = 'Full Name'" required>
+          </div>
+          <div class="login-mail">
+              <i class="fa fa-envelope-o"></i>
+              <input type="email" value="Email" ng-model="Email" onfocus="if (this.value=='Email') this.value = ''" onblur="if (this.value=='') this.value = 'Email'">
+          </div>
+          <div class="login-password">
+              <i class="fa fa-lock"></i>
+              <input type="password" value="password"  ng-model="Password" onfocus="if (this.value=='password') this.value = ''" onblur="if (this.value=='') this.value = 'password'" ng-minlength="6" >
+          </div>
+          <div class="login-date">
+              <i class="fa fa-calendar-o"></i>
+              <input type="text" value="Postal Code" ng-model="Postcode" onfocus="if (this.value=='Postal Code') this.value = ''" onblur="if (this.value=='') this.value = 'Postal Code'">
+          </div>
+          <div class="clear"></div>
+          <a href="#/login" class="login-already">Already Registered?</a>
+          <input type="submit" name="Register" value="Register" ng-disabled="userForm.$invalid" class="login-button button button-small button-green button-fullscreen full-bottom"/>          
+		</form>
+    </div>
+</div>
