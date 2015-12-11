@@ -84,6 +84,10 @@ GoHereApp.config(['$routeProvider',
 		controller:  'fbloginController', 
 		templateUrl: 'login.html',
       }).
+	  when('/create-account', {
+		controller:  'signupController', 
+		templateUrl: 'signup.html',
+      }).
 	  when('/map', {
 		controller:  'mapController',   
         templateUrl: 'map.html',
@@ -190,9 +194,48 @@ GoHereApp.config(['$routeProvider',
 		});
         request.success(
         	function( html ) {
-            	alert(html);
+            	alert(html.response.status);
 			}
 		);
+	}
+  }]);
+  
+  
+  GoHereApp.controller('signupController', ['$scope', '$rootScope', '$http', '$sce', '$cordovaOauth', '$cordovaInAppBrowser', function($scope,$rootScope, $http,$sce, $cordovaOauth, $cordovaInAppBrowser) {
+	GoHereApp.snapper.close();
+	$(".menu-item").removeClass('menu-item-active');  
+	$("#active-login").addClass('menu-item-active');  
+	$(".custom-header").css("display","block");  
+	$rootScope.PageName = "Signup";
+	
+	$scope.checkRegister = function(){
+		if ($scope.userForm.$valid) {
+			$(".menu-item").removeClass('menu-item-active');  
+			$("#active-about").addClass('menu-item-active');  
+			$(".custom-header").css("display","block");
+			var request = $http({
+				method: "post",
+				url: globalUrl+"/users/add.json",
+				data: {
+					username	: $scope.Name,
+					email		: $scope.Email,
+					password	: $scope.Password,
+					postal_code	: $scope.Postcode,
+					regtype		: 'normal'
+				}
+			});
+			request.success(
+				function( data ) {
+					if(data.response.status == true){
+					} else {
+					}
+					$("#status").fadeOut(); // will first fade out the loading animation
+					$("#preloader").delay(100).fadeOut("slow");
+				}
+			);
+		} else {
+			alert("invalid");
+		}
 	}
   }]);
   

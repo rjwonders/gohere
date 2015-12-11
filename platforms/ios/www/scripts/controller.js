@@ -190,7 +190,7 @@ GoHereApp.config(['$routeProvider',
 		});
         request.success(
         	function( html ) {
-            	alert(html);
+            	alert(html.toSource());
 			}
 		);
 	}
