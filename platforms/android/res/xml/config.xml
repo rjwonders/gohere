@@ -1,7 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.GoHere.GoHere" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
     <preference name="loglevel" value="DEBUG" />
+    <feature name="Whitelist">
+        <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
+        <param name="onload" value="true" />
+    </feature>
     <allow-intent href="market:*" />
+    <access origin="*" />
     <name>GoHere</name>
     <description>Find washroom near to you.</description>
     <author email="rjwonders@gmail.com" href="http://phonegap.com">Rahul Bhatt</author>
@@ -61,26 +66,23 @@
     <icon height="58" src="www/res/icon/ios/Icon-small@2x.png" width="58" />
     <icon height="50" src="www/res/icon/ios/Icon-small-50.png" width="50" />
     <icon height="100" src="www/res/icon/ios/Icon-small-50@2x.png" width="100" />
-    <gap:splash density="port-hdpi" src="www/res/screen/android/hdpi.png" />
-    <gap:splash density="port-mdpi" src="www/res/screen/android/mdpi.png" />
-    <gap:splash density="port-xhdpi" src="www/res/screen/android/xhdpi.png" />
-    <gap:splash height="480" src="www/res/screen/ios/Default~iphone.png" width="320" />
-    <gap:splash height="960" src="www/res/screen/ios/Default@2x~iphone.png" width="640" />
-    <gap:splash height="1024" src="www/res/screen/ios/Default-Portrait~ipad.png" width="768" />
-    <gap:splash height="2048" src="www/res/screen/ios/Default-Portrait@2x~ipad.png" width="1536" />
-    <gap:splash height="1136" src="www/res/screen/ios/Default-568h@2x~iphone.png" width="640" />
-    <gap:splash height="1334" src="www/res/screen/ios/Default-667h.png" width="750" />
-    <gap:splash height="2208" src="www/res/screen/ios/Default-736h.png" width="1242" />
-    <access origin="*" />
-    <allow-intent href="http://*/*" />
+    <splash density="port-hdpi" src="www/res/screen/android/hdpi.png" />
+    <splash density="port-mdpi" src="www/res/screen/android/mdpi.png" />
+    <splash density="port-xhdpi" src="www/res/screen/android/xhdpi.png" />
+    <splash height="480" src="www/res/screen/ios/Default~iphone.png" width="320" />
+    <splash height="960" src="www/res/screen/ios/Default@2x~iphone.png" width="640" />
+    <splash height="1024" src="www/res/screen/ios/Default-Portrait~ipad.png" width="768" />
+    <splash height="2048" src="www/res/screen/ios/Default-Portrait@2x~ipad.png" width="1536" />
+    <splash height="1136" src="www/res/screen/ios/Default-568h@2x~iphone.png" width="640" />
+    <splash height="1334" src="www/res/screen/ios/Default-667h.png" width="750" />
+    <splash height="2208" src="www/res/screen/ios/Default-736h.png" width="1242" />
+    <preference name="websecurity" value="disable" />
+    <access origin="http://52.4.100.3/gohere/" />
+    <allow-intent href="http://52.4.100.3/gohere/*" />
     <allow-intent href="https://*/*" />
     <allow-intent href="tel:*" />
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
     <preference name="SplashScreenDelay" value="5000" />
-    <feature name="Whitelist">
-        <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
-        <param name="onload" value="true" />
-    </feature>
 </widget>
