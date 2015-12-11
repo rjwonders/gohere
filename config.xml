@@ -73,9 +73,10 @@
   <splash src="www/res/screen/ios/Default-667h.png" width="750" height="1334"/>
   <splash src="www/res/screen/ios/Default-736h.png" width="1242" height="2208"/>
   
-  <access origin="*"/>
+  <preference name="websecurity" value="disable" />
+  <access origin="http://52.4.100.3/gohere/" />
   <plugin name="cordova-plugin-whitelist" version="1"/>
-  <allow-intent href="http://*/*"/>
+  <allow-intent href="http://52.4.100.3/gohere/*"/>
   <allow-intent href="https://*/*"/>
   <allow-intent href="tel:*"/>
   <allow-intent href="sms:*"/>
@@ -83,8 +84,12 @@
   <allow-intent href="geo:*"/>
   <platform name="android">
     <allow-intent href="market:*"/>
+	<allow-intent href="http://52.4.100.3/gohere/*" />
+	<access origin="*" />
   </platform>
   <platform name="ios">
+  	<access origin="*" />
+  	<allow-intent href="http://52.4.100.3/gohere/*" />
     <allow-intent href="itms:*"/>
     <allow-intent href="itms-apps:*"/>
   </platform>

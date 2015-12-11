@@ -52,6 +52,9 @@ GoHereApp.config(function ($translateProvider, $httpProvider, $cordovaInAppBrows
     toolbar: 'no'
   };
 	$cordovaInAppBrowserProvider.setDefaultOptions(defaultOptions);
+	
+	delete $httpProvider.defaults.headers.common['X-Requested-With'];
+	
 });
 
 GoHereApp.config(['$routeProvider',
@@ -122,19 +125,13 @@ GoHereApp.config(['$routeProvider',
 	$(".custom-header").css("display","block");  
 	$("#status").fadeIn(); // will first fade out the loading animation
 	$("#preloader").delay(100).fadeIn("slow");
-	/*$http.get(globalUrl+"/pages/view/2.json").then(function(response) {
+	$http.get(globalUrl+"/pages/view/2.json").then(function(response) {
 		$rootScope.PageName = response.data.response.page.name;
 		$scope.PageContent = $sce.trustAsHtml(response.data.response.page.description);
 		$("#status").fadeOut(); // will first fade out the loading animation
 		$("#preloader").delay(100).fadeOut("slow");
-	});*/
-	$http.get("http://52.4.100.3/gohere/temp/index.php").then(function(response) {
-		alert(response.data.name);
-		/*$rootScope.PageName = response.data.response.page.name;
-		$scope.PageContent = $sce.trustAsHtml(response.data.response.page.description);*/
-		$("#status").fadeOut(); // will first fade out the loading animation
-		$("#preloader").delay(100).fadeOut("slow");
 	});
+	
   }]);
   
   GoHereApp.controller('sponcersController', ['$scope', '$rootScope', '$http', '$sce', function($scope,$rootScope, $http,$sce) {
