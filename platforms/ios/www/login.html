@@ -1,9 +1,10 @@
 <div class="content">
 	<div class="header-clear"></div>
-    <div class="decoration"></div>
-	<div class="page-login full-bottom">
-    	<form novalidate>
-          <a href="javascript:void(0)" class="page-login-logo"></a>
+    <div class="pageapp-login bg-5 cover-screen">  
+    	<div class="pageapp-login-content cover-center">
+			<div class="boxed-layout">
+    			<form novalidate>
+          <a href="javascript:void(0)" class="pageapp-login-logo"></a>
           <div class="login-input">
               <i class="fa fa-user"></i>
               <input type="text" value="Email" ng-model="Email" onfocus="if (this.value=='Email') this.value = ''" onblur="if (this.value=='') this.value = 'Email'">
@@ -20,5 +21,6 @@
           <div class="clear"></div>
           <a href="javascript:void(0)" ng-click="facebookLogin()" class="facebook-login facebook-color"><i class="fa fa-facebook"></i>Login with Facebook</a>
 		</form>
-    </div>
+    		</div>
+	</div>
 </div>

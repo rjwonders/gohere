@@ -5262,7 +5262,7 @@ ul.tabs li.active-tab{
 .pageapp-login .unboxed-layout .pageapp-login-logo{
     width:125px;
     height:100px;
-    background-image:url(../images/pages-logo-light.png);
+    background-image:url(../images/pages-logo-dark.png);
     background-size:125px 100px;
     margin-left:auto;
     margin-right:auto;
@@ -5388,7 +5388,7 @@ ul.tabs li.active-tab{
 .pageapp-signup .unboxed-layout .pageapp-signup-logo{
     width:125px;
     height:100px;
-    background-image:url(../images/pages-logo-light.png);
+    background-image:url(../images/pages-logo-dark.png);
     background-size:125px 100px;
     margin-left:auto;
     margin-right:auto;
