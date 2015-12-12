@@ -101,7 +101,7 @@ GoHereApp.config(['$routeProvider',
       });
   }]);
   GoHereApp.controller('LanguageController', ['$scope','$location', '$translate', function($scope,$location,$translate) {
-	localStorage.removeItem('SelectedLanguage');
+	//localStorage.removeItem('SelectedLanguage');
 	$(".custom-header").css("display","none");
 	GoHereApp.snapper.disable();
 	if(localStorage.SelectedLanguage!==undefined){
@@ -174,6 +174,7 @@ GoHereApp.config(['$routeProvider',
 	$("#active-login").addClass('menu-item-active');  
 	$(".custom-header").css("display","block");  
 	$rootScope.PageName = "Login";
+	align_cover_elements(); 
 	$scope.facebookLogin = function(){
 		$cordovaInAppBrowser.open('#/fblogin', '_blank').then(function(event) {
 			
@@ -334,3 +335,20 @@ function onError(error) {
     alert('code: '    + error.code    + '\n' +
           'message: ' + error.message + '\n');
 }
+
+function align_cover_elements(){
+		var cover_width = $(window).width();
+        var cover_height = $(window).height();
+        var cover_vertical = -($('.cover-center').height())/2;
+        var cover_horizontal = -($('.cover-center').width())/2;
+        
+        $('.cover-screen').css('width', cover_width);
+        $('.cover-screen').css('height', cover_height);
+        $('.cover-screen .overlay').css('width', cover_width);
+        $('.cover-screen .overlay').css('height', cover_height);
+        
+        $('.cover-center').css('margin-left', cover_horizontal);      
+        $('.cover-center').css('margin-top', cover_vertical + 30);     
+        $('.cover-left').css('margin-top', cover_vertical);   
+        $('.cover-right').css('margin-top', cover_vertical);           
+    };

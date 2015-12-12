@@ -39,6 +39,8 @@ $( document ).ready(function() {
     
     //Sidebar Activation for pages with proper functions
     
+	
+      
     
 });
 
