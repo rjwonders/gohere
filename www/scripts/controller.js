@@ -177,6 +177,8 @@ GoHereApp.config(['$routeProvider',
   GoHereApp.controller('logoutController', ['$scope', '$rootScope', '$location', '$http', '$sce', '$cordovaOauth', '$cordovaInAppBrowser', function($scope,$rootScope, $location, $http,$sce, $cordovaOauth, $cordovaInAppBrowser) {
 	  	localStorage.removeItem('currentUser');
 		$location.path("/login");
+		$("#active-logout").addClass("hide");
+		$("#active-login").removeClass("hide");
   }]);
   GoHereApp.controller('loginController', ['$scope', '$rootScope', '$location', '$http', '$sce', '$cordovaOauth', '$cordovaInAppBrowser', function($scope,$rootScope, $location, $http,$sce, $cordovaOauth, $cordovaInAppBrowser) {
 	GoHereApp.snapper.close();
@@ -210,6 +212,8 @@ GoHereApp.config(['$routeProvider',
 				function( html ) {
 					if(html.response.status == true){
 						localStorage.currentUser = html.response.user_id;
+						$("#active-login").addClass("hide");
+						$("#active-logout").removeClass("hide");
 						$location.path("/map");
 					} else {
 						$(".alert-danger").removeClass("hide");
@@ -298,8 +302,12 @@ GoHereApp.config(['$routeProvider',
 			
 			if(localStorage.currentUser!==undefined){
 				$scope.currentUser = localStorage.currentUser;
+				$("#active-login").addClass("hide");
+				$("#active-logout").removeClass("hide");
 			} else {
 				$scope.currentUser = '';	
+				$("#active-logout").addClass("hide");
+				$("#active-login").removeClass("hide");
 			}
 			
 			$(document).on("click",'.close-sidebar', function() {GoHereApp.snapper.close();});
