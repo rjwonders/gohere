@@ -36,7 +36,7 @@
   <gap:plugin name="org.apache.cordova.network-information"/>
   <gap:plugin name="org.apache.cordova.splashscreen"/>
   <gap:plugin name="org.apache.cordova.vibration"/>
-  <icon src="www/res/icon/ios/icon.png"/>
+  <icon src="www/res/icon/ios/Icon.png"/>
   
   <icon src="www/res/icon/android/drawable-ldpi/ic_launcher.png" density="ldpi" />
   <icon src="www/res/icon/android/drawable-mdpi/ic_launcher.png" density="mdpi" />
