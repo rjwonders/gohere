@@ -11,7 +11,7 @@ var GoHereApp = angular.module('mainApp', [
   'ngAnimate',
   'pascalprecht.translate',
   'ngSanitize',
-  'ngCordova'
+  'ngCordova',
 ]);
 
 GoHereApp.value('snapper');
@@ -28,6 +28,7 @@ GoHereApp.config(function ($translateProvider, $httpProvider, $cordovaInAppBrows
 	ADD_LOCATION	: 'Add a Location',
 	ACCESS_CARD		: 'Washroom Access Card',
 	FAVOURITE		: 'My Favourites',
+	LOGOUT			: 'Logout',
   });
   $translateProvider.translations('fr', {
     ABOUT_BUTTON	: 'A propos de GoHere',
@@ -40,6 +41,7 @@ GoHereApp.config(function ($translateProvider, $httpProvider, $cordovaInAppBrows
 	ADD_LOCATION	: 'Ajouter un lieu',
 	ACCESS_CARD		: 'Buanderie Access Card',
 	FAVOURITE		: 'Mes préférés',
+	LOGOUT			: 'Se déconnecter',
   });
   if(localStorage.SelectedLanguage!==undefined){
   	$translateProvider.preferredLanguage(localStorage.SelectedLanguage);
@@ -51,8 +53,8 @@ GoHereApp.config(function ($translateProvider, $httpProvider, $cordovaInAppBrows
     clearcache: 'no',
     toolbar: 'no'
   };
+  	
 	$cordovaInAppBrowserProvider.setDefaultOptions(defaultOptions);
-	
 	delete $httpProvider.defaults.headers.common['X-Requested-With'];
 	
 });
@@ -96,6 +98,10 @@ GoHereApp.config(['$routeProvider',
 		controller:  'mapController',   
         templateUrl: 'map.html',
       }).
+	   when('/logout', {
+		controller:  'logoutController',   
+        templateUrl: 'login.html',
+      }).
       otherwise({
         redirectTo: '/'
       });
@@ -122,7 +128,7 @@ GoHereApp.config(['$routeProvider',
   
   
   
-  GoHereApp.controller('aboutController', ['$scope', '$rootScope', '$http', '$sce', function($scope,$rootScope, $http,$sce) {
+  GoHereApp.controller('aboutController', ['$scope', '$rootScope', '$http', '$sce', '$cordovaInAppBrowser', function($scope,$rootScope, $http,$sce,$cordovaInAppBrowser) {
 	GoHereApp.snapper.close();
 	$(".menu-item").removeClass('menu-item-active');  
 	$("#active-about").addClass('menu-item-active');  
@@ -132,6 +138,7 @@ GoHereApp.config(['$routeProvider',
 	$http.get(globalUrl+"/pages/view/2.json").then(function(response) {
 		$rootScope.PageName = response.data.response.page.name;
 		$scope.PageContent = $sce.trustAsHtml(response.data.response.page.description);
+		//$cordovaInAppBrowser.open('http://ngcordova.com', '_blank')
 		$("#status").fadeOut(); // will first fade out the loading animation
 		$("#preloader").delay(100).fadeOut("slow");
 	});
@@ -167,8 +174,11 @@ GoHereApp.config(['$routeProvider',
 		// error
 	});
   }]);	
-	
-  GoHereApp.controller('loginController', ['$scope', '$rootScope', '$http', '$sce', '$cordovaOauth', '$cordovaInAppBrowser', function($scope,$rootScope, $http,$sce, $cordovaOauth, $cordovaInAppBrowser) {
+  GoHereApp.controller('logoutController', ['$scope', '$rootScope', '$location', '$http', '$sce', '$cordovaOauth', '$cordovaInAppBrowser', function($scope,$rootScope, $location, $http,$sce, $cordovaOauth, $cordovaInAppBrowser) {
+	  	localStorage.removeItem('currentUser');
+		$location.path("/login");
+  }]);
+  GoHereApp.controller('loginController', ['$scope', '$rootScope', '$location', '$http', '$sce', '$cordovaOauth', '$cordovaInAppBrowser', function($scope,$rootScope, $location, $http,$sce, $cordovaOauth, $cordovaInAppBrowser) {
 	GoHereApp.snapper.close();
 	$(".menu-item").removeClass('menu-item-active');  
 	$("#active-login").addClass('menu-item-active');  
@@ -185,19 +195,34 @@ GoHereApp.config(['$routeProvider',
 	
 	};
 	$scope.checkLogin = function(){
-		var request = $http({
-			method: "post",
-            url: globalUrl+"/users/login.json",
-            data: {
-            	email	: $scope.Email,
-                password: $scope.Password
-			}
-		});
-        request.success(
-        	function( html ) {
-            	alert(html.response.status);
-			}
-		);
+		if ($scope.userForm.$valid) {
+			$("#status").fadeIn(); // will first fade out the loading animation
+			$("#preloader").delay(100).fadeIn("slow");
+			var request = $http({
+				method: "post",
+				url: globalUrl+"/users/login.json",
+				data: {
+					email	: $scope.Email,
+					password: $scope.Password
+				}
+			});
+			request.success(
+				function( html ) {
+					if(html.response.status == true){
+						localStorage.currentUser = html.response.user_id;
+						$location.path("/map");
+					} else {
+						$(".alert-danger").removeClass("hide");
+						$(".alert-danger").html('<span class="fa fa-user" aria-hidden="true"></span><span class="sr-only">Error:</span> Invalid email or password.');
+						$("#status").fadeOut(); // will first fade out the loading animation
+						$("#preloader").delay(100).fadeOut("slow");
+					}
+				}
+			);
+		} else {
+			$(".alert-danger").removeClass("hide");
+			$(".alert-danger").html('<span class="fa fa-user" aria-hidden="true"></span><span class="sr-only">Error:</span> All fields are required.');
+		}
 	}
   }]);
   
@@ -211,9 +236,8 @@ GoHereApp.config(['$routeProvider',
 	align_cover_elements();
 	$scope.checkRegister = function(){
 		if ($scope.userForm.$valid) {
-			$(".menu-item").removeClass('menu-item-active');  
-			$("#active-about").addClass('menu-item-active');  
-			$(".custom-header").css("display","block");
+			$("#status").fadeIn(); // will first fade out the loading animation
+			$("#preloader").delay(100).fadeIn("slow");
 			var request = $http({
 				method: "post",
 				url: globalUrl+"/users/add.json",
@@ -229,13 +253,16 @@ GoHereApp.config(['$routeProvider',
 				function( data ) {
 					if(data.response.status == true){
 					} else {
+						$(".alert-danger").removeClass("hide");
+						$(".alert-danger").html('<span class="fa fa-user" aria-hidden="true"></span><span class="sr-only">Error:</span> User already registered.');
+						$("#status").fadeOut(); // will first fade out the loading animation
+						$("#preloader").delay(100).fadeOut("slow");
 					}
-					$("#status").fadeOut(); // will first fade out the loading animation
-					$("#preloader").delay(100).fadeOut("slow");
+					
 				}
 			);
 		} else {
-			alert("invalid");
+			
 		}
 	}
   }]);
@@ -246,40 +273,19 @@ GoHereApp.config(['$routeProvider',
 	$("#active-login").addClass('menu-item-active');  
 	$(".custom-header").css("display","block");  
 	$rootScope.PageName = "Find a Washroom";
-	var mapDiv = document.getElementById("map_canvas");
-	const GORYOKAKU_JAPAN = new plugin.google.maps.LatLng(41.796875,140.757007);
 	
-	var map = plugin.google.maps.Map.getMap(mapDiv,{
-	  'backgroundColor': 'white',
-	  'mapType': plugin.google.maps.MapTypeId.HYBRID,
-	  'controls': {
-		'compass': true,
-		'myLocationButton': true,
-		'indoorPicker': true,
-		'zoom': true
-	  },
-	  'gestures': {
-		'scroll': true,
-		'tilt': true,
-		'rotate': true,
-		'zoom': true
-	  },
-	  'camera': {
-		'latLng': GORYOKAKU_JAPAN,
-		'tilt': 30,
-		'zoom': 15,
-		'bearing': 50
-	  }
-	});
   }]);
   
   GoHereApp.directive('menu', function () {
     return {
         restrict: 'A', //This menas that it will be used as an attribute and NOT as an element. I don't like creating custom HTML elements
         replace: true,
+		scope: {
+			currentUser: '='
+        },
         templateUrl: "menu.html",
-        controller: ['$scope', '$filter', function ($scope, $filter) {
-        	GoHereApp.snapper = new Snap({
+		controller: ['$scope', '$filter', function ($scope, $filter) {
+			GoHereApp.snapper = new Snap({
 				element: document.getElementById('content'),
 				elementMirror: document.getElementById('header-fixed'),
 				elementMirror2: document.getElementById('footer-fixed'),
@@ -289,6 +295,13 @@ GoHereApp.config(['$routeProvider',
 				maxPosition: 266,
 				minPosition: -266
 			});  
+			
+			if(localStorage.currentUser!==undefined){
+				$scope.currentUser = localStorage.currentUser;
+			} else {
+				$scope.currentUser = '';	
+			}
+			
 			$(document).on("click",'.close-sidebar', function() {GoHereApp.snapper.close();});
 			$(document).on("click",'.open-left-sidebar', function() {
 				//$(this).toggleClass('remove-sidebar');
