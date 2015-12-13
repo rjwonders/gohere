@@ -36,7 +36,7 @@
   <gap:plugin name="org.apache.cordova.network-information"/>
   <gap:plugin name="org.apache.cordova.splashscreen"/>
   <gap:plugin name="org.apache.cordova.vibration"/>
-  <icon src="icon.png"/>
+  <icon src="www/res/icon/ios/icon.png"/>
   
   <icon src="www/res/icon/android/drawable-ldpi/ic_launcher.png" density="ldpi" />
   <icon src="www/res/icon/android/drawable-mdpi/ic_launcher.png" density="mdpi" />
@@ -74,9 +74,9 @@
   <splash src="www/res/screen/ios/Default-736h.png" width="1242" height="2208"/>
   
   <preference name="websecurity" value="disable" />
-  <access origin="http://52.4.100.3/gohere/" />
+  <access origin="*" />
   <plugin name="cordova-plugin-whitelist" version="1"/>
-  <allow-intent href="http://52.4.100.3/gohere/*"/>
+  <allow-intent href="http://*/*"/>
   <allow-intent href="https://*/*"/>
   <allow-intent href="tel:*"/>
   <allow-intent href="sms:*"/>
@@ -84,12 +84,12 @@
   <allow-intent href="geo:*"/>
   <platform name="android">
     <allow-intent href="market:*"/>
-	<allow-intent href="http://52.4.100.3/gohere/*" />
+	<allow-intent href="http://*/*" />
 	<access origin="*" />
   </platform>
   <platform name="ios">
   	<access origin="*" />
-  	<allow-intent href="http://52.4.100.3/gohere/*" />
+  	<allow-intent href="http://*/*" />
     <allow-intent href="itms:*"/>
     <allow-intent href="itms-apps:*"/>
   </platform>

@@ -3,18 +3,19 @@
     <div class="pageapp-login bg-5 cover-screen">  
     	<div class="pageapp-login-content cover-center">
 			<div class="unboxed-layout">
-    			<form novalidate>
+    			<form novalidate name="userForm" ng-submit="checkLogin(userForm.$valid)">
           			<a href="javascript:void(0)" class="pageapp-login-logo"></a>
+                    <div class="alert alert-danger hide" role="alert"></div>
                       <div class="pageapp-login-field">
                           <i class="fa fa-user"></i>
-                          <input type="text" value="Email" ng-model="Email" onfocus="if (this.value=='Email') this.value = ''" onblur="if (this.value=='') this.value = 'Email'">
+                          <input type="email" value="Email" ng-model="Email" onfocus="if (this.value=='Email') this.value = ''" onblur="if (this.value=='') this.value = 'Email'">
                       </div>
                       <div class="pageapp-login-field">
                           <i class="fa fa-lock"></i>
-                          <input type="password" value="password"  ng-model="Password" onfocus="if (this.value=='password') this.value = ''" onblur="if (this.value=='') this.value = 'password'">
+                          <input type="password" value="password"  ng-model="Password" onfocus="if (this.value=='password') this.value = ''" onblur="if (this.value=='') this.value = 'password'" required>
                       </div>
                       <div class="clear"></div>
-                      <a href="javascript:void(0)" ng-click="checkLogin()" class="login-button button button-small button-green button-fullscreen full-bottom">Login</a>
+                      <input type="submit" name="Login" value="Login" ng-disabled="userForm.$invalid" class="login-button button button-small button-green button-fullscreen full-bottom"/> 
                       <div class="decoration"></div>
                       <div class="row">
                       	<div class="col-xs-6">
