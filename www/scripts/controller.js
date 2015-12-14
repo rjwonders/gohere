@@ -321,7 +321,32 @@ GoHereApp.config(['$routeProvider',
 			}, function(err) {
 				var lat  = 43.6888092;
 				var long = -79.393413;
-				$scope.map = { center: { latitude: lat, longitude: long }, zoom: 12 };
+				$scope.map = { center: { latitude: lat, longitude: long }, markers:[], zoom: 12 };
+				
+				var request = $http({
+					method: "post",
+					url: globalUrl+"/washrooms/index_distance.json",
+					data: {
+						lat	: lat,
+						long: long,
+					}
+				});
+				request.success(
+					function( data ) {
+						$.each(data.response,function(i,val){
+							var marker = {
+								id: val.Washroom.id,
+								coords: {
+									latitude	: val.Washroom.lat,
+									longitude	: val.Washroom.log
+								}
+							};
+							$scope.map.markers.push(marker);
+						})
+						$("#status").fadeOut(); // will first fade out the loading animation
+						$("#preloader").delay(100).fadeOut("slow"); 
+					}
+				);
 			});
     	});
 	});
