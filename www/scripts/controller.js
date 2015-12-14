@@ -12,11 +12,12 @@ var GoHereApp = angular.module('mainApp', [
   'pascalprecht.translate',
   'ngSanitize',
   'ngCordova',
+  'uiGmapgoogle-maps'
 ]);
 
 GoHereApp.value('snapper');
 
-GoHereApp.config(function ($translateProvider, $httpProvider, $cordovaInAppBrowserProvider) {
+GoHereApp.config(function ($translateProvider, $httpProvider, $cordovaInAppBrowserProvider, uiGmapGoogleMapApiProvider) {
   $translateProvider.translations('en', {
     ABOUT_BUTTON	: 'About GoHere',
 	FIND_BUTTON		: 'Find Washroom',
@@ -54,6 +55,11 @@ GoHereApp.config(function ($translateProvider, $httpProvider, $cordovaInAppBrows
     toolbar: 'no'
   };
   	
+	uiGmapGoogleMapApiProvider.configure({
+        key: 'AIzaSyA810mJouG3HV-YTwitCLbqxktdPC_0t60',
+        v: '3.23',
+        libraries: 'weather,geometry,visualization'
+    })
 	$cordovaInAppBrowserProvider.setDefaultOptions(defaultOptions);
 	delete $httpProvider.defaults.headers.common['X-Requested-With'];
 	
@@ -271,13 +277,55 @@ GoHereApp.config(['$routeProvider',
 	}
   }]);
   
-  GoHereApp.controller('mapController', ['$scope', '$rootScope', '$http', '$sce', function($scope,$rootScope, $http,$sce) {
+  GoHereApp.controller('mapController', ['$scope', '$rootScope', '$http', '$sce', '$cordovaGeolocation',  'uiGmapGoogleMapApi', function($scope,$rootScope, $http,$sce, $cordovaGeolocation, uiGmapGoogleMapApi) {
 	GoHereApp.snapper.close();
 	$(".menu-item").removeClass('menu-item-active');  
-	$("#active-login").addClass('menu-item-active');  
+	$("#active-map").addClass('menu-item-active');  
 	$(".custom-header").css("display","block");  
+	$("#status").fadeIn(); // will first fade out the loading animation
+	$("#preloader").delay(100).fadeIn("slow");
 	$rootScope.PageName = "Find a Washroom";
-	
+	var posOptions = {timeout: 10000, enableHighAccuracy: true};
+	$(document).ready(function(){
+		uiGmapGoogleMapApi.then(function(maps) {
+			$cordovaGeolocation.getCurrentPosition(posOptions)
+			.then(function (position) {
+				var lat  = position.coords.latitude;
+				var long = position.coords.longitude;
+				$scope.map = { center: { latitude: lat, longitude: long }, markers:[], zoom: 12 };
+				
+				var request = $http({
+					method: "post",
+					url: globalUrl+"/washrooms/index_distance.json",
+					data: {
+						lat	: lat,
+						long: long,
+					}
+				});
+				request.success(
+					function( data ) {
+						$.each(data.response,function(i,val){
+							var marker = {
+								id: val.Washroom.id,
+								coords: {
+									latitude	: val.Washroom.lat,
+									longitude	: val.Washroom.log
+								}
+							};
+							$scope.map.markers.push(marker);
+						})
+						$("#status").fadeOut(); // will first fade out the loading animation
+						$("#preloader").delay(100).fadeOut("slow"); 
+					}
+				);
+			}, function(err) {
+				var lat  = 43.6888092;
+				var long = -79.393413;
+				$scope.map = { center: { latitude: lat, longitude: long }, zoom: 12 };
+			});
+    	});
+	});
+
   }]);
   
   GoHereApp.directive('menu', function () {
