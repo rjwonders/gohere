@@ -286,25 +286,49 @@ GoHereApp.config(['$routeProvider',
 	$("#preloader").delay(100).fadeIn("slow");
 	$rootScope.PageName = "Find a Washroom";
 	var posOptions = {timeout: 10000, enableHighAccuracy: true};
+	var html ='';
 	$(document).ready(function(){
 		uiGmapGoogleMapApi.then(function(maps) {
 			$cordovaGeolocation.getCurrentPosition(posOptions)
 			.then(function (position) {
 				var lat  = position.coords.latitude;
 				var long = position.coords.longitude;
-				$scope.map = { center: { latitude: lat, longitude: long }, markers:[], zoom: 12 };
+				$scope.map = { center: { latitude: lat, longitude: long }, markers:[], zoom: 15 };
 				
 				var request = $http({
 					method: "post",
 					url: globalUrl+"/washrooms/index_distance.json",
 					data: {
-						lat	: lat,
-						long: long,
+						lat		: lat,
+						long	: long,
+						records	: 1,
 					}
 				});
 				request.success(
 					function( data ) {
-						$.each(data.response,function(i,val){
+						var marker = {
+							id: 'home',
+							icon: 'images/map-pin-active.png',
+							coords: {
+								latitude	: lat,
+								longitude	: long
+							}
+						};
+						$scope.map.markers.push(marker);
+						
+						var marker = {
+							id: data.response.Washroom.id,
+							icon: 'images/map-pin_.png',
+							coords: {
+								latitude	: data.response.Washroom.lat,
+								longitude	: data.response.Washroom.log
+							}
+						};
+						
+						html = html + '<h3>'+data.response.Washroom.name+'</h3><p>'+data.response.Washroom.address+'</p>';
+						$scope.map.markers.push(marker);
+						$('.mapinfo').html(html);	
+						/*$.each(data.response,function(i,val){
 							var marker = {
 								id: val.Washroom.id,
 								coords: {
@@ -313,7 +337,7 @@ GoHereApp.config(['$routeProvider',
 								}
 							};
 							$scope.map.markers.push(marker);
-						})
+						})*/
 						$("#status").fadeOut(); // will first fade out the loading animation
 						$("#preloader").delay(100).fadeOut("slow"); 
 					}
