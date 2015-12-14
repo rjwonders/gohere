@@ -1,2 +1,5 @@
+.DS_Store
+.cordova
+.git
 /hooks
 /platforms
