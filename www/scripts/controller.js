@@ -316,28 +316,19 @@ GoHereApp.config(['$routeProvider',
 						};
 						$scope.map.markers.push(marker);
 						
-						var marker = {
-							id: data.response.Washroom.id,
-							icon: 'images/map-pin_.png',
-							coords: {
-								latitude	: data.response.Washroom.lat,
-								longitude	: data.response.Washroom.log
-							}
-						};
-						
-						html = html + '<h3>'+data.response.Washroom.name+'</h3><p>'+data.response.Washroom.address+'</p>';
-						$scope.map.markers.push(marker);
-						$('.mapinfo').html(html);	
-						/*$.each(data.response,function(i,val){
+						$.each(data.response,function(i,val){
 							var marker = {
 								id: val.Washroom.id,
+								icon: 'images/map-pin_.png',
 								coords: {
 									latitude	: val.Washroom.lat,
 									longitude	: val.Washroom.log
 								}
 							};
 							$scope.map.markers.push(marker);
-						})*/
+							html = html + '<a href="javascript:void(0)" class="user-list-item"><strong>'+val.Washroom.name+'<br/></strong><em>'+val.Washroom.address+'</em></a><div class="decoration"></div>';
+						});
+						$('.mapinfo').html(html)
 						$("#status").fadeOut(); // will first fade out the loading animation
 						$("#preloader").delay(100).fadeOut("slow"); 
 					}
