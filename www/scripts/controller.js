@@ -116,9 +116,9 @@ GoHereApp.config(['$routeProvider',
 		controller:  'mapController',   
         templateUrl: 'map.html',
       }).
-	  when('/find', {
-		controller:  'mapController',   
-        templateUrl: 'map.html',
+	  when('/detail/:id', {
+		controller:  'detailController',   
+        templateUrl: 'detail.html',
       }).
 	   when('/logout', {
 		controller:  'logoutController',   
@@ -342,7 +342,7 @@ GoHereApp.config(['$routeProvider',
 								}
 							};
 							$scope.map.markers.push(marker);
-							html = html + '<div class="decoration"></div><a href="javascript:void(0)" class="user-list-item2"><strong>'+val.Washroom.name+'<br/></strong><em>'+val.Washroom.address+'</em><i class="fa fa-chevron-right"></i></a>';
+							html = html + '<div class="decoration"></div><a href="#/detail/'+val.Washroom.id+'" class="user-list-item2"><strong>'+val.Washroom.name+'<br/></strong><em>'+val.Washroom.address+'</em><i class="fa fa-chevron-right"></i></a>';
 						});
 						$('.mapinfo').html(html);
 						$scope.scrollbarConfig = {
@@ -387,7 +387,41 @@ GoHereApp.config(['$routeProvider',
 	});
 
   }]);
-  
+  GoHereApp.controller('detailController', ['$scope', '$rootScope', '$http', '$sce', '$cordovaGeolocation',  'uiGmapGoogleMapApi', '$routeParams',function($scope,$rootScope, $http,$sce, $cordovaGeolocation, uiGmapGoogleMapApi, $routeParams) {
+	  	GoHereApp.snapper.close();
+		$(".menu-item").removeClass('menu-item-active');  
+		$(".custom-header").css("display","block");  
+		$("#status").fadeIn(); // will first fade out the loading animation
+		$("#preloader").delay(100).fadeIn("slow");
+		$rootScope.PageName = "Washroom Detail";
+		$http.get(globalUrl+"/washrooms/view/"+$routeParams.id+".json").then(function(response) {
+			$scope.map = { center: { latitude: response.data.response.Washroom.lat, longitude: response.data.response.Washroom.log }, markers:[], zoom: 15 };
+			var marker = {
+				id: response.data.response.Washroom.id,
+				coords: {
+					latitude	: response.data.response.Washroom.lat,
+					longitude	: response.data.response.Washroom.log
+				}
+			};
+			$scope.WashroomName 	= $sce.trustAsHtml(response.data.response.Washroom.name);
+			$scope.WashroomAddress 	= $sce.trustAsHtml(response.data.response.Washroom.address);
+			$scope.WashroomDesc 	= $sce.trustAsHtml(response.data.response.Washroom.description);
+			if($.trim(response.data.response.Washroom.from)==""){
+				var FromTime = "9:00 AM";
+			} else {
+				var FromTime = response.data.response.Washroom.from;
+			}
+			if($.trim(response.data.response.Washroom.to)==""){
+				var ToTime = "6:00 PM";
+			} else {
+				var ToTime = response.data.response.Washroom.to;
+			}
+			$scope.WashroomTiming 	= $sce.trustAsHtml(FromTime+" To "+ToTime);
+			
+			$("#status").fadeOut(); // will first fade out the loading animation
+			$("#preloader").delay(100).fadeOut("slow");
+		});
+  }]);	  
   GoHereApp.directive('menu', function () {
     return {
         restrict: 'A', //This menas that it will be used as an attribute and NOT as an element. I don't like creating custom HTML elements
