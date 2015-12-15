@@ -3740,6 +3740,37 @@ ul.tabs li.active-tab{
     color:#1f1f1f;
 }
 
+
+
+.user-list-item2{
+    margin-bottom:20px;
+}
+
+.user-list-item2 strong{
+    color:#1f1f1f;
+    font-size:15px;
+    margin-bottom:0px;
+    margin-top:-5px;
+    display:block;
+}
+
+.user-list-item2 em{
+    display:block;
+    font-size:12px;
+    font-style:normal;
+    color:#666666;
+    font-weight:500;
+}
+
+.user-list-item2 i{
+    position:absolute;
+    right:0px;
+    top:23px;
+    font-size:12px;
+    color:#1f1f1f;
+}
+
+
 .user-list-follow{
     padding-bottom:50px;
     display:block;

@@ -12,12 +12,13 @@ var GoHereApp = angular.module('mainApp', [
   'pascalprecht.translate',
   'ngSanitize',
   'ngCordova',
-  'uiGmapgoogle-maps'
+  'uiGmapgoogle-maps',
+  'ngScrollbars'
 ]);
 
 GoHereApp.value('snapper');
 
-GoHereApp.config(function ($translateProvider, $httpProvider, $cordovaInAppBrowserProvider, uiGmapGoogleMapApiProvider) {
+GoHereApp.config(function ($translateProvider, $httpProvider, $cordovaInAppBrowserProvider, uiGmapGoogleMapApiProvider, ScrollBarsProvider) {
   $translateProvider.translations('en', {
     ABOUT_BUTTON	: 'About GoHere',
 	FIND_BUTTON		: 'Find Washroom',
@@ -59,7 +60,22 @@ GoHereApp.config(function ($translateProvider, $httpProvider, $cordovaInAppBrows
         key: 'AIzaSyA810mJouG3HV-YTwitCLbqxktdPC_0t60',
         v: '3.23',
         libraries: 'weather,geometry,visualization'
-    })
+    });
+	
+	ScrollBarsProvider.defaults = {
+		autoHideScrollbar: false,
+		setHeight: 250,
+		scrollInertia: 0,
+		axis: 'y',
+		advanced: {
+			updateOnContentResize: true
+		},
+		scrollButtons: {
+			scrollAmount: 'auto', // scroll amount when button pressed
+			enable: true // enable scrolling buttons by default
+		}
+	};
+	
 	$cordovaInAppBrowserProvider.setDefaultOptions(defaultOptions);
 	delete $httpProvider.defaults.headers.common['X-Requested-With'];
 	
@@ -293,7 +309,7 @@ GoHereApp.config(['$routeProvider',
 			.then(function (position) {
 				var lat  = position.coords.latitude;
 				var long = position.coords.longitude;
-				$scope.map = { center: { latitude: lat, longitude: long }, markers:[], zoom: 15 };
+				$scope.map = { center: { latitude: lat, longitude: long }, markers:[], zoom: 12 };
 				
 				var request = $http({
 					method: "post",
@@ -301,7 +317,7 @@ GoHereApp.config(['$routeProvider',
 					data: {
 						lat		: lat,
 						long	: long,
-						records	: 1,
+						records	: 0,
 					}
 				});
 				request.success(
@@ -326,9 +342,13 @@ GoHereApp.config(['$routeProvider',
 								}
 							};
 							$scope.map.markers.push(marker);
-							html = html + '<a href="javascript:void(0)" class="user-list-item"><strong>'+val.Washroom.name+'<br/></strong><em>'+val.Washroom.address+'</em></a><div class="decoration"></div>';
+							html = html + '<div class="decoration"></div><a href="javascript:void(0)" class="user-list-item2"><strong>'+val.Washroom.name+'<br/></strong><em>'+val.Washroom.address+'</em><i class="fa fa-chevron-right"></i></a>';
 						});
-						$('.mapinfo').html(html)
+						$('.mapinfo').html(html);
+						$scope.scrollbarConfig = {
+							theme: 'dark',
+							scrollInertia: 500
+						}
 						$("#status").fadeOut(); // will first fade out the loading animation
 						$("#preloader").delay(100).fadeOut("slow"); 
 					}
