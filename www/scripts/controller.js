@@ -124,6 +124,10 @@ GoHereApp.config(['$routeProvider',
 		controller:  'detailController',   
         templateUrl: 'detail.html',
       }).
+	   when('/add-location', {
+		controller:  'locationController',   
+        templateUrl: 'location.html',
+      }).
 	  when('/logout', {
 		controller:  'logoutController',   
         templateUrl: 'login.html',
@@ -257,7 +261,14 @@ GoHereApp.config(['$routeProvider',
 						localStorage.currentUser = html.response.user_id;
 						$("#active-login").addClass("hide");
 						$("#active-logout").removeClass("hide");
-						$location.path("/map");
+						if(localStorage.SetRedirect!==undefined && localStorage.SetRedirect!=""){
+							var paths = localStorage.SetRedirect;
+							localStorage.removeItem('SetRedirect');
+							$location.path(paths);
+							
+						} else {
+							$location.path("/map");
+						}
 					} else {
 						$(".alert-danger").removeClass("hide");
 						$(".alert-danger").html('<span class="fa fa-user" aria-hidden="true"></span><span class="sr-only">Error:</span> Invalid email or password.');
@@ -446,6 +457,19 @@ GoHereApp.config(['$routeProvider',
 			$("#preloader").delay(100).fadeOut("slow");
 		});
   }]);	  
+  GoHereApp.controller('locationController', ['$scope', '$rootScope', '$http', '$sce', '$cordovaGeolocation',  'uiGmapGoogleMapApi', '$routeParams', '$location', function($scope,$rootScope, $http,$sce, $cordovaGeolocation, uiGmapGoogleMapApi, $routeParams, $location) {
+  	if($scope.currentUser == '' || $scope.currentUser === undefined){
+		
+		localStorage.SetRedirect = '/add-location';
+		$location.path("/login");
+	}
+	GoHereApp.snapper.close();
+	$(".menu-item").removeClass('menu-item-active');  
+	$("#active-location").addClass('menu-item-active'); 
+	$(".custom-header").css("display","block");  
+	$rootScope.PageName = "Add a Location";
+  }]);
+  
   GoHereApp.directive('menu', function () {
     return {
         restrict: 'A', //This menas that it will be used as an attribute and NOT as an element. I don't like creating custom HTML elements
