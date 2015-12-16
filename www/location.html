@@ -1,24 +1,8 @@
-<style type="text/css">
-	.angular-google-map-container { height: 200px;  width: 100%; }
-</style>
 <div class="content">
 	<div class="header-clear"></div>
 	<div class="page-profile">
-    	<ui-gmap-google-map center='map.center' zoom='map.zoom' expression='true'>
-            <ui-gmap-marker ng-repeat="m in map.markers" idKey="m.id" options="{icon:m.icon}" coords="m.coords" ></ui-gmap-marker>
-        </ui-gmap-google-map>
+    	Location Page
 		<div class="decoration"></div>
-		<div class="container no-bottom">
-        	<div class="sidebar-left-small">
-            	<h4 class="no-bottom">{{WashroomName}}</h4>
-                <p>{{WashroomAddress}}</p>
-                <ul class="font-icon-list">
-                	<li><a href="javascript:void(0)"><i class="fa fa-clock-o"></i>{{WashroomTiming}}</a></li>
-				</ul>
-                <div class="decoration"></div>
-                <p>{{WashroomDesc}}</p>
-                
-			</div>
-		</div>
+		
 	</div>
 </div>

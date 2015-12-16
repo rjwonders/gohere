@@ -223,6 +223,7 @@ GoHereApp.config(['$routeProvider',
   }]);	
   GoHereApp.controller('logoutController', ['$scope', '$rootScope', '$location', '$http', '$sce', '$cordovaOauth', '$cordovaInAppBrowser', function($scope,$rootScope, $location, $http,$sce, $cordovaOauth, $cordovaInAppBrowser) {
 	  	localStorage.removeItem('currentUser');
+		$rootScope.currentUser = '';
 		$location.path("/login");
 		$("#active-logout").addClass("hide");
 		$("#active-login").removeClass("hide");
@@ -259,6 +260,7 @@ GoHereApp.config(['$routeProvider',
 				function( html ) {
 					if(html.response.status == true){
 						localStorage.currentUser = html.response.user_id;
+						$rootScope.currentUser = html.response.user_id;
 						$("#active-login").addClass("hide");
 						$("#active-logout").removeClass("hide");
 						if(localStorage.SetRedirect!==undefined && localStorage.SetRedirect!=""){
@@ -458,12 +460,12 @@ GoHereApp.config(['$routeProvider',
 		});
   }]);	  
   GoHereApp.controller('locationController', ['$scope', '$rootScope', '$http', '$sce', '$cordovaGeolocation',  'uiGmapGoogleMapApi', '$routeParams', '$location', function($scope,$rootScope, $http,$sce, $cordovaGeolocation, uiGmapGoogleMapApi, $routeParams, $location) {
-  	if($scope.currentUser == '' || $scope.currentUser === undefined){
+  	GoHereApp.snapper.close();
+	if($rootScope.currentUser == '' || $rootScope.currentUser == undefined){
 		
 		localStorage.SetRedirect = '/add-location';
 		$location.path("/login");
 	}
-	GoHereApp.snapper.close();
 	$(".menu-item").removeClass('menu-item-active');  
 	$("#active-location").addClass('menu-item-active'); 
 	$(".custom-header").css("display","block");  
@@ -478,7 +480,7 @@ GoHereApp.config(['$routeProvider',
 			currentUser: '='
         },
         templateUrl: "menu.html",
-		controller: ['$scope', '$filter', function ($scope, $filter) {
+		controller: ['$scope', '$rootScope', '$filter', function ($scope, $rootScope, $filter) {
 			GoHereApp.snapper = new Snap({
 				element: document.getElementById('content'),
 				elementMirror: document.getElementById('header-fixed'),
@@ -490,12 +492,12 @@ GoHereApp.config(['$routeProvider',
 				minPosition: -266
 			});  
 			
-			if(localStorage.currentUser!==undefined){
-				$scope.currentUser = localStorage.currentUser;
+			if(localStorage.currentUser!=undefined){
+				$rootScope.currentUser = localStorage.currentUser;
 				$("#active-login").addClass("hide");
 				$("#active-logout").removeClass("hide");
 			} else {
-				$scope.currentUser = '';	
+				$rootScope.currentUser = '';	
 				$("#active-logout").addClass("hide");
 				$("#active-login").removeClass("hide");
 			}
