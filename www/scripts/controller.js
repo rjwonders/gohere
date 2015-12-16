@@ -85,6 +85,10 @@ GoHereApp.config(['$routeProvider',
   function($routeProvider) {
     $routeProvider.
       when('/', {
+		controller:  'splashController',   
+        templateUrl: 'splash.html',
+      }).
+	  when('/language', {
 		controller:  'LanguageController',   
         templateUrl: 'main.html',
       }).
@@ -120,13 +124,32 @@ GoHereApp.config(['$routeProvider',
 		controller:  'detailController',   
         templateUrl: 'detail.html',
       }).
-	   when('/logout', {
+	  when('/logout', {
 		controller:  'logoutController',   
         templateUrl: 'login.html',
       }).
-      otherwise({
+	  otherwise({
         redirectTo: '/'
       });
+  }]);
+  GoHereApp.controller('splashController', ['$scope','$location', '$translate', function($scope,$location,$translate) {
+	  if(localStorage.hasSplashed!==undefined){
+	  	$location.path("/language");
+	  } else {
+		  $(".custom-header").css("display","none");
+		  GoHereApp.snapper.disable();
+		  align_cover_elements(); 
+		  $('.coverpage-slider').owlCarousel({
+			  loop:true,
+			  margin:-2,
+			  nav:false,
+			  dots:true,
+			  items:1
+		  });
+		  $scope.setSplash = function(){
+			  localStorage.hasSplashed = 1;
+		  }
+	  }
   }]);
   GoHereApp.controller('LanguageController', ['$scope','$location', '$translate', function($scope,$location,$translate) {
 	//localStorage.removeItem('SelectedLanguage');
