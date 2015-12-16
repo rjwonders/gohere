@@ -426,6 +426,7 @@ GoHereApp.config(['$routeProvider',
 					longitude	: response.data.response.Washroom.log
 				}
 			};
+			$scope.map.markers.push(marker);
 			$scope.WashroomName 	= $sce.trustAsHtml(response.data.response.Washroom.name);
 			$scope.WashroomAddress 	= $sce.trustAsHtml(response.data.response.Washroom.address);
 			$scope.WashroomDesc 	= $sce.trustAsHtml(response.data.response.Washroom.description);
