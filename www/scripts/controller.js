@@ -140,20 +140,18 @@ GoHereApp.config(['$routeProvider',
 		  GoHereApp.snapper.disable();
 		  align_cover_elements(); 
 		  $('.coverpage-slider').owlCarousel({
-			  loop:true,
+			  loop:false,
 			  margin:-2,
 			  nav:false,
-			  dots:true,
+			  dots:false,
 			  items:1
 		  });
-		  $scope.setSplash = function(){
-			  localStorage.hasSplashed = 1;
-		  }
 	  }
   }]);
   GoHereApp.controller('LanguageController', ['$scope','$location', '$translate', function($scope,$location,$translate) {
 	//localStorage.removeItem('SelectedLanguage');
 	$(".custom-header").css("display","none");
+	localStorage.hasSplashed = 1;
 	GoHereApp.snapper.disable();
 	if(localStorage.SelectedLanguage!==undefined){
 		$location.path("/selection");
@@ -394,6 +392,7 @@ GoHereApp.config(['$routeProvider',
 						$.each(data.response,function(i,val){
 							var marker = {
 								id: val.Washroom.id,
+								icon: 'images/map-pin_.png',
 								coords: {
 									latitude	: val.Washroom.lat,
 									longitude	: val.Washroom.log
@@ -421,6 +420,7 @@ GoHereApp.config(['$routeProvider',
 			$scope.map = { center: { latitude: response.data.response.Washroom.lat, longitude: response.data.response.Washroom.log }, markers:[], zoom: 15 };
 			var marker = {
 				id: response.data.response.Washroom.id,
+				icon: 'images/map-pin_.png',
 				coords: {
 					latitude	: response.data.response.Washroom.lat,
 					longitude	: response.data.response.Washroom.log
@@ -504,27 +504,22 @@ GoHereApp.config(['$routeProvider',
         }]
     }
   });
-  var onSuccess = function(position) {
-    alert('Latitude: '          + position.coords.latitude          + '\n' +
-          'Longitude: '         + position.coords.longitude         + '\n' +
-          'Altitude: '          + position.coords.altitude          + '\n' +
-          'Accuracy: '          + position.coords.accuracy          + '\n' +
-          'Altitude Accuracy: ' + position.coords.altitudeAccuracy  + '\n' +
-          'Heading: '           + position.coords.heading           + '\n' +
-          'Speed: '             + position.coords.speed             + '\n' +
-          'Timestamp: '         + position.timestamp                + '\n');
-};
-
-// onError Callback receives a PositionError object
-//
-function onError(error) {
-    alert('code: '    + error.code    + '\n' +
-          'message: ' + error.message + '\n');
+$(function(){
+  document.addEventListener("deviceready", onDeviceReady, false);
+})  
+function onDeviceReady() {
+  navigator.geolocation.getCurrentPosition(onSuccess, onError);     
+}
+function onSuccess(position) {
+  // your callback here 
 }
 
+function onError(error) { 
+  // your callback here
+}
 function align_cover_elements(){
 		var cover_width = $(window).width();
-        var cover_height = $(window).height();
+        var cover_height = $(window).height() + 60;
         var cover_vertical = -($('.cover-center').height())/2;
         var cover_horizontal = -($('.cover-center').width())/2;
         
