@@ -4,7 +4,7 @@
   <author href="http://phonegap.com" email="rjwonders@gmail.com">Rahul Bhatt</author>
   <content src="index.html"/>
   <preference name="permissions" value="none"/>
-  <preference name="orientation" value="landscape"/>
+  <preference name="orientation" value="portrait"/>
   <preference name="target-device" value="universal"/>
   <preference name="fullscreen" value="true"/>
   <preference name="webviewbounce" value="true"/>
