@@ -1,9 +1,9 @@
 <style type="text/css">
-	.angular-google-map-container { height: 400px;  width: 100%; }
+	.angular-google-map-container { height: 300px;  width: 100%; }
 </style>
 <div class="content">
 	<div class="header-clear"></div>
-	<ui-gmap-google-map center='map.center' zoom='map.zoom' expression='true'>
+	<ui-gmap-google-map center='map.center' zoom='map.zoom' expression='true' options="{disableDefaultUI: true}">
     	<ui-gmap-marker ng-repeat="m in map.markers" idKey="m.id" options="{icon:m.icon}" coords="m.coords" ></ui-gmap-marker>
     </ui-gmap-google-map>
     <div class="container" ng-scrollbars ng-scrollbars-config="scrollbarConfig">

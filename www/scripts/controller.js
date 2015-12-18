@@ -61,10 +61,9 @@ GoHereApp.config(function ($translateProvider, $httpProvider, $cordovaInAppBrows
         v: '3.23',
         libraries: 'weather,geometry,visualization'
     });
-	
 	ScrollBarsProvider.defaults = {
 		autoHideScrollbar: false,
-		setHeight: 250,
+		setHeight: $( window ).height() - 390,
 		scrollInertia: 0,
 		axis: 'y',
 		advanced: {
@@ -327,7 +326,7 @@ GoHereApp.config(['$routeProvider',
 	}
   }]);
   
-  GoHereApp.controller('mapController', ['$scope', '$rootScope', '$http', '$sce', '$cordovaGeolocation',  'uiGmapGoogleMapApi', function($scope,$rootScope, $http,$sce, $cordovaGeolocation, uiGmapGoogleMapApi) {
+  GoHereApp.controller('mapController', ['$scope', '$rootScope', '$http', '$sce', '$cordovaGeolocation',  'uiGmapGoogleMapApi', 'uiGmapIsReady', function($scope,$rootScope, $http,$sce, $cordovaGeolocation, uiGmapGoogleMapApi,uiGmapIsReady) {
 	GoHereApp.snapper.close();
 	$(".menu-item").removeClass('menu-item-active');  
 	$("#active-map").addClass('menu-item-active');  
@@ -344,50 +343,51 @@ GoHereApp.config(['$routeProvider',
 				var lat  = position.coords.latitude;
 				var long = position.coords.longitude;
 				$scope.map = { center: { latitude: lat, longitude: long }, markers:[], zoom: 12 };
-				
-				var request = $http({
-					method: "post",
-					url: globalUrl+"/washrooms/index_distance.json",
-					data: {
-						lat		: lat,
-						long	: long,
-						records	: 0,
-					}
-				});
-				request.success(
-					function( data ) {
-						var marker = {
-							id: 'home',
-							icon: 'images/map-pin-active.png',
-							coords: {
-								latitude	: lat,
-								longitude	: long
-							}
-						};
-						$scope.map.markers.push(marker);
-						
-						$.each(data.response,function(i,val){
+				uiGmapIsReady.promise(1).then(function(instances) {
+					var request = $http({
+						method: "post",
+						url: globalUrl+"/washrooms/index_distance.json",
+						data: {
+							lat		: lat,
+							long	: long,
+							records	: 0,
+						}
+					});
+					request.success(
+						function( data ) {
 							var marker = {
-								id: val.Washroom.id,
-								icon: 'images/map-pin_.png',
+								id: 'home',
+								icon: 'images/map-pin-active.png',
 								coords: {
-									latitude	: val.Washroom.lat,
-									longitude	: val.Washroom.log
+									latitude	: lat,
+									longitude	: long
 								}
 							};
 							$scope.map.markers.push(marker);
-							var distances = parseFloat(val.Washroom.distance);
-							html = html + '<div class="decoration"></div><a href="#/detail/'+val.Washroom.id+'" class="user-list-item2"><div class"row"><div class="col-xs-8"><strong>'+val.Washroom.name+'<br/></strong><em>'+val.Washroom.address+'</em></div><div class="col-xs-4 vcenter">'+distances.toFixed(2)+'KM <i class="fa fa-chevron-right"></i></div></div></a>';
-						});
-						$('.mapinfo').html(html);
-						$scope.scrollbarConfig = {
-							theme: 'dark',
-							scrollInertia: 500
+							
+							$.each(data.response,function(i,val){
+								var marker = {
+									id: val.Washroom.id,
+									icon: 'images/map-pin_.png',
+									coords: {
+										latitude	: val.Washroom.lat,
+										longitude	: val.Washroom.log
+									}
+								};
+								$scope.map.markers.push(marker);
+								var distances = parseFloat(val.Washroom.distance);
+								html = html + '<div class="decoration"></div><a href="#/detail/'+val.Washroom.id+'" class="user-list-item2"><div class"row"><div class="col-xs-8"><strong>'+val.Washroom.name+'<br/></strong><em>'+val.Washroom.address+'</em></div><div class="col-xs-4 vcenter">'+distances.toFixed(2)+'KM <i class="fa fa-chevron-right"></i></div></div></a>';
+							});
+							$('.mapinfo').html(html);
+							$scope.scrollbarConfig = {
+								theme: 'dark',
+								scrollInertia: 500
+							}
+							$("#status").fadeOut(); // will first fade out the loading animation
+							$("#preloader").delay(100).fadeOut("slow"); 
 						}
-						$("#status").fadeOut(); // will first fade out the loading animation
-						$("#preloader").delay(100).fadeOut("slow"); 
-					}
-				);
+					);
+				});
 			}, function(err) {
 				var lat  = 43.6888092;
 				var long = -79.393413;
@@ -445,7 +445,6 @@ GoHereApp.config(['$routeProvider',
 			
 			var addresstext = response.data.response.Washroom.address;
 			addresstext = addresstext.replace(",", ", ");
-			alert(addresstext);
 			$scope.WashroomAddress 	= $sce.trustAsHtml(addresstext);
 			$scope.WashroomDesc 	= $sce.trustAsHtml(response.data.response.Washroom.description);
 			if($.trim(response.data.response.Washroom.from)==""){
