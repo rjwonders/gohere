@@ -376,7 +376,8 @@ GoHereApp.config(['$routeProvider',
 								}
 							};
 							$scope.map.markers.push(marker);
-							html = html + '<div class="decoration"></div><a href="#/detail/'+val.Washroom.id+'" class="user-list-item2"><strong>'+val.Washroom.name+'<br/></strong><em>'+val.Washroom.address+'</em><i class="fa fa-chevron-right"></i></a>';
+							var distances = parseFloat(val.Washroom.distance);
+							html = html + '<div class="decoration"></div><a href="#/detail/'+val.Washroom.id+'" class="user-list-item2"><div class"row"><div class="col-xs-8"><strong>'+val.Washroom.name+'<br/></strong><em>'+val.Washroom.address+'</em></div><div class="col-xs-4 vcenter">'+distances.toFixed(2)+'KM <i class="fa fa-chevron-right"></i></div></div></a>';
 						});
 						$('.mapinfo').html(html);
 						$scope.scrollbarConfig = {
@@ -441,7 +442,11 @@ GoHereApp.config(['$routeProvider',
 			};
 			$scope.map.markers.push(marker);
 			$scope.WashroomName 	= $sce.trustAsHtml(response.data.response.Washroom.name);
-			$scope.WashroomAddress 	= $sce.trustAsHtml(response.data.response.Washroom.address);
+			
+			var addresstext = response.data.response.Washroom.address;
+			addresstext = addresstext.replace(",", ", ");
+			alert(addresstext);
+			$scope.WashroomAddress 	= $sce.trustAsHtml(addresstext);
 			$scope.WashroomDesc 	= $sce.trustAsHtml(response.data.response.Washroom.description);
 			if($.trim(response.data.response.Washroom.from)==""){
 				var FromTime = "9:00 AM";
