@@ -49,88 +49,26 @@
         </div>
         <div class="decoration"></div>
 		<div class="container no-bottom">
-        	<div class="one-half-responsive">
-                <em class="speach-left-title">Rahul Bhatt <i class="fa fa-clock-o"></i> 20/12/2015 21:20 :</em>
-                
-                <p class="speach-left blue-bubble">This is just an awesome bubble! It's quite cute isn't it?<br />
-                <em class="quote-rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </em>
-                </p>
-				<div class="clear"></div>
-
-                <em class="speach-right-title">Hamza Javed <i class="fa fa-clock-o"></i> 20/12/2015 21:30 :</em>
-                <p class="speach-right">Yeap! It's awesome isn't it and it's not that hard to use! And they act like bubbles, only expanding to 75% of width!
-                <br />
-                <em class="quote-rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </em></p>
-                <div class="clear"></div>
+        	<div class="one-half-responsive addcomments">
                 
             </div> 
-             <div class="one-half-responsive">
-                <em class="speach-left-title">Rahul Bhatt <i class="fa fa-clock-o"></i> 20/12/2015 21:20 :</em>
-                
-                <p class="speach-left blue-bubble">This is just an awesome bubble! It's quite cute isn't it?<br />
-                <em class="quote-rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </em>
-                </p>
-				<div class="clear"></div>
-
-                <em class="speach-right-title">Hamza Javed <i class="fa fa-clock-o"></i> 20/12/2015 21:30 :</em>
-                <p class="speach-right">Yeap! It's awesome isn't it and it's not that hard to use! And they act like bubbles, only expanding to 75% of width!
-                <br />
-                <em class="quote-rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </em></p>
-                <div class="clear"></div>
-                
+            <div class="container no-bottom">
+                <h4 class="no-bottom" style="padding-bottom:8px;">Post a Comment</h4>
             </div> 
-            <div class="one-half-responsive">
-                <em class="speach-left-title">Rahul Bhatt <i class="fa fa-clock-o"></i> 20/12/2015 21:20 :</em>
-                
-                <p class="speach-left blue-bubble">This is just an awesome bubble! It's quite cute isn't it?<br />
-                <em class="quote-rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </em>
-                </p>
-				<div class="clear"></div>
-
-                <em class="speach-right-title">Hamza Javed <i class="fa fa-clock-o"></i> 20/12/2015 21:30 :</em>
-                <p class="speach-right">Yeap! It's awesome isn't it and it's not that hard to use! And they act like bubbles, only expanding to 75% of width!
-                <br />
-                <em class="quote-rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </em></p>
-                <div class="clear"></div>
-                
-            </div> 
-             
+            <div class="decoration"></div>
+            <div class="container">
+              <div class="static-notification bg-orange-dark tap-dismiss pleaselogin">
+					<p><i class="fa fa-exclamation"></i>Please <a href="#/login" class="login-already" style="color:#FFF; opacity: 0.8">login</a> to comment.</p>
+			  </div>   
+              <div class="one-third-responsive full-bottom pleasecomment hide">
+              	<div class="static-notification bg-green-dark tap-dismiss commentsuccess">
+					<p><i class="fa fa-check"></i> Comment Posted Successfully.</p>
+			  	</div>
+                <form name="userForm" ng-submit="setComment(userForm.$valid)" novalidate>
+                  <textarea  ng-model="Comment" class="contactTextarea requiredField" required></textarea>
+                  <input type="submit" value="SUBMIT COMMENT" class="buttonWrap button button-green contactSubmitButton" ng-disabled="userForm.$invalid">
+              	</form>
+              </div>     
     	</div>
     </div>
 </div>

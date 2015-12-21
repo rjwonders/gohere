@@ -13,7 +13,7 @@ var GoHereApp = angular.module('mainApp', [
   'ngSanitize',
   'ngCordova',
   'uiGmapgoogle-maps',
-  'ngScrollbars'
+  'ngScrollbars',
 ]);
 
 GoHereApp.value('snapper');
@@ -431,6 +431,32 @@ GoHereApp.config(['$routeProvider',
 		$("#preloader").delay(100).fadeIn("slow");
 		$rootScope.PageName = "Washroom Detail";
 		$http.get(globalUrl+"/washrooms/view/"+$routeParams.id+".json").then(function(response) {
+			var collectComment = '';
+			var requester = $http({
+				method: "post",
+				url: globalUrl+"/comments/index/"+$routeParams.id+".json",
+			});
+			requester.success(
+				function( result ) {
+					if(result.response.length == 0){
+						collectComment = '<div class="static-notification bg-red-dark tap-dismiss"><p><i class="fa fa-times"></i>No Comments has been posted.</p></div> ';
+					} else {
+						$.each(result.response,function(i,data){
+							if(i%2==0){
+								var BubbleType = "left";
+								var BubbleColor = "blue-bubble";
+							} else {
+								var BubbleType = "right";
+								var BubbleColor = "";
+							}
+							collectComment = collectComment+'<em class="speach-'+BubbleType+'-title">'+data.Comment.username+' <i class="fa fa-clock-o"></i> '+data.Comment.created+' :</em><p class="speach-'+BubbleType+' '+BubbleColor+'">'+data.Comment.name+'</p><div class="clear"></div>';
+						});
+					}
+					
+					$(".addcomments").html(collectComment);
+				}
+			);
+				
 			$scope.map = { center: { latitude: response.data.response.Washroom.lat, longitude: response.data.response.Washroom.log }, markers:[], zoom: 15 };
 			var marker = {
 				id: response.data.response.Washroom.id,
@@ -458,10 +484,68 @@ GoHereApp.config(['$routeProvider',
 				var ToTime = response.data.response.Washroom.to;
 			}
 			$scope.WashroomTiming 	= $sce.trustAsHtml(FromTime+" To "+ToTime);
+			if($rootScope.currentUser == '' || $rootScope.currentUser == undefined){
+				$(".pleaselogin").removeClass("hide");
+				$(".pleasecomment").addClass("hide");
+			} else {
+				$(".pleaselogin").addClass("hide");
+				$(".pleasecomment").removeClass("hide");
+			}
+			$(".commentsuccess").addClass("hide");
 			
+			$('.tap-dismiss').click(function(){
+			   $(this).slideUp(200); 
+				return false;
+			});
 			$("#status").fadeOut(); // will first fade out the loading animation
 			$("#preloader").delay(100).fadeOut("slow");
 		});
+		$scope.setComment = function(){
+			if ($scope.userForm.$valid) {
+				var request = $http({
+					method: "post",
+					url: globalUrl+"/comments/add.json",
+					data: {
+						user_id		: $rootScope.currentUser,
+						washroom_id	: $routeParams.id,
+						name		: $scope.Comment
+					}
+				});
+				request.success(
+					function( result ) {
+						if(result.response.status == true){
+							$scope.Comment = "";
+							$(".commentsuccess").removeClass("hide");
+							var collectComment = '';
+							var requester = $http({
+								method: "post",
+								url: globalUrl+"/comments/index/"+$routeParams.id+".json",
+							});
+							requester.success(
+								function( result ) {
+									if(result.response.length == 0){
+										collectComment = '<div class="static-notification bg-red-dark tap-dismiss"><p><i class="fa fa-times"></i>No Comments has been posted.</p></div> ';
+									} else {
+										$.each(result.response,function(i,data){
+											if(i%2==0){
+												var BubbleType = "left";
+												var BubbleColor = "blue-bubble";
+											} else {
+												var BubbleType = "right";
+												var BubbleColor = "";
+											}
+											collectComment = collectComment+'<em class="speach-'+BubbleType+'-title">'+data.Comment.username+' <i class="fa fa-clock-o"></i> '+data.Comment.created+' :</em><p class="speach-'+BubbleType+' '+BubbleColor+'">'+data.Comment.name+'</p><div class="clear"></div>';
+										});
+									}
+									
+									$(".addcomments").html(collectComment);
+								}
+							);
+						}
+					}
+				);
+			}
+		};
   }]);	  
   GoHereApp.controller('locationController', ['$scope', '$rootScope', '$http', '$sce', '$cordovaGeolocation',  'uiGmapGoogleMapApi', '$routeParams', '$location', function($scope,$rootScope, $http,$sce, $cordovaGeolocation, uiGmapGoogleMapApi, $routeParams, $location) {
   	GoHereApp.snapper.close();
@@ -474,6 +558,73 @@ GoHereApp.config(['$routeProvider',
 	$("#active-location").addClass('menu-item-active'); 
 	$(".custom-header").css("display","block");  
 	$rootScope.PageName = "Add a Location";
+	$("#Cleanness").rating();
+	$("#EaseAccess").rating();
+	$("#AvailableHours").rating();
+	$('.switch-1').click(function(){
+       $(this).toggleClass('switch-1-on'); 
+        return false;
+    });
+	$('.isDecals').click(function(){
+		if($('.isDecals').hasClass('switch-1-on')){
+			$('#Decal').val(1);
+		} else {
+			$('#Decal').val(0);
+		}
+    });
+	
+	$(".getlocation").click(function(e){
+		$cordovaGeolocation.getCurrentPosition({timeout: 10000, enableHighAccuracy: true})
+		.then(function (position) {
+			var lat  = position.coords.latitude;
+			var long = position.coords.longitude;
+			var geocoder = new google.maps.Geocoder();
+            var latlng = new google.maps.LatLng(lat, long);
+			
+			$scope.lat = lat;
+			$scope.long = long;
+					
+			geocoder.geocode({ 'latLng': latlng }, function (results, status) {
+			  if (status == google.maps.GeocoderStatus.OK) {
+				var addresses = results[0].formatted_address;
+				var getLength = results[0].address_components.length-1;
+                postalCode = results[0].address_components[getLength].long_name;
+                $scope.Address = results[0].formatted_address;
+				$scope.Postcode = postalCode;
+				$("#Addresses").val(results[0].formatted_address);
+				$("#PostCode").val(postalCode);
+			  }
+		  });
+		});
+	});
+	$scope.addLocation = function(){
+		$("#status").fadeIn(); // will first fade out the loading animation
+		$("#preloader").delay(100).fadeIn("slow");
+		//if ($scope.userForm.$valid) {
+			var request = $http({
+				method: "post",
+				url: globalUrl+"/washrooms/add.json",
+				data: {
+					name				: $scope.BusinessName,
+					description			: $scope.Comment,
+					physically_disable	: $scope.Decal,
+					address				: $scope.Address,
+					postal_code			: $scope.Postcode,
+					lat					: $scope.lat,
+					log					: $scope.long,
+					rating				: {0: $scope.Cleanness, 1: $scope.EaseAccess, 2: $scope.AvailableHours},
+					user_id				: $rootScope.currentUser
+				}
+			});
+			request.success(
+				function( data ) {
+					
+					$("#status").fadeOut(); // will first fade out the loading animation
+					$("#preloader").delay(100).fadeOut("slow"); 
+				}
+			);	
+		//}
+	}
   }]);
   
   GoHereApp.directive('menu', function () {
