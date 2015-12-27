@@ -123,9 +123,17 @@ GoHereApp.config(['$routeProvider',
 		controller:  'detailController',   
         templateUrl: 'detail.html',
       }).
+	  when('/direction/:lat/:long', {
+		controller:  'directionController',   
+        templateUrl: 'direction.html',
+      }).
 	   when('/add-location', {
 		controller:  'locationController',   
         templateUrl: 'location.html',
+      }).
+	  when('/my-access-card', {
+		controller:  'accessController',   
+        templateUrl: 'access.html',
       }).
 	  when('/logout', {
 		controller:  'logoutController',   
@@ -423,6 +431,61 @@ GoHereApp.config(['$routeProvider',
 	});
 
   }]);
+  GoHereApp.controller('directionController', ['$scope', '$rootScope', '$http', '$sce', '$cordovaGeolocation',  'uiGmapGoogleMapApi', '$routeParams',function($scope,$rootScope, $http,$sce, $cordovaGeolocation, uiGmapGoogleMapApi, $routeParams) {
+  	$rootScope.PageName = "Detail of route";
+	$cordovaGeolocation.getCurrentPosition({timeout: 10000, enableHighAccuracy: true}).then(function (position) {
+		var originlat  = position.coords.latitude;
+		var originlong = position.coords.longitude;
+		var Destlat = $routeParams.lat;
+		var Destlong = $routeParams.long;
+		var request = {
+			origin : new google.maps.LatLng(originlat,originlong),
+			destination : new google.maps.LatLng(Destlat,Destlong),
+			travelMode : google.maps.TravelMode.DRIVING
+		};
+		var html ='';
+		var directionsService = new google.maps.DirectionsService();
+		directionsService.route(request, function(response, status){
+			if(status == google.maps.DirectionsStatus.OK){
+				$scope.map = { center: { latitude: Destlat, longitude: Destlong }, markers:[], zoom: 12 };
+				
+				var marker = {
+					id: '1',
+					icon: 'images/map-pin_.png',
+					coords: {
+						latitude	: originlat,
+						longitude	: originlong
+					}
+				};
+				$scope.map.markers.push(marker);
+				var marker = {
+					id: '2',
+					icon: 'images/map-pin_.png',
+					coords: {
+						latitude	: Destlat,
+						longitude	: Destlong
+					}
+				};
+				$scope.map.markers.push(marker);
+				var myRoute = response.routes[0].legs[0];
+				console.log(myRoute);
+				html = '<div class="row"><div class="col-xs-1">&nbsp;</div><div class="col-xs-1">&nbsp;</div><div class="col-xs-7"><strong>'+myRoute.start_address+'</strong></div><div class="col-xs-">&nbsp;</div></div>';
+				$.each(myRoute.steps,function(i,val){
+					html = html + '<div class="decoration"></div><div class="row"><div class="col-xs-1">&nbsp;</div><div class="col-xs-1">'+(i+1)+'</div><div class="col-xs-7">'+val.instructions+'</div><div class="col-xs-2">'+val.distance.text+'</div></div>';
+				});
+				html = html + '<div class="decoration"></div><div class="row"><div class="col-xs-1">&nbsp;</div><div class="col-xs-1">&nbsp;</div><div class="col-xs-7"><strong>'+myRoute.end_address+'</strong></div><div class="col-xs-2">&nbsp;</div></div>';
+				
+				$('.mapinfo').html(html);
+				$scope.scrollbarConfig = {
+					theme: 'dark',
+					scrollInertia: 500,
+					setHeight: $( window ).height(),
+				}
+				
+			}
+		});
+	});
+  }]);
   GoHereApp.controller('detailController', ['$scope', '$rootScope', '$http', '$sce', '$cordovaGeolocation',  'uiGmapGoogleMapApi', '$routeParams',function($scope,$rootScope, $http,$sce, $cordovaGeolocation, uiGmapGoogleMapApi, $routeParams) {
 	  	GoHereApp.snapper.close();
 		$(".menu-item").removeClass('menu-item-active');  
@@ -455,8 +518,9 @@ GoHereApp.config(['$routeProvider',
 					
 					$(".addcomments").html(collectComment);
 				}
-			);
-				
+			); 
+			$scope.lats = response.data.response.Washroom.lat;
+			$scope.longs = response.data.response.Washroom.log;
 			$scope.map = { center: { latitude: response.data.response.Washroom.lat, longitude: response.data.response.Washroom.log }, markers:[], zoom: 15 };
 			var marker = {
 				id: response.data.response.Washroom.id,
@@ -627,6 +691,22 @@ GoHereApp.config(['$routeProvider',
 	}
   }]);
   
+  GoHereApp.controller('accessController', ['$scope', '$rootScope', '$http', '$sce', '$cordovaGeolocation',  'uiGmapGoogleMapApi', '$routeParams', '$location', function($scope,$rootScope, $http,$sce, $cordovaGeolocation, uiGmapGoogleMapApi, $routeParams, $location) {
+  	GoHereApp.snapper.close();
+	if($rootScope.currentUser == '' || $rootScope.currentUser == undefined){
+		
+		localStorage.SetRedirect = '/my-access-card';
+		$location.path("/login");
+	}
+	$(".menu-item").removeClass('menu-item-active');  
+	$("#active-location").addClass('menu-item-active'); 
+	$(".custom-header").css("display","block");  
+	$rootScope.PageName = "My Access Card";
+	align_cover_elements(); 
+	$http.get(globalUrl+"/users/access_card/"+$rootScope.currentUser+".json").then(function(response) {
+		$scope.UserName = response.data.response.User.username;
+	});
+  }]);	
   GoHereApp.directive('menu', function () {
     return {
         restrict: 'A', //This menas that it will be used as an attribute and NOT as an element. I don't like creating custom HTML elements
