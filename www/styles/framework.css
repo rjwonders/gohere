@@ -531,7 +531,7 @@ body{
 
 .font-icon-list i{
 	margin-right:10px;	
-    width:30px;
+    /*width:30px;*/
 }
 	
 
@@ -4845,9 +4845,9 @@ ul.tabs li.active-tab{
 /*------------------*/
 
 .page-profile-header{
-    padding-top:40px;
+    /*padding-top:40px;
     padding-bottom:30px;
-    background-image:url(../images/pictures/3.jpg);
+    background-image:url(../images/pictures/3.jpg);*/
     background-size:cover;
 }
 
@@ -4940,7 +4940,8 @@ ul.tabs li.active-tab{
     text-align:center;
     font-size:12px;
     color:#666666;
-    margin-bottom:30px;
+   /* margin-bottom:30px;*/
+   margin-bottom:5px;
 }
 
 .page-profile-followers a i{
@@ -7554,12 +7555,11 @@ ul.tabs li.active-tab{
     margin-top:-70px!important;
 }
 
-
-
-
-
-
-
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
 
 
 

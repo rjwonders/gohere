@@ -1,8 +1,55 @@
 <div class="content">
 	<div class="header-clear"></div>
 	<div class="page-profile">
-    	Location Page
-		<div class="decoration"></div>
-		
+    	<div class="decoration"></div>
+		<div class="container">
+                    <div class="one-third-responsive full-bottom">
+                    	<form name="userForm" ng-submit="addLocation()" novalidate>
+							<input class="text-field green-field" ng-model="BusinessName" onfocus="if (this.value=='Business Name') this.value = ''" onblur="if (this.value=='') this.value = 'Business Name'" type="text" value="" required>
+                        	<div class="row" style="margin-bottom:10px;">
+                        	<div class="col-xs-3">
+                            	<a href="javascript:void(0)" class="switch switch-1 switch-1-off getlocation">
+                                    <em>I</em>
+                                    <span></span>
+                                    <em>0</em>
+                                </a>
+                            </div>
+                            <div class="col-xs-9">
+                            	<em class="switch-box-subtitle">
+                                    Use Current Location
+                                </em>
+                            </div>
+                        </div>
+                        	<input ng-model="lat" id="lat" type="hidden" value="">
+                            <input ng-model="long" id="long" type="hidden" value="">
+                        	<input class="text-field green-field" ng-model="Address" id="Addresses" onfocus="if (this.value=='Address') this.value = ''" onblur="if (this.value=='') this.value = 'Address'" type="text" value="" required>
+                        	<input class="text-field red-field" ng-model="PostCode" id="PostCode" onfocus="if (this.value=='Postal Code') this.value = ''" onblur="if (this.value=='') this.value = 'Postal Code'" type="text" value="" required>
+                        	<div class="row">
+                        	<div class="col-xs-3">
+                            	<a href="javascript:void(0)" class="switch switch-1 isDecals switch-1-off">
+                                    <em>I</em>
+                                    <span></span>
+                                    <em>0</em>
+                                </a>
+                            </div>
+                            <div class="col-xs-9">
+                            	<em class="switch-box-subtitle">
+                                	<input class="text-field red-field" ng-model="Decal" id="Decal" type="hidden" value="0">
+                                    Please check if this washroom has an international disability logo <i class="fa fa-wheelchair"></i>
+                                </em>
+                            </div>
+                        </div>
+                        	<textarea  ng-model="Comment" class="contactTextarea requiredField" required></textarea>
+                        	<h5>Cleanness</h5>
+                        	<input id="Cleanness" type="number" ng-model="Cleanness" class="rating" min=1 max=5 step=1 data-size="sm" data-symbol="&#xf005;" showCaption="false" clearButton="" data-rating-class="rating-fa" data-glyphicon="false">
+                        	<h5>Ease of Access</h5>
+                        	<input id="EaseAccess" type="number" ng-model="EaseAccess" class="rating" min=1 max=5 step=1 data-size="sm" data-symbol="&#xf005;" showCaption="false" clearButton="" data-rating-class="rating-fa" data-glyphicon="false">
+                        	<h5>Available Hours</h5>
+                        	<input id="AvailableHours" ng-model="AvailableHours" type="number" class="rating" min=1 max=5 step=1 data-size="sm" data-symbol="&#xf005;" showCaption="false" clearButton="" data-rating-class="rating-fa" data-glyphicon="false">
+                            <div style="margin-bottom:15px;"></div>
+                    		<input type="submit" name="AddLocation" value="Add Location" class="login-button button button-small button-green button-fullscreen full-bottom"/>      
+                        </form>
+                    </div>
+                </div>
 	</div>
 </div>
