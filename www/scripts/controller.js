@@ -135,6 +135,10 @@ GoHereApp.config(['$routeProvider',
 		controller:  'accessController',   
         templateUrl: 'access.html',
       }).
+	  when('/favourite', {
+		controller:  'favouriteController',   
+        templateUrl: 'favourite.html',
+      }).
 	  when('/logout', {
 		controller:  'logoutController',   
         templateUrl: 'login.html',
@@ -294,7 +298,7 @@ GoHereApp.config(['$routeProvider',
   }]);
   
   
-  GoHereApp.controller('signupController', ['$scope', '$rootScope', '$http', '$sce', '$cordovaOauth', '$cordovaInAppBrowser', function($scope,$rootScope, $http,$sce, $cordovaOauth, $cordovaInAppBrowser) {
+  GoHereApp.controller('signupController', ['$scope', '$rootScope', '$location', '$http', '$sce', '$cordovaOauth', '$cordovaInAppBrowser', function($scope,$rootScope, $location, $http,$sce, $cordovaOauth, $cordovaInAppBrowser) {
 	GoHereApp.snapper.close();
 	$(".menu-item").removeClass('menu-item-active');  
 	$("#active-login").addClass('menu-item-active');  
@@ -319,9 +323,21 @@ GoHereApp.config(['$routeProvider',
 			request.success(
 				function( data ) {
 					if(data.response.status == true){
+						localStorage.currentUser = data.response.user_id;
+						$rootScope.currentUser = data.response.user_id;
+						$("#active-login").addClass("hide");
+						$("#active-logout").removeClass("hide");
+						if(localStorage.SetRedirect!==undefined && localStorage.SetRedirect!=""){
+							var paths = localStorage.SetRedirect;
+							localStorage.removeItem('SetRedirect');
+							$location.path(paths);
+						} else {
+							$location.path("/map");
+						}
 					} else {
 						$(".alert-danger").removeClass("hide");
 						$(".alert-danger").html('<span class="fa fa-user" aria-hidden="true"></span><span class="sr-only">Error:</span> User already registered.');
+						align_cover_elements();
 						$("#status").fadeOut(); // will first fade out the loading animation
 						$("#preloader").delay(100).fadeOut("slow");
 					}
@@ -433,56 +449,66 @@ GoHereApp.config(['$routeProvider',
   }]);
   GoHereApp.controller('directionController', ['$scope', '$rootScope', '$http', '$sce', '$cordovaGeolocation',  'uiGmapGoogleMapApi', '$routeParams',function($scope,$rootScope, $http,$sce, $cordovaGeolocation, uiGmapGoogleMapApi, $routeParams) {
   	$rootScope.PageName = "Detail of route";
-	$cordovaGeolocation.getCurrentPosition({timeout: 10000, enableHighAccuracy: true}).then(function (position) {
-		var originlat  = position.coords.latitude;
-		var originlong = position.coords.longitude;
-		var Destlat = $routeParams.lat;
-		var Destlong = $routeParams.long;
-		var request = {
-			origin : new google.maps.LatLng(originlat,originlong),
-			destination : new google.maps.LatLng(Destlat,Destlong),
-			travelMode : google.maps.TravelMode.DRIVING
-		};
-		var html ='';
-		var directionsService = new google.maps.DirectionsService();
-		directionsService.route(request, function(response, status){
-			if(status == google.maps.DirectionsStatus.OK){
-				$scope.map = { center: { latitude: Destlat, longitude: Destlong }, markers:[], zoom: 12 };
-				
-				var marker = {
-					id: '1',
-					icon: 'images/map-pin_.png',
-					coords: {
-						latitude	: originlat,
-						longitude	: originlong
+	$("#status").fadeIn(); // will first fade out the loading animation
+	$("#preloader").delay(100).fadeIn("slow");
+	uiGmapGoogleMapApi.then(function(maps) {
+		$cordovaGeolocation.getCurrentPosition({timeout: 10000, enableHighAccuracy: true}).then(function (position) {
+			var originlat  = position.coords.latitude;
+			var originlong = position.coords.longitude;
+			var Destlat = $routeParams.lat;
+			var Destlong = $routeParams.long;
+			var request = {
+				origin : new google.maps.LatLng(originlat,originlong),
+				destination : new google.maps.LatLng(Destlat,Destlong),
+				travelMode : google.maps.TravelMode.DRIVING
+			};
+			var html ='';
+			var directionsService = new google.maps.DirectionsService();
+			directionsService.route(request, function(response, status){
+				if(status == google.maps.DirectionsStatus.OK){
+					$scope.maps = { center: { latitude: Destlat, longitude: Destlong }, markers:[], zoom: 12 };
+					
+					var marker = {
+						id: '1',
+						icon: 'images/map-pin_.png',
+						coords: {
+							latitude	: originlat,
+							longitude	: originlong
+						}
+					};
+					$scope.maps.markers.push(marker);
+					var marker = {
+						id: '2',
+						icon: 'images/map-pin_.png',
+						coords: {
+							latitude	: Destlat,
+							longitude	: Destlong
+						}
+					};
+					$scope.maps.markers.push(marker);
+					var myRoute = response.routes[0].legs[0];
+					//console.log(myRoute);
+					html = '<div class="row"><div class="col-xs-12"><strong>'+myRoute.start_address+'</strong></div></div>';
+					$.each(myRoute.steps,function(i,val){
+						if($.trim(val.maneuver)!=""){
+							var resdata = val.maneuver.replace("turn-","");
+							var turnlocation = '<i class="fa fa-hand-o-'+resdata+'"></i>';
+						} else {
+							var turnlocation = "&nbsp;";
+						}
+						html = html + '<div class="decoration"></div><div class="row"><div class="col-xs-1">'+turnlocation+'</div><div class="col-xs-1">'+(i+1)+'</div><div class="col-xs-7">'+val.instructions+'</div><div class="col-xs-2">'+val.distance.text+'</div></div>';
+					});
+					html = html + '<div class="decoration"></div><div class="row"><div class="col-xs-12"><strong>'+myRoute.end_address+'</strong></div></div>';
+					
+					$('.mapinfo').html(html);
+					$scope.scrollbarConfig = {
+						theme: 'dark',
+						scrollInertia: 500,
 					}
-				};
-				$scope.map.markers.push(marker);
-				var marker = {
-					id: '2',
-					icon: 'images/map-pin_.png',
-					coords: {
-						latitude	: Destlat,
-						longitude	: Destlong
-					}
-				};
-				$scope.map.markers.push(marker);
-				var myRoute = response.routes[0].legs[0];
-				console.log(myRoute);
-				html = '<div class="row"><div class="col-xs-1">&nbsp;</div><div class="col-xs-1">&nbsp;</div><div class="col-xs-7"><strong>'+myRoute.start_address+'</strong></div><div class="col-xs-">&nbsp;</div></div>';
-				$.each(myRoute.steps,function(i,val){
-					html = html + '<div class="decoration"></div><div class="row"><div class="col-xs-1">&nbsp;</div><div class="col-xs-1">'+(i+1)+'</div><div class="col-xs-7">'+val.instructions+'</div><div class="col-xs-2">'+val.distance.text+'</div></div>';
-				});
-				html = html + '<div class="decoration"></div><div class="row"><div class="col-xs-1">&nbsp;</div><div class="col-xs-1">&nbsp;</div><div class="col-xs-7"><strong>'+myRoute.end_address+'</strong></div><div class="col-xs-2">&nbsp;</div></div>';
-				
-				$('.mapinfo').html(html);
-				$scope.scrollbarConfig = {
-					theme: 'dark',
-					scrollInertia: 500,
-					setHeight: $( window ).height(),
+					$("#status").fadeOut(); // will first fade out the loading animation
+					$("#preloader").delay(100).fadeOut("slow"); 
 				}
-				
-			}
+			});
 		});
 	});
   }]);
@@ -564,6 +590,25 @@ GoHereApp.config(['$routeProvider',
 			$("#status").fadeOut(); // will first fade out the loading animation
 			$("#preloader").delay(100).fadeOut("slow");
 		});
+		$scope.checkFavorites = function(){
+			if($rootScope.currentUser == '' || $rootScope.currentUser == undefined){
+				alert("Please login to make this washroom as favorite.");
+				return false;
+			}
+			var request = $http({
+				method: "post",
+				url: globalUrl+"/favourites/add.json",
+				data: {
+					user_id		: $rootScope.currentUser,
+					washroom_id	: $routeParams.id,
+				}
+			});
+			request.success(
+				function( result ) {
+					$(".favid").html('<i class="fa fa-star"></i>');
+				}
+			);		
+		}
 		$scope.setComment = function(){
 			if ($scope.userForm.$valid) {
 				var request = $http({
@@ -690,7 +735,27 @@ GoHereApp.config(['$routeProvider',
 		//}
 	}
   }]);
-  
+  GoHereApp.controller('favouriteController', ['$scope', '$rootScope', '$http', '$sce', '$cordovaGeolocation',  'uiGmapGoogleMapApi', '$routeParams', '$location', function($scope,$rootScope, $http,$sce, $cordovaGeolocation, uiGmapGoogleMapApi, $routeParams, $location) {
+	  	GoHereApp.snapper.close();
+		if($rootScope.currentUser == '' || $rootScope.currentUser == undefined){
+			localStorage.SetRedirect = '/my-access-card';
+			$location.path("/login");
+		}
+		$(".menu-item").removeClass('menu-item-active');  
+		$(".custom-header").css("display","block");  
+		$("#status").fadeIn(); // will first fade out the loading animation
+		$("#preloader").delay(100).fadeIn("slow");
+		$rootScope.PageName = "My Favorites";
+		var html = "";
+		$http.get(globalUrl+"/favourites/index_favourite/"+$rootScope.currentUser+".json").then(function(response) {
+			$.each(response.data.response,function(i,val){
+				html = html + '<a href="#/detail/'+val.Favourite.washroom_id+'" class="user-list-item2"><div class"row"><div class="col-xs-12"><strong>'+val.Washroom.name+'<br/></strong><em>'+val.Washroom.address+'</em></div></div></a><div class="decoration"></div>';
+			});
+			$('.mapinfo').html(html);
+			$("#status").fadeOut(); // will first fade out the loading animation
+			$("#preloader").delay(100).fadeOut("slow");
+		});
+  }]);  
   GoHereApp.controller('accessController', ['$scope', '$rootScope', '$http', '$sce', '$cordovaGeolocation',  'uiGmapGoogleMapApi', '$routeParams', '$location', function($scope,$rootScope, $http,$sce, $cordovaGeolocation, uiGmapGoogleMapApi, $routeParams, $location) {
   	GoHereApp.snapper.close();
 	if($rootScope.currentUser == '' || $rootScope.currentUser == undefined){

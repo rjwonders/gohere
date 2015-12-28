@@ -16,13 +16,15 @@
         <div class="page-profile-followers">
             <a href="#/direction/{{lats}}/{{longs}}">
                 <i class="fa fa-map-marker"></i>
-                
             </a>
             <a href="javascript:void(0)">
                 <i class="fa fa-wheelchair"></i>
             </a>
-            <a href="javascript:void(0)">
+            <!--<a href="javascript:void(0)">
                 <i class="fa fa-flag-o"></i>
+            </a>-->
+            <a href ng-click="checkFavorites()" class="favid">
+                <i class="fa fa-star-o"></i>
             </a>
         </div>
 
@@ -46,8 +48,9 @@
 		</div>
         <div class="container no-bottom">
         	<h4 class="no-bottom" style="padding-bottom:8px;">Comments</h4>
+            <div class="decoration"></div>
         </div>
-        <div class="decoration"></div>
+        
 		<div class="container no-bottom">
         	<div class="one-half-responsive addcomments">
                 
