@@ -791,7 +791,7 @@ GoHereApp.config(['$routeProvider',
 				element: document.getElementById('content'),
 				elementMirror: document.getElementById('header-fixed'),
 				elementMirror2: document.getElementById('footer-fixed'),
-				disable: 'right',
+				disable: 'left',
 				tapToClose: true,
 				touchToDrag: true,
 				maxPosition: 266,
@@ -809,12 +809,12 @@ GoHereApp.config(['$routeProvider',
 			}
 			
 			$(document).on("click",'.close-sidebar', function() {GoHereApp.snapper.close();});
-			$(document).on("click",'.open-left-sidebar', function() {
+			$(document).on("click",'.open-right-sidebar', function() {
 				//$(this).toggleClass('remove-sidebar');
-				if( GoHereApp.snapper.state().state=="left" ){
+				if( GoHereApp.snapper.state().state=="right" ){
 					GoHereApp.snapper.close();
 				} else {
-					GoHereApp.snapper.open('left');
+					GoHereApp.snapper.open('right');
 				}
 				return false;
 			});	
@@ -830,8 +830,7 @@ GoHereApp.config(['$routeProvider',
         controller: ['$scope', '$filter', '$location', function ($scope, $filter,$location) {
 			var hash = $location.hash();
 			$scope.pageClass = 'page-code';
-			$scope.backToPages = function(event) {
-				event.preventDefault();
+			$scope.backToPages = function() {
 				window.history.back();
 			};
         }]
