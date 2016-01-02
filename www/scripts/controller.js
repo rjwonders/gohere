@@ -519,7 +519,10 @@ GoHereApp.config(['$routeProvider',
 		$("#status").fadeIn(); // will first fade out the loading animation
 		$("#preloader").delay(100).fadeIn("slow");
 		$rootScope.PageName = "Washroom Detail";
-		$http.get(globalUrl+"/washrooms/view/"+$routeParams.id+".json").then(function(response) {
+		$cordovaGeolocation.getCurrentPosition({timeout: 10000, enableHighAccuracy: true}).then(function (position) {
+			$scope.Currentlats  = position.coords.latitude;
+			$scope.Currentlongs = position.coords.longitude;
+			$http.get(globalUrl+"/washrooms/view/"+$routeParams.id+".json").then(function(response) {
 			var collectComment = '';
 			var requester = $http({
 				method: "post",
@@ -545,6 +548,8 @@ GoHereApp.config(['$routeProvider',
 					$(".addcomments").html(collectComment);
 				}
 			); 
+			
+			
 			$scope.lats = response.data.response.Washroom.lat;
 			$scope.longs = response.data.response.Washroom.log;
 			$scope.map = { center: { latitude: response.data.response.Washroom.lat, longitude: response.data.response.Washroom.log }, markers:[], zoom: 15 };
@@ -589,6 +594,7 @@ GoHereApp.config(['$routeProvider',
 			});
 			$("#status").fadeOut(); // will first fade out the loading animation
 			$("#preloader").delay(100).fadeOut("slow");
+		});
 		});
 		$scope.checkFavorites = function(){
 			if($rootScope.currentUser == '' || $rootScope.currentUser == undefined){
