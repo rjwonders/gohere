@@ -359,93 +359,161 @@ GoHereApp.config(['$routeProvider',
 	$("#preloader").delay(100).fadeIn("slow");
 	$rootScope.PageName = "Find a Washroom";
 	var posOptions = {timeout: 10000, enableHighAccuracy: true};
-	var html ='';
+	getSetMapPageForSearch = function(loc1,loc2){
+		var html ='';
+		
+		var geocoder = new google.maps.Geocoder();
+		var bounds = new google.maps.LatLngBounds();
+		geocoder.geocode( { 'address': loc1}, function(results, status) {
+			lat = results[0].geometry.location.lat();
+			lng = results[0].geometry.location.lng();
+			$scope.map = { center: { latitude: lat, longitude: lng }, markers:[], zoom: 10 };
+		});
+		
+	   	var request = $http({
+			method: "post",
+			url: globalUrl+"/washrooms/locations.json",
+			data: {
+				loc1	: loc1,
+				loc2	: loc2,
+				records	: 0,
+			}
+		});
+		request.success(
+			  function( data ) {
+				  var markers = Array();
+				  var inarrayid = Array();
+				  $.each(data.response,function(i,val){
+					  if($.inArray(val.Washroom.id,inarrayid)==-1){
+						  inarrayid.push(val.Washroom.id);	
+						  var marker = {
+							  id: val.Washroom.id,
+							  icon: 'images/map-pin_.png',
+							  coords: {
+								  latitude	: val.Washroom.lat,
+								  longitude	: val.Washroom.log
+							  }
+						  };
+						  markers.push(marker);	
+						  var distances = parseFloat(val.Washroom.distance);
+						  html = html + '<div class="decoration"></div><a href="#/detail/'+val.Washroom.id+'" class="user-list-item2"><div class"row"><div class="col-xs-8"><strong>'+val.Washroom.name+'<br/></strong><em>'+val.Washroom.address+'</em></div><div class="col-xs-4 vcenter"> <i class="fa fa-chevron-right"></i></div></div></a>';
+					  }
+				  });
+				  //console.log(markers);
+				  $scope.map.markers = markers;
+				  $('.mapinfo').html(html);
+				  $scope.scrollbarConfig = {
+					  theme: 'dark',
+					  scrollInertia: 500
+				  }
+				  
+				  $("#status").fadeOut(); // will first fade out the loading animation
+				  $("#preloader").delay(100).fadeOut("slow"); 
+			  }
+		);
+	}
+	getSetMapPage = function(lat,long){
+		var html ='';
+		$scope.map = { center: { latitude: lat, longitude: long }, markers:[], zoom: 12 };
+		uiGmapIsReady.promise(1).then(function(instances) {
+		  var request = $http({
+			  method: "post",
+			  url: globalUrl+"/washrooms/index_distance.json",
+			  data: {
+				  lat		: lat,
+				  long	: long,
+				  records	: 0,
+			  }
+		  });
+		  request.success(
+			  function( data ) {
+				  var markers = Array();
+				  var marker = {
+					  id: 'home',
+					  icon: 'images/map-pin-active.png',
+					  coords: {
+						  latitude	: lat,
+						  longitude	: long
+					  }
+				  };
+				  $scope.map.markers.push(marker);
+				  
+				  $.each(data.response,function(i,val){
+					  var marker = {
+						  id: val.Washroom.id,
+						  icon: 'images/map-pin_.png',
+						  coords: {
+							  latitude	: val.Washroom.lat,
+							  longitude	: val.Washroom.log
+						  }
+					  };
+					  markers.push(marker);	
+					  var distances = parseFloat(val.Washroom.distance);
+					  html = html + '<div class="decoration"></div><a href="#/detail/'+val.Washroom.id+'" class="user-list-item2"><div class"row"><div class="col-xs-8"><strong>'+val.Washroom.name+'<br/></strong><em>'+val.Washroom.address+'</em></div><div class="col-xs-4 vcenter">'+distances.toFixed(2)+'KM <i class="fa fa-chevron-right"></i></div></div></a>';
+				  });
+				  $scope.map.markers = markers;
+				  $('.mapinfo').html(html);
+				  $scope.scrollbarConfig = {
+					  theme: 'dark',
+					  scrollInertia: 500
+				  }
+				  
+				  $("#status").fadeOut(); // will first fade out the loading animation
+				  $("#preloader").delay(100).fadeOut("slow"); 
+			  }
+		  );
+	  });
+	}
 	$(document).ready(function(){
 		uiGmapGoogleMapApi.then(function(maps) {
 			$cordovaGeolocation.getCurrentPosition(posOptions)
 			.then(function (position) {
 				var lat  = position.coords.latitude;
 				var long = position.coords.longitude;
-				$scope.map = { center: { latitude: lat, longitude: long }, markers:[], zoom: 12 };
-				uiGmapIsReady.promise(1).then(function(instances) {
-					var request = $http({
-						method: "post",
-						url: globalUrl+"/washrooms/index_distance.json",
-						data: {
-							lat		: lat,
-							long	: long,
-							records	: 0,
-						}
-					});
-					request.success(
-						function( data ) {
-							var marker = {
-								id: 'home',
-								icon: 'images/map-pin-active.png',
-								coords: {
-									latitude	: lat,
-									longitude	: long
-								}
-							};
-							$scope.map.markers.push(marker);
-							
-							$.each(data.response,function(i,val){
-								var marker = {
-									id: val.Washroom.id,
-									icon: 'images/map-pin_.png',
-									coords: {
-										latitude	: val.Washroom.lat,
-										longitude	: val.Washroom.log
-									}
-								};
-								$scope.map.markers.push(marker);
-								var distances = parseFloat(val.Washroom.distance);
-								html = html + '<div class="decoration"></div><a href="#/detail/'+val.Washroom.id+'" class="user-list-item2"><div class"row"><div class="col-xs-8"><strong>'+val.Washroom.name+'<br/></strong><em>'+val.Washroom.address+'</em></div><div class="col-xs-4 vcenter">'+distances.toFixed(2)+'KM <i class="fa fa-chevron-right"></i></div></div></a>';
-							});
-							$('.mapinfo').html(html);
-							$scope.scrollbarConfig = {
-								theme: 'dark',
-								scrollInertia: 500
-							}
-							$("#status").fadeOut(); // will first fade out the loading animation
-							$("#preloader").delay(100).fadeOut("slow"); 
-						}
-					);
-				});
+				getSetMapPage(lat,long);			
 			}, function(err) {
 				var lat  = 43.6888092;
 				var long = -79.393413;
-				$scope.map = { center: { latitude: lat, longitude: long }, markers:[], zoom: 12 };
-				
-				var request = $http({
-					method: "post",
-					url: globalUrl+"/washrooms/index_distance.json",
-					data: {
-						lat	: lat,
-						long: long,
-					}
-				});
-				request.success(
-					function( data ) {
-						$.each(data.response,function(i,val){
-							var marker = {
-								id: val.Washroom.id,
-								icon: 'images/map-pin_.png',
-								coords: {
-									latitude	: val.Washroom.lat,
-									longitude	: val.Washroom.log
-								}
-							};
-							$scope.map.markers.push(marker);
-						})
-						$("#status").fadeOut(); // will first fade out the loading animation
-						$("#preloader").delay(100).fadeOut("slow"); 
-					}
-				);
+				getSetMapPage(lat,long);
 			});
     	});
 	});
-
+	
+	$scope.closeMap = function(){
+		$(".angular-google-map-container").animate({height: 300}, 500);
+		$(".expandicon").css("display","none");
+		$(".searchmap").css("display","block");	
+		$(".hidetext").css("display","block");	
+	}
+	
+	$scope.expandMap = function(){
+		var WindowHeight = $( window ).height() - 60;
+		$(".angular-google-map-container").animate({height: WindowHeight}, 500);
+		$(".searchmap").css("display","none");
+		$(".expandicon").css("display","block");	
+		//$(".angular-google-map-container").height(WindowHeight);	
+		$(".hidetext").css("display","none");	
+	}
+	$scope.searchzip = function(){
+		if($.trim($scope.FromAddress)!="" && $.trim($scope.ToAddress)!=""){
+			$("#status").fadeIn(); // will first fade out the loading animation
+			$("#preloader").delay(100).fadeIn("slow");
+			getSetMapPageForSearch($.trim($scope.FromAddress),$.trim($scope.ToAddress));
+		} else if($.trim($scope.FromAddress)!=""){
+			$("#status").fadeIn(); // will first fade out the loading animation
+			$("#preloader").delay(100).fadeIn("slow");
+			var geocoder = new google.maps.Geocoder();
+			geocoder.geocode( { 'address': $scope.FromAddress}, function(results, status) {
+				if (status == google.maps.GeocoderStatus.OK) {
+					lat = results[0].geometry.location.lat();
+				 	lng = results[0].geometry.location.lng();
+					getSetMapPage(lat,lng);
+				}
+			});	
+		} else {
+			alert("Please enter valid From Zipcode.");
+		}
+	}
   }]);
   GoHereApp.controller('directionController', ['$scope', '$rootScope', '$http', '$sce', '$cordovaGeolocation',  'uiGmapGoogleMapApi', '$routeParams',function($scope,$rootScope, $http,$sce, $cordovaGeolocation, uiGmapGoogleMapApi, $routeParams) {
   	$rootScope.PageName = "Detail of route";
@@ -865,3 +933,4 @@ function align_cover_elements(){
         $('.cover-left').css('margin-top', cover_vertical);   
         $('.cover-right').css('margin-top', cover_vertical);           
     };
+
