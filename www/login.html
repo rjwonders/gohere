@@ -8,11 +8,11 @@
                     <div class="alert alert-danger hide" role="alert"></div>
                       <div class="pageapp-login-field">
                           <i class="fa fa-user"></i>
-                          <input type="email" value="Email" ng-model="Email" onfocus="if (this.value=='Email') this.value = ''" onblur="if (this.value=='') this.value = 'Email'">
+                          <input type="email" value="Email" ng-model="Email" placeholder="Email">
                       </div>
                       <div class="pageapp-login-field">
                           <i class="fa fa-lock"></i>
-                          <input type="password" value="password"  ng-model="Password" onfocus="if (this.value=='password') this.value = ''" onblur="if (this.value=='') this.value = 'password'" required>
+                          <input type="password" value="password"  ng-model="Password" placeholder="password" required>
                       </div>
                       <div class="clear"></div>
                       <input type="submit" name="Login" value="Login" ng-disabled="userForm.$invalid" class="login-button button button-small button-green button-fullscreen full-bottom"/> 

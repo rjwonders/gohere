@@ -5,7 +5,7 @@
 		<div class="container">
                     <div class="one-third-responsive full-bottom">
                     	<form name="userForm" ng-submit="addLocation()" novalidate>
-							<input class="text-field green-field" ng-model="BusinessName" onfocus="if (this.value=='Business Name') this.value = ''" onblur="if (this.value=='') this.value = 'Business Name'" type="text" value="" required>
+							<input class="text-field green-field" ng-model="BusinessName" placeholder="Business Name" type="text" value="" required>
                         	<div class="row" style="margin-bottom:10px;">
                         	<div class="col-xs-3">
                             	<a href="javascript:void(0)" class="switch switch-1 switch-1-off getlocation">
@@ -22,8 +22,8 @@
                         </div>
                         	<input ng-model="lat" id="lat" type="hidden" value="">
                             <input ng-model="long" id="long" type="hidden" value="">
-                        	<input class="text-field green-field" ng-model="Address" id="Addresses" onfocus="if (this.value=='Address') this.value = ''" onblur="if (this.value=='') this.value = 'Address'" type="text" value="" required>
-                        	<input class="text-field red-field" ng-model="PostCode" id="PostCode" onfocus="if (this.value=='Postal Code') this.value = ''" onblur="if (this.value=='') this.value = 'Postal Code'" type="text" value="" required>
+                        	<input class="text-field green-field" ng-model="Address" id="Addresses" placeholder="Address" type="text" value="" required>
+                        	<input class="text-field red-field" ng-model="PostCode" id="PostCode" placeholder="Postal Code" type="text" value="" required>
                         	<div class="row">
                         	<div class="col-xs-3">
                             	<a href="javascript:void(0)" class="switch switch-1 isDecals switch-1-off">
