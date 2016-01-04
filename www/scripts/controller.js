@@ -107,6 +107,10 @@ GoHereApp.config(['$routeProvider',
 		controller:  'loginController',   
         templateUrl: 'login.html',
       }).
+	  when('/forget-password', {
+		controller:  'forgetController',   
+        templateUrl: 'forget.html',
+      }).
 	  when('/fblogin', {
 		controller:  'fbloginController', 
 		templateUrl: 'login.html',
@@ -142,6 +146,10 @@ GoHereApp.config(['$routeProvider',
 	  when('/logout', {
 		controller:  'logoutController',   
         templateUrl: 'login.html',
+      }).
+	  when('/404', {
+		controller:  '404Controller',   
+        templateUrl: '404.html',
       }).
 	  otherwise({
         redirectTo: '/'
@@ -184,6 +192,11 @@ GoHereApp.config(['$routeProvider',
 	GoHereApp.snapper.disable();
   }]);
   
+  GoHereApp.controller('404Controller', ['$scope', function($scope) {
+	$(".custom-header").css("display","none");
+	GoHereApp.snapper.disable();
+	align_cover_elements();
+  }]);
   
   
   GoHereApp.controller('aboutController', ['$scope', '$rootScope', '$http', '$sce', '$cordovaInAppBrowser', function($scope,$rootScope, $http,$sce,$cordovaInAppBrowser) {
@@ -239,6 +252,45 @@ GoHereApp.config(['$routeProvider',
 		$("#active-logout").addClass("hide");
 		$("#active-login").removeClass("hide");
   }]);
+  GoHereApp.controller('forgetController', ['$scope', '$rootScope', '$location', '$http', '$sce', '$cordovaOauth', '$cordovaInAppBrowser', function($scope,$rootScope, $location, $http,$sce, $cordovaOauth, $cordovaInAppBrowser) {
+	  GoHereApp.snapper.close();
+	  $(".menu-item").removeClass('menu-item-active');  
+	  $("#active-login").addClass('menu-item-active');  
+	  $(".custom-header").css("display","block");  
+	  $rootScope.PageName = "Reset Password";
+	  align_cover_elements();
+	  $scope.resetpass = function(){
+		if ($scope.userForm.$valid) {
+			$("#status").fadeIn(); // will first fade out the loading animation
+			$("#preloader").delay(100).fadeIn("slow");
+			$(".alert-danger").addClass("hide");
+			$(".alert-success").addClass("hide");
+			var request = $http({
+				method: "post",
+				url: globalUrl+"/users/forgot.json",
+				data: {
+					email		: $scope.Email,
+				}
+			});
+			request.success(
+				function( data ) {
+					if(data.response.status == true){
+						$(".alert-success").removeClass("hide");
+						$(".alert-success").html('<span class="fa fa-user" aria-hidden="true"></span><span class="sr-only">Success:</span> A reset password link has been sent to your email. Please check your email.');
+					} else {
+						$(".alert-danger").removeClass("hide");
+						$(".alert-danger").html('<span class="fa fa-user" aria-hidden="true"></span><span class="sr-only">Error:</span> Email not registered.');
+					}
+					$("#status").fadeOut(); // will first fade out the loading animation
+					$("#preloader").delay(100).fadeOut("slow");
+				}
+			);
+		} else {
+			$(".alert-danger").removeClass("hide");
+			$(".alert-danger").html('<span class="fa fa-user" aria-hidden="true"></span><span class="sr-only">Error:</span> Please enter valid email address.');
+		}
+	  }
+  }]);
   GoHereApp.controller('loginController', ['$scope', '$rootScope', '$location', '$http', '$sce', '$cordovaOauth', '$cordovaInAppBrowser', function($scope,$rootScope, $location, $http,$sce, $cordovaOauth, $cordovaInAppBrowser) {
 	GoHereApp.snapper.close();
 	$(".menu-item").removeClass('menu-item-active');  
@@ -277,8 +329,9 @@ GoHereApp.config(['$routeProvider',
 						if(localStorage.SetRedirect!==undefined && localStorage.SetRedirect!=""){
 							var paths = localStorage.SetRedirect;
 							localStorage.removeItem('SetRedirect');
+							$("#status").fadeOut(); // will first fade out the loading animation
+							$("#preloader").delay(100).fadeOut("slow");
 							$location.path(paths);
-							
 						} else {
 							$location.path("/map");
 						}
@@ -781,9 +834,20 @@ GoHereApp.config(['$routeProvider',
 		});
 	});
 	$scope.addLocation = function(){
+		$(".alert-danger").addClass("hide");
+		$(".alert-success").addClass("hide");
 		$("#status").fadeIn(); // will first fade out the loading animation
 		$("#preloader").delay(100).fadeIn("slow");
 		//if ($scope.userForm.$valid) {
+			if($scope.lat=="" || $scope.long==""){
+				var geocoder = new google.maps.Geocoder();
+				geocoder.geocode( { 'address': $scope.Address}, function(results, status) {
+					if (status == google.maps.GeocoderStatus.OK) {
+						$scope.lat = results[0].geometry.location.lat();
+						$scope.long = results[0].geometry.location.lng();
+					}
+				});	
+			}
 			var request = $http({
 				method: "post",
 				url: globalUrl+"/washrooms/add.json",
@@ -801,7 +865,20 @@ GoHereApp.config(['$routeProvider',
 			});
 			request.success(
 				function( data ) {
-					
+					if(data.response.status == false){
+						$(".alert-danger").removeClass("hide");
+						$(".alert-danger").html('<span class="fa fa-user" aria-hidden="true"></span><span class="sr-only">Error:</span> This location already exist.');
+					} else {
+						$scope.BusinessName = "";
+						$scope.Comment = "";
+						$scope.Address = "";
+						$scope.Postcode = "";
+						$scope.lat = "";
+						$scope.long = "";
+						
+						$(".alert-success").removeClass("hide");
+						$(".alert-success").html('<span class="fa fa-user" aria-hidden="true"></span><span class="sr-only">Success:</span> Location added succeesfully.');
+					}
 					$("#status").fadeOut(); // will first fade out the loading animation
 					$("#preloader").delay(100).fadeOut("slow"); 
 				}
@@ -915,7 +992,7 @@ function onSuccess(position) {
 }
 
 function onError(error) { 
-  // your callback here
+  window.location.href = "#/404";
 }
 function align_cover_elements(){
 		var cover_width = $(window).width();

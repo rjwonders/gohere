@@ -1,0 +1,32 @@
+<div class="content">
+	<div class="header-clear"></div>
+    <div class="pageapp-login bg-5 cover-screen">  
+    	<div class="pageapp-login-content cover-center">
+			<div class="unboxed-layout">
+    			<form novalidate name="userForm" ng-submit="resetpass(userForm.$valid)">
+          			<a href="javascript:void(0)" class="pageapp-login-logo"></a>
+                    <div class="alert alert-success hide" role="alert"></div>
+                    <div class="alert alert-danger hide" role="alert"></div>
+                      <div class="pageapp-login-field">
+                          <i class="fa fa-user"></i>
+                          <input type="email" value="Email" ng-model="Email" placeholder="Email">
+                      </div>
+                      <div class="clear"></div>
+                      <input type="submit" name="Login" value="Reset Password" ng-disabled="userForm.$invalid" class="login-button button button-small button-green button-fullscreen full-bottom"/> 
+                      <div class="decoration"></div>
+                      <div class="row">
+                      	<div class="col-xs-6">
+                            <a href="#/login" class="login-forgot"><i class="fa fa-lock"></i> Back to Login</a>
+                        </div>
+                        <div class="col-xs-6">
+                            <a href="#/create-account" class="login-create"><i class="fa fa-user"></i> Create Account</a>
+                        </div>
+                      </div>
+                      <div class="decoration"></div>
+                      
+				</form>
+    		</div>
+		</div>
+    	<div class="overlay bg-black"></div>
+    </div>
+</div>

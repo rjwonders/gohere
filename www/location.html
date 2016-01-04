@@ -5,6 +5,7 @@
 		<div class="container">
                     <div class="one-third-responsive full-bottom">
                     	<form name="userForm" ng-submit="addLocation()" novalidate>
+                        	
 							<input class="text-field green-field" ng-model="BusinessName" placeholder="Business Name" type="text" value="" required>
                         	<div class="row" style="margin-bottom:10px;">
                         	<div class="col-xs-3">
@@ -47,6 +48,8 @@
                         	<h5>Available Hours</h5>
                         	<input id="AvailableHours" ng-model="AvailableHours" type="number" class="rating" min=1 max=5 step=1 data-size="sm" data-symbol="&#xf005;" showCaption="false" clearButton="" data-rating-class="rating-fa" data-glyphicon="false">
                             <div style="margin-bottom:15px;"></div>
+                            <div class="alert alert-success hide" role="alert"></div>
+                    		<div class="alert alert-danger hide" role="alert"></div>
                     		<input type="submit" name="AddLocation" value="Add Location" class="login-button button button-small button-green button-fullscreen full-bottom"/>      
                         </form>
                     </div>
