@@ -68,9 +68,10 @@
     width:60px;
     height:55px;
     border-right:dashed 1px rgba(0,0,0,0.1);
+    z-index: 9000;
 }
 .mCustomScrollbar{
-    padding-left:34px;
+    padding-left: 9px;
 }
 .header-style-1 .header-1 i{
     height:55px;
@@ -81,8 +82,14 @@
 
 .header-style-1 .header-logo{
     position:absolute;
-    left:50%;
-    margin-left: -73px;
+    /* left:50%; */
+    /* margin-left: -73px; */
+    display: block;
+    /* margin: 0 auto; */
+    text-align: center;
+    width: 100%;
+    font-size: 17px;
+    z-index: 100;
 }
 
 .header-style-1 .header-logo img{
@@ -96,6 +103,7 @@
     width:60px;
     height:55px;
     border-left:dashed 1px rgba(0,0,0,0.1);
+    z-index: 9000;
 }
 
 .header-style-1 .header-2 i{

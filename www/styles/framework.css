@@ -2943,8 +2943,9 @@ ul.tabs li.active-tab{
 .button-orange:hover{	background-color:#e67e22;}
 
 .red-3d{				padding-top:5px; padding-bottom:5px; border-bottom:solid 4px #8a281e;}
-.button-red{			background-color:#c0392b; color:#FFFFFF;}
+.button-red{background-color: #FF4B4B; color:#FFFFFF;}
 .button-red:hover{		background-color:#e74c3c;}
+.searchmap .button-red{background-color: #FF4B4B; color:#FFFFFF;border-radius: 4px!important;margin: 2px 4px;}
 
 .light-3d{				padding-top:5px; padding-bottom:5px; border-bottom:solid 4px #868a8c;}
 .button-light{			background-color:#bdc3c7; color:#1f1f1f;}
@@ -7575,7 +7576,7 @@ ul.tabs li.active-tab{
 .fa-compress { margin:0px 8px;}
 
 
-.searchmap  { z-index:1001; position:absolute; margin: 10px; }
+.searchmap  { z-index:1001; position:absolute; margin: 10px;opacity: 0.9;}
 
 
 
