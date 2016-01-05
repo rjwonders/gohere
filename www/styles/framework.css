@@ -4537,7 +4537,9 @@ ul.tabs li.active-tab{
     display:block!important;
     height:36px!important;
     margin-right:4px;
-    width:100%;
+    width: 25%;
+    float: right;
+    min-width: 25%!important;
 }
 
 .contact-form{
@@ -4589,9 +4591,10 @@ ul.tabs li.active-tab{
 }
 
 .contactTextarea{
-    min-width:100%;
+    /* min-width:100%; */
     display:block;
     box-sizing:border-box;
+    float: left;
 }
 
 .buttonWrap{
@@ -4625,12 +4628,16 @@ ul.tabs li.active-tab{
 
 .contactTextarea{
     margin-bottom: 20px;
-    padding-left: 12px;
+    padding-left: 6px;
     padding-right: 12px;
-    padding-top: 9px;
+    padding-top: 3px;
     padding-bottom: 9px;
     line-height: 18px;
-    height: 80px;
+    height: 35px;
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+    width: 62%;
+    margin-left: 24px;
 }
 
 /*-------------------*/
@@ -4938,26 +4945,27 @@ ul.tabs li.active-tab{
     width:33%;
     float:left;
     text-align:center;
-    font-size:12px;
+    font-size: 13px;
     color:#666666;
     /* margin-bottom:30px;*/
-    margin-bottom:5px;
+    margin-bottom: 7px;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.36);
 }
 
 .page-profile-followers a i{
     display:block;
-    font-size:20px;
-    color:#1f1f1f;
+    font-size: 21px;
+    color: #FF4B4B;
     text-align:center;
-    padding-bottom:10px;
+    padding-bottom: 6px;
 }
 
 .page-profile-followers a:nth-child(3n+1){
-    border-right:solid 1px rgba(0,0,0,0.1);
+    /* border-right:solid 1px rgba(0,0,0,0.1); */
 }
 
 .page-profile-followers a:nth-child(3n+3){
-    border-left:solid 1px rgba(0,0,0,0.1);
+    /* border-left:solid 1px rgba(0,0,0,0.1); */
 }
 
 /*--------------------*/
@@ -7564,7 +7572,7 @@ ul.tabs li.active-tab{
 .whitecolor { color:#FFF; font-size: 18px !important; }
 .expandicon { display: none; z-index:1001; position:absolute; margin: 10px; }
 .roundbg { background:#666; border-radius: 15px; color:#FFF; width:30px; height:30px; font-size:15px;  }
-.fa-compress { margin:0px 8px;} 
+.fa-compress { margin:0px 8px;}
 
 
 .searchmap  { z-index:1001; position:absolute; margin: 10px; }

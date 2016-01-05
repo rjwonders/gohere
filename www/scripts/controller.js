@@ -688,11 +688,11 @@ GoHereApp.config(['$routeProvider',
   }]);
   GoHereApp.controller('detailController', ['$scope', '$rootScope', '$http', '$sce', '$cordovaGeolocation',  'uiGmapGoogleMapApi', '$routeParams',function($scope,$rootScope, $http,$sce, $cordovaGeolocation, uiGmapGoogleMapApi, $routeParams) {
 	  	GoHereApp.snapper.close();
-		$(".menu-item").removeClass('menu-item-active');  
+		$(".menu-item").removeClass('menu-item-active');
 		$(".custom-header").css("display","block");  
 		$("#status").fadeIn(); // will first fade out the loading animation
 		$("#preloader").delay(100).fadeIn("slow");
-		$rootScope.PageName = "Washroom Detail";
+
 		$cordovaGeolocation.getCurrentPosition({timeout: 10000, enableHighAccuracy: true}).then(function (position) {
 			$scope.Currentlats  = position.coords.latitude;
 			$scope.Currentlongs = position.coords.longitude;
@@ -737,7 +737,7 @@ GoHereApp.config(['$routeProvider',
 			};
 			$scope.map.markers.push(marker);
 			$scope.WashroomName 	= $sce.trustAsHtml(response.data.response.Washroom.name);
-			
+                $rootScope.PageName = $scope.WashroomName ;
 			var addresstext = response.data.response.Washroom.address;
 			addresstext = addresstext.replace(",", ", ");
 			$scope.WashroomAddress 	= $sce.trustAsHtml(addresstext);
@@ -813,7 +813,7 @@ GoHereApp.config(['$routeProvider',
 							requester.success(
 								function( result ) {
 									if(result.response.length == 0){
-										collectComment = '<div class="static-notification bg-red-dark tap-dismiss"><p><i class="fa fa-times"></i>No Comments has been posted.</p></div> ';
+										collectComment = '<div class="static-notification bg-red-dark tap-dismiss"><p><i class="fa fa-times"></i>Be the first to comment...</p></div> ';
 									} else {
 										$.each(result.response,function(i,data){
 											if(i%2==0){
