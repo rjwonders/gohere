@@ -8,15 +8,21 @@
     		<i class="fa fa-compress"></i>
     	</a>
     </div>
-    <div class="row searchmap">
+    <div class="row searchmap center-block">
     	<form name="userForm" ng-submit="searchzip()" novalidate>
-            <div class="col-xs-4">
-                <input ng-model="FromAddress" id="FromAddress" type="text" value="" class="form-control" placeholder="From Zip" required>
+            <div class="row col-xs-12">
+                <input ng-model="FromAddress" id="FromAddress" type="text" value="" class="form-control" placeholder="From Address" g-places-autocomplete force-selection="true" required autocomplete="off">
             </div>
-            <div class="col-xs-4">
-                <input ng-model="ToAddress" id="ToAddress" type="text" value="" class="form-control" placeholder="To Zip">
+            <div class="row col-xs-12">
+            &nbsp;
             </div>
-            <div class="col-xs-4">
+            <div class="row col-xs-12">
+                <input ng-model="ToAddress" id="ToAddress" type="text" value="" class="form-control" g-places-autocomplete force-selection="true" placeholder="To Address" autocomplete="off">
+            </div>
+            <div class="row col-xs-12">
+            &nbsp;
+            </div>
+            <div class="row col-xs-12">
                 <input type="submit" name="AddLocation" value="SEARCH" class="login-button button-green  button-fullscreen full-bottom"/>  
             </div>
         </form>
