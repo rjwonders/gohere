@@ -8,8 +8,31 @@
     		<i class="fa fa-compress"></i>
     	</a>
     </div>
-    <div class="row searchmap center-block">
+    <div class="row">
+    	<div class="col-xs-1">
+        	&nbsp;
+        </div>
+        <div class="col-xs-7">
+        	<div class="row">
+            	<div class="col-xs-8">
+                	<strong>Decal Locations</strong>
+                </div>
+                <div class="col-xs-4">
+                	<a href="javascript:void(0)" class="switch switch-1 isDecals switch-1-off" ng-click="getdecal()">
+                        <em>Y</em>
+                        <span></span>
+                        <em>N</em>
+                    </a>
+                </div>
+        	</div>
+        </div>
+        <div class="col-xs-3">
+        	<a href="javascript:void(0)" ng-click="showsearch()">Search</a>
+        </div>
+    </div>
+    <div class="row searchs center-block" style="display:none">
     	<form name="userForm" ng-submit="searchzip()" novalidate>
+        	<input type="hidden" name="Decal" id="Decal" value="0" />
             <div class="row col-xs-12">
                 <input ng-model="FromAddress" id="FromAddress" type="text" value="" class="form-control" placeholder="From Address" g-places-autocomplete force-selection="true" required autocomplete="off">
             </div>
