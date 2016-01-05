@@ -14,11 +14,13 @@ var GoHereApp = angular.module('mainApp', [
   'ngCordova',
   'uiGmapgoogle-maps',
   'ngScrollbars',
+  'satellizer',
+  'google.places',
 ]);
 
 GoHereApp.value('snapper');
 
-GoHereApp.config(function ($translateProvider, $httpProvider, $cordovaInAppBrowserProvider, uiGmapGoogleMapApiProvider, ScrollBarsProvider) {
+GoHereApp.config(function ($translateProvider, $httpProvider, $cordovaInAppBrowserProvider, uiGmapGoogleMapApiProvider, ScrollBarsProvider,$authProvider) {
   $translateProvider.translations('en', {
     ABOUT_BUTTON	: 'About GoHere',
 	FIND_BUTTON		: 'Find Washroom',
@@ -75,6 +77,13 @@ GoHereApp.config(function ($translateProvider, $httpProvider, $cordovaInAppBrows
 		}
 	};
 	
+	$authProvider.facebook({
+      clientId: '1621553258106847'
+    });
+	
+	$authProvider.twitch({
+      clientId: 'Twitch Client ID'
+    });
 	$cordovaInAppBrowserProvider.setDefaultOptions(defaultOptions);
 	delete $httpProvider.defaults.headers.common['X-Requested-With'];
 	
@@ -291,7 +300,7 @@ GoHereApp.config(['$routeProvider',
 		}
 	  }
   }]);
-  GoHereApp.controller('loginController', ['$scope', '$rootScope', '$location', '$http', '$sce', '$cordovaOauth', '$cordovaInAppBrowser', function($scope,$rootScope, $location, $http,$sce, $cordovaOauth, $cordovaInAppBrowser) {
+  GoHereApp.controller('loginController', ['$scope', '$rootScope', '$location', '$http', '$sce', '$cordovaOauth', '$cordovaInAppBrowser', '$auth', function($scope,$rootScope, $location, $http,$sce, $cordovaOauth, $cordovaInAppBrowser, $auth) {
 	GoHereApp.snapper.close();
 	$(".menu-item").removeClass('menu-item-active');  
 	$("#active-login").addClass('menu-item-active');  
@@ -300,13 +309,14 @@ GoHereApp.config(['$routeProvider',
 	align_cover_elements(); 
 	$scope.facebookLogin = function(){
 		$cordovaInAppBrowser.open('#/fblogin', '_blank').then(function(event) {
-			
-		  })
-		  .catch(function(event) {
-			// error
-		  });
-	
+		})
+		.catch(function(event) {
+		});
 	};
+	
+	$scope.authenticate = function(provider) {
+      $auth.authenticate(provider);
+    };
 	$scope.checkLogin = function(){
 		if ($scope.userForm.$valid) {
 			$("#status").fadeIn(); // will first fade out the loading animation
@@ -523,6 +533,18 @@ GoHereApp.config(['$routeProvider',
 			.then(function (position) {
 				var lat  = position.coords.latitude;
 				var long = position.coords.longitude;
+				var geocoder = new google.maps.Geocoder();
+				
+				var latlng = new google.maps.LatLng(lat, long);
+				geocoder.geocode({ 'latLng': latlng }, function (results, status) {
+				  if (status == google.maps.GeocoderStatus.OK) {
+					$scope.FromAddress = results[0].formatted_address;
+				  }
+			  	});
+				$scope.autocompleteOptions = {
+					componentRestrictions: { country: 'ca' },
+					types: ['address']
+				}
 				getSetMapPage(lat,long);			
 			}, function(err) {
 				var lat  = 43.6888092;
@@ -548,6 +570,12 @@ GoHereApp.config(['$routeProvider',
 		$(".hidetext").css("display","none");	
 	}
 	$scope.searchzip = function(){
+		if(typeof $scope.FromAddress === 'object' ){
+			$scope.FromAddress = $scope.FromAddress.formatted_address;
+		}
+		if(typeof $scope.ToAddress === 'object' ){
+			$scope.ToAddress = $scope.ToAddress.formatted_address;
+		}
 		if($.trim($scope.FromAddress)!="" && $.trim($scope.ToAddress)!=""){
 			$("#status").fadeIn(); // will first fade out the loading animation
 			$("#preloader").delay(100).fadeIn("slow");
