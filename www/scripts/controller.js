@@ -424,7 +424,7 @@ GoHereApp.config(['$routeProvider',
 	var posOptions = {timeout: 10000, enableHighAccuracy: true};
 	getSetMapPageForSearch = function(loc1,loc2){
 		var html ='';
-		
+		var thedecal = $("#Decal").val();
 		var geocoder = new google.maps.Geocoder();
 		var bounds = new google.maps.LatLngBounds();
 		geocoder.geocode( { 'address': loc1}, function(results, status) {
@@ -440,31 +440,36 @@ GoHereApp.config(['$routeProvider',
 				loc1	: loc1,
 				loc2	: loc2,
 				records	: 0,
+				decal	: thedecal
 			}
 		});
 		request.success(
 			  function( data ) {
 				  var markers = Array();
 				  var inarrayid = Array();
-				  $.each(data.response,function(i,val){
-					  if($.inArray(val.Washroom.id,inarrayid)==-1){
-						  inarrayid.push(val.Washroom.id);	
-						  var marker = {
-							  id: val.Washroom.id,
-							  icon: 'images/map-pin_.png',
-							  coords: {
-								  latitude	: val.Washroom.lat,
-								  longitude	: val.Washroom.log
-							  }
-						  };
-						  markers.push(marker);	
-						  var distances = parseFloat(val.Washroom.distance);
-						  html = html + '<div class="decoration"></div><a href="#/detail/'+val.Washroom.id+'" class="user-list-item2"><div class"row"><div class="col-xs-8"><strong>'+val.Washroom.name+'<br/></strong><em>'+val.Washroom.address+'</em></div><div class="col-xs-4 vcenter"> <i class="fa fa-chevron-right"></i></div></div></a>';
-					  }
-				  });
-				  //console.log(markers);
-				  $scope.map.markers = markers;
-				  $('.mapinfo').html(html);
+				  if(data.response!="No record found"){
+					  $.each(data.response,function(i,val){
+						  if($.inArray(val.Washroom.id,inarrayid)==-1){
+							  inarrayid.push(val.Washroom.id);	
+							  var marker = {
+								  id: val.Washroom.id,
+								  icon: 'images/map-pin_.png',
+								  coords: {
+									  latitude	: val.Washroom.lat,
+									  longitude	: val.Washroom.log
+								  }
+							  };
+							  markers.push(marker);	
+							  var distances = parseFloat(val.Washroom.distance);
+							  html = html + '<div class="decoration"></div><a href="#/detail/'+val.Washroom.id+'" class="user-list-item2"><div class"row"><div class="col-xs-8"><strong>'+val.Washroom.name+'<br/></strong><em>'+val.Washroom.address+'</em></div><div class="col-xs-4 vcenter"> <i class="fa fa-chevron-right"></i></div></div></a>';
+						  }
+					  });
+					  //console.log(markers);
+					  $scope.map.markers = markers;
+					  $('.mapinfo').html(html);
+				  } else {
+					  $('.mapinfo').html("");
+				  }
 				  $scope.scrollbarConfig = {
 					  theme: 'dark',
 					  scrollInertia: 500
@@ -477,6 +482,7 @@ GoHereApp.config(['$routeProvider',
 	}
 	getSetMapPage = function(lat,long){
 		var html ='';
+		var thedecal = $("#Decal").val();
 		$scope.map = { center: { latitude: lat, longitude: long }, markers:[], zoom: 12 };
 		uiGmapIsReady.promise(1).then(function(instances) {
 		  var request = $http({
@@ -484,8 +490,9 @@ GoHereApp.config(['$routeProvider',
 			  url: globalUrl+"/washrooms/index_distance.json",
 			  data: {
 				  lat		: lat,
-				  long	: long,
+				  long		: long,
 				  records	: 0,
+				  decal		: thedecal
 			  }
 		  });
 		  request.success(
@@ -501,21 +508,25 @@ GoHereApp.config(['$routeProvider',
 				  };
 				  $scope.map.markers.push(marker);
 				  
-				  $.each(data.response,function(i,val){
-					  var marker = {
-						  id: val.Washroom.id,
-						  icon: 'images/map-pin_.png',
-						  coords: {
-							  latitude	: val.Washroom.lat,
-							  longitude	: val.Washroom.log
-						  }
-					  };
-					  markers.push(marker);	
-					  var distances = parseFloat(val.Washroom.distance);
-					  html = html + '<div class="decoration"></div><a href="#/detail/'+val.Washroom.id+'" class="user-list-item2"><div class"row"><div class="col-xs-8"><strong>'+val.Washroom.name+'<br/></strong><em>'+val.Washroom.address+'</em></div><div class="col-xs-4 vcenter">'+distances.toFixed(2)+'KM <i class="fa fa-chevron-right"></i></div></div></a>';
-				  });
-				  $scope.map.markers = markers;
-				  $('.mapinfo').html(html);
+				  if(data.response!="No record found"){
+					  $.each(data.response,function(i,val){
+						  var marker = {
+							  id: val.Washroom.id,
+							  icon: 'images/map-pin_.png',
+							  coords: {
+								  latitude	: val.Washroom.lat,
+								  longitude	: val.Washroom.log
+							  }
+						  };
+						  markers.push(marker);	
+						  var distances = parseFloat(val.Washroom.distance);
+						  html = html + '<div class="decoration"></div><a href="#/detail/'+val.Washroom.id+'" class="user-list-item2"><div class"row"><div class="col-xs-8"><strong>'+val.Washroom.name+'<br/></strong><em>'+val.Washroom.address+'</em></div><div class="col-xs-4 vcenter">'+distances.toFixed(2)+'KM <i class="fa fa-chevron-right"></i></div></div></a>';
+					  });
+					  $scope.map.markers = markers;
+					  $('.mapinfo').html(html);
+				  } else {
+					  $('.mapinfo').html("");
+				  }
 				  $scope.scrollbarConfig = {
 					  theme: 'dark',
 					  scrollInertia: 500
@@ -545,6 +556,10 @@ GoHereApp.config(['$routeProvider',
 					componentRestrictions: { country: 'ca' },
 					types: ['address']
 				}
+				$('.switch-1').click(function(){
+				   $(this).toggleClass('switch-1-on'); 
+					return false;
+				});
 				getSetMapPage(lat,long);			
 			}, function(err) {
 				var lat  = 43.6888092;
@@ -553,7 +568,17 @@ GoHereApp.config(['$routeProvider',
 			});
     	});
 	});
-	
+	$scope.showsearch = function(){
+		$(".searchs").slideToggle();
+	}
+	$scope.getdecal = function(){
+		if($('.isDecals').hasClass('switch-1-on')){
+			$('#Decal').val(0);
+		} else {
+			$('#Decal').val(1);
+		}
+		$scope.searchzip();
+	}
 	$scope.closeMap = function(){
 		$(".angular-google-map-container").animate({height: 300}, 500);
 		$(".expandicon").css("display","none");
@@ -592,7 +617,7 @@ GoHereApp.config(['$routeProvider',
 				}
 			});	
 		} else {
-			alert("Please enter valid From Zipcode.");
+			alert("Please enter valid From Address.");
 		}
 	}
   }]);
