@@ -7,71 +7,79 @@
     	<div class="page-profile-header">
             <ui-gmap-google-map center='map.center' zoom='map.zoom' expression='true' options="{disableDefaultUI: true}">
                 <ui-gmap-marker ng-repeat="m in map.markers" idKey="m.id" options="{icon:m.icon}" coords="m.coords" ></ui-gmap-marker>
-        	</ui-gmap-google-map>
-        </div>
-        <div class="container no-bottom">
-        	<h4 class="no-bottom" style="padding-bottom:8px;">{{WashroomName}}</h4>
-        </div>
-        <div class="decoration" style="margin-bottom:5px;"></div>
-        <div class="page-profile-followers">
-            <a href="https://www.google.ca/maps/dir/{{Currentlats}},{{Currentlongs}}/{{lats}},{{longs}}">
-                <i class="fa fa-map-marker"></i>
-            </a>
-            <a href="javascript:void(0)">
-                <i class="fa fa-wheelchair"></i>
-            </a>
-            <!--<a href="javascript:void(0)">
-                <i class="fa fa-flag-o"></i>
-            </a>-->
-            <a href ng-click="checkFavorites()" class="favid">
-                <i class="fa fa-star-o"></i>
-            </a>
+
+            </ui-gmap-google-map>
+            <div class="page-profile-followers col-xs-2 col-xs-offset-10">
+                <a class="col-xs-12 text-center" href="https://www.google.ca/maps/dir/{{Currentlats}},{{Currentlongs}}/{{lats}},{{longs}}">
+                    <i class="fa fa-map-marker"></i>
+                </a>
+                <a class="col-xs-12 text-center"  href="javascript:void(0)">
+                    <i class="fa fa-wheelchair"></i>
+                </a>
+
+                <a class="col-xs-12 text-center"  href ng-click="checkFavorites()" class="favid">
+                    <i class="fa fa-flag-o"></i>
+                </a>
+            </div>
         </div>
 
-                
+
 		<div class="decoration"></div>
-		<div class="container no-bottom">
+		<div class="container no-bottom detail-page">
         	<div class="sidebar-left-small">
             	<ul class="font-icon-list">
-                	<li><a href="javascript:void(0)"><i class="fa fa-map-marker"></i><strong>Location</strong></a></li>
-                    <li><a href="javascript:void(0)"><i>&nbsp;&nbsp;&nbsp;&nbsp;</i>{{WashroomAddress}}</a></li>
+                	<li>
+                        <a href="javascript:void(0)">
+                            <i class="fa fa-map-marker"></i>
+                            <strong class="red">Directions to here</strong>
+                        </a>
+                    </li>
+                    <li class="col-xs-9 sub"><a href="javascript:void(0)">{{WashroomAddress}}</a></li>
 				</ul>
                 <div class="decoration"></div>
                 <ul class="font-icon-list">
                 	<li><a href="javascript:void(0)"><i class="fa fa-clock-o"></i><strong>Hours of Operation</strong></a></li>
-                    <li><a href="javascript:void(0)"><i>&nbsp;&nbsp;&nbsp;&nbsp;</i>{{WashroomTiming}}</a></li>
+                    <li class="sub"><a href="javascript:void(0)">{{WashroomTiming}}</a></li>
 				</ul>
                 <div class="decoration"></div>
                 <p>{{WashroomDesc}}</p>
-                
+                <ul class="font-icon-list">
+                    <li><a href="javascript:void(0)"><i class="fa fa-star-o"></i><strong>Rating</strong></a></li>
+                    <li class="sub">Please login to submit rating</li>
+                    <li class="sub">
+                        <i class="fa fa-star" style="color:#ffcb34"></i>
+                        <i class="fa fa-star" style="color:#ffcb34"></i>
+                        <i class="fa fa-star" style="color:#ffcb34"></i>
+                        <i class="fa fa-star" style="color:#ffcb34"></i>
+                        <i class="fa fa-star-o" style="color:#ffcb34"></i>
+                    </li>
+                </ul>
+                <div class="decoration"></div>
+                <ul class="font-icon-list">
+                    <li><a href="javascript:void(0)"><i class="fa fa-comment-o"></i><strong>Comments</strong></a></li>
+                    <div class="pleaselogin">
+                        <p  style="margin-left:24px">Please <a href="#/login" class="login-already">login</a> to comment.</p>
+                    </div>
+                </ul>
 			</div>
 		</div>
-        <div class="container no-bottom">
-        	<h4 class="no-bottom" style="padding-bottom:8px;">Comments</h4>
-            <div class="decoration"></div>
-        </div>
-        
+
 		<div class="container no-bottom">
-        	<div class="one-half-responsive addcomments">
-                
-            </div> 
+
             <div class="container no-bottom">
-                <h4 class="no-bottom" style="padding-bottom:8px;">Post a Comment</h4>
-            </div> 
-            <div class="decoration"></div>
-            <div class="container">
-              <div class="static-notification bg-orange-dark tap-dismiss pleaselogin">
-					<p><i class="fa fa-exclamation"></i>Please <a href="#/login" class="login-already" style="color:#FFF; opacity: 0.8">login</a> to comment.</p>
-			  </div>   
+
               <div class="one-third-responsive full-bottom pleasecomment hide">
               	<div class="static-notification bg-green-dark tap-dismiss commentsuccess">
 					<p><i class="fa fa-check"></i> Comment Posted Successfully.</p>
 			  	</div>
                 <form name="userForm" ng-submit="setComment(userForm.$valid)" novalidate>
-                  <textarea  ng-model="Comment" class="contactTextarea requiredField" required></textarea>
-                  <input type="submit" value="SUBMIT COMMENT" class="buttonWrap button button-green contactSubmitButton" ng-disabled="userForm.$invalid">
+                  <textarea placeholder="Write your comment..."  ng-model="Comment" class="contactTextarea requiredField" required></textarea>
+                  <input type="submit" value="SUBMIT" class="buttonWrap button button-green contactSubmitButton" ng-disabled="userForm.$invalid">
               	</form>
               </div>     
     	</div>
+            <div class="one-half-responsive addcomments">
+
+            </div>
     </div>
-</div>
+</div></div>
