@@ -7572,7 +7572,7 @@ ul.tabs li.active-tab{
 }
 
 .whitecolor { color:#FFF; font-size: 18px !important; }
-.expandicon { display: none; z-index:1001; position:absolute; margin: 10px; }
+.expandicon { display: none;z-index: 10001; position:absolute; margin: 10px;left: 77px;top: 64px;}
 .roundbg { background:#666; border-radius: 15px; color:#FFF; width:30px; height:30px; font-size:15px;  }
 .fa-compress { margin:0px 8px;}
 
