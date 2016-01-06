@@ -615,7 +615,8 @@ GoHereApp.config(['$routeProvider',
 				 	lng = results[0].geometry.location.lng();
 					getSetMapPage(lat,lng);
 				}
-			});	
+			});
+            $('.direction-controls').fadeIn();
 		} else {
 			alert("Please enter valid From Address.");
 		}

@@ -596,3 +596,22 @@
 }
 #search-decal{position:absolute; top:70px; z-index:9999; width:100%}
 .decal{background: rgba(255, 255, 255, 0.68);border-radius:4px;padding-right: 21px;padding-left: 9px;}
+.direction-controls{
+    position:absolute;
+    z-index:1000;
+    top:110px;
+    right:37px;
+    display:none;
+}
+.direction-controls a{
+    display:block;
+    padding:4px 6px;
+    margin:2px;
+    font-size: 13px;
+}
+.direction-controls a:nth-child(2){
+    background-color: #737373;
+    color: #FFFFFF;
+    /* border-color: #FFFFFF; */
+    text-shadow: none;
+}
