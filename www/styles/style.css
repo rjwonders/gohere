@@ -615,3 +615,20 @@
     /* border-color: #FFFFFF; */
     text-shadow: none;
 }
+#access-card{
+    margin-top: 115px;
+    width: 90%;
+    border:1px solid red;
+    height: 57%;
+    display:inline-block;
+    margin-left:5%;
+    -webkit-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    -o-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+}
+#access-left {/* margin-top:20px; */background: white;display: block;height: 100%;padding-top: 20px;}
+#access-right{padding:20px;height:100%; color:white!important}
+#access-right * {color:white!important}
+#access-right p strong{top:20px; font-size:25px;position:relative}
