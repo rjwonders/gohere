@@ -527,6 +527,12 @@ GoHereApp.config(['$routeProvider',
 				  } else {
 					  $('.mapinfo').html("");
 				  }
+				  $scope.windowOptions = {
+						visible: false
+					};
+				  $scope.onClick = function() {
+						$scope.windowOptions.visible = !$scope.windowOptions.visible;
+					};
 				  $scope.scrollbarConfig = {
 					  theme: 'dark',
 					  scrollInertia: 500
