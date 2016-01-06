@@ -43,6 +43,13 @@
 
         </form>
     </div>
+
+    <div class="direction-controls row">
+        <div class="col-xs-8 col-xs-offset-6">
+            <a class="btn btn-small btn-default col-xs-10" href="javascript:void(0)" ng-click="showdirections()">Directions</a>
+            <a class="btn btn-small btn-default col-xs-10" href="javascript:void(0)" ng-click="showdirections()">Save Route</a>
+        </div>
+    </div>
 	<ui-gmap-google-map center='map.center' zoom='map.zoom' refresh='true' dorebuildall="true" expression='true' options="{disableDefaultUI: true}" ng-click="expandMap()">
     	<ui-gmap-marker ng-repeat="m in map.markers" idKey="m.id" options="{icon:m.icon}" coords="m.coords" click="onClick()" events="marker.events">
         	<ui-gmap-window options="windowOptions" closeClick="closeClick()">
