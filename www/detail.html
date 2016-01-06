@@ -7,12 +7,12 @@
     	<div class="page-profile-header">
             <ui-gmap-google-map center='map.center' zoom='map.zoom' expression='true' options="{disableDefaultUI: true}">
                 <ui-gmap-marker ng-repeat="m in map.markers" idKey="m.id" options="{icon:m.icon}" coords="m.coords" ></ui-gmap-marker>
-
             </ui-gmap-google-map>
             <div class="page-profile-followers col-xs-2 col-xs-offset-10">
                 <a class="col-xs-12 text-center" href="https://www.google.ca/maps/dir/{{Currentlats}},{{Currentlongs}}/{{lats}},{{longs}}">
                     <i class="fa fa-map-marker"></i>
                 </a>
+
                 <a class="col-xs-12 text-center"  href="javascript:void(0)">
                     <i class="fa fa-wheelchair"></i>
                 </a>
@@ -29,7 +29,7 @@
         	<div class="sidebar-left-small">
             	<ul class="font-icon-list">
                 	<li>
-                        <a href="javascript:void(0)">
+                        <a  href="https://www.google.ca/maps/dir/{{Currentlats}},{{Currentlongs}}/{{lats}},{{longs}}">
                             <i class="fa fa-map-marker"></i>
                             <strong class="red">Directions to here</strong>
                         </a>

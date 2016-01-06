@@ -8,46 +8,39 @@
     		<i class="fa fa-compress"></i>
     	</a>
     </div>
-    <div class="row">
-    	<div class="col-xs-1">
-        	&nbsp;
-        </div>
-        <div class="col-xs-7">
-        	<div class="row">
-            	<div class="col-xs-8">
-                	<strong>Decal Locations</strong>
-                </div>
-                <div class="col-xs-4">
-                	<a href="javascript:void(0)" class="switch switch-1 isDecals switch-1-off" ng-click="getdecal()">
-                        <em>Y</em>
-                        <span></span>
-                        <em>N</em>
-                    </a>
-                </div>
-        	</div>
-        </div>
+    <div class="row" id="search-decal">
         <div class="col-xs-3">
-        	<a href="javascript:void(0)" ng-click="showsearch()">Search</a>
+            <a style="margin-left: 10px" class="btn btn-small btn-default" href="javascript:void(0)" ng-click="showsearch()">Search</a>
         </div>
+        <div class="col-xs-4 col-xs-offset-5 ">
+            <div class="row decal">
+
+                <strong class="col-xs-6 text-left">Decal</strong>
+                <a href="javascript:void(0)" class="switch switch-1 isDecals switch-1-off col-xs-2" ng-click="getdecal()">
+                    <span></span>
+                </a>
+
+            </div>
+        </div>
+
     </div>
     <div class="row searchs center-block" style="display:none">
     	<form name="userForm" ng-submit="searchzip()" novalidate>
+
+            <div class="row col-xs-7">
+
         	<input type="hidden" name="Decal" id="Decal" value="0" />
-            <div class="row col-xs-12">
+
                 <input ng-model="FromAddress" id="FromAddress" type="text" value="" class="form-control" placeholder="From Address" g-places-autocomplete force-selection="true" required autocomplete="off">
             </div>
-            <div class="row col-xs-12">
-            &nbsp;
+            <div class="row col-xs-2">
+                <input type="submit" name="AddLocation" value="GO" class="login-button button-red red-bg button-fullscreen"/>
             </div>
-            <div class="row col-xs-12">
+            <div class="row col-xs-7" style="margin-top: 5px;">
                 <input ng-model="ToAddress" id="ToAddress" type="text" value="" class="form-control" g-places-autocomplete force-selection="true" placeholder="To Address" autocomplete="off">
             </div>
-            <div class="row col-xs-12">
-            &nbsp;
-            </div>
-            <div class="row col-xs-12">
-                <input type="submit" name="AddLocation" value="SEARCH" class="login-button button-green  button-fullscreen full-bottom"/>  
-            </div>
+
+
         </form>
     </div>
 	<ui-gmap-google-map center='map.center' zoom='map.zoom' refresh='true' dorebuildall="true" expression='true' options="{disableDefaultUI: true}" ng-click="expandMap()">
