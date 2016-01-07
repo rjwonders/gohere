@@ -552,8 +552,8 @@ GoHereApp.config(['$routeProvider',
 					latitude: Watchlat,
 					longitude: Watchlong
 			  	};
-				
-			//home.setPosition(latlng);
+				$scope.map.refresh = true;
+ 			//home.setPosition(latlng);
 			}
 		} else {	
 			navigator.geolocation.clearWatch($rootScope.watchID);
