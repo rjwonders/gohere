@@ -453,6 +453,7 @@ GoHereApp.config(['$routeProvider',
 							  inarrayid.push(val.Washroom.id);	
 							  var marker = {
 								  id: val.Washroom.id,
+								  name: val.Washroom.name,
 								  icon: 'images/map-pin_.png',
 								  coords: {
 									  latitude	: val.Washroom.lat,
@@ -512,6 +513,7 @@ GoHereApp.config(['$routeProvider',
 					  $.each(data.response,function(i,val){
 						  var marker = {
 							  id: val.Washroom.id,
+							  name: val.Washroom.name,
 							  icon: 'images/map-pin_.png',
 							  coords: {
 								  latitude	: val.Washroom.lat,
@@ -530,8 +532,7 @@ GoHereApp.config(['$routeProvider',
 				  $scope.windowOptions = {
 						visible: false
 					};
-				  $scope.onClick = function() {
-						$scope.windowOptions.visible = !$scope.windowOptions.visible;
+					$scope.onClick = function(marker, eventName, model) {
 					};
 				  $scope.scrollbarConfig = {
 					  theme: 'dark',
@@ -550,6 +551,9 @@ GoHereApp.config(['$routeProvider',
 			.then(function (position) {
 				var lat  = position.coords.latitude;
 				var long = position.coords.longitude;
+				
+				$scope.Currentlats  = lat;
+				$scope.Currentlongs = long;
 				var geocoder = new google.maps.Geocoder();
 				
 				var latlng = new google.maps.LatLng(lat, long);

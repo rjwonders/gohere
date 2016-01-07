@@ -52,7 +52,10 @@
 	<ui-gmap-google-map center='map.center' zoom='map.zoom' refresh='true' dorebuildall="true" expression='true' options="{disableDefaultUI: true}" ng-click="expandMap()">
     	<ui-gmap-marker ng-repeat="m in map.markers" idKey="m.id" options="{icon:m.icon}" coords="m.coords" click="onClick()" events="marker.events">
         	<ui-gmap-window options="windowOptions" closeClick="closeClick()">
-                <div>{{m.id}}</div>
+                <div>
+                	<span>{{m.name}}<br/></span>
+                	<span><a href="https://www.google.ca/maps/dir/{{Currentlats}},{{Currentlongs}}/{{m.coords.latitude}},{{m.coords.longitude}}">Get Direction to Here</a></span>
+                </div>
             </ui-gmap-window>
         </ui-gmap-marker>
     </ui-gmap-google-map>
