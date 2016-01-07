@@ -574,8 +574,30 @@ GoHereApp.config(['$routeProvider',
 			});
     	});
 	});
+	$("#FromAddress").keydown(function(e){
+		if($(this).val().length>0){
+			$("#FromCross").css("display","block");
+		} else {
+			$("#FromCross").css("display","none");
+		}
+	});
+	$("#ToAddress").keydown(function(e){
+		if($(this).val().length>0){
+			$("#ToCross").css("display","block");
+		} else {
+			$("#ToCross").css("display","none");
+		}
+	});
 	$scope.showsearch = function(){
 		$(".searchs").slideToggle();
+	}
+	$scope.clearFrom = function(){
+		$scope.FromAddress = "";
+		$("#FromCross").css("display","none");
+	}
+	$scope.clearTo = function(){
+		$scope.ToAddress = "";
+		$("#ToCross").css("display","none");
 	}
 	$scope.getdecal = function(){
 		if($('.isDecals').hasClass('switch-1-on')){

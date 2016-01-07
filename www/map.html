@@ -26,18 +26,17 @@
     </div>
     <div class="row searchs center-block" style="display:none">
     	<form name="userForm" ng-submit="searchzip()" novalidate>
-
             <div class="row col-xs-7">
-
-        	<input type="hidden" name="Decal" id="Decal" value="0" />
-
-                <input ng-model="FromAddress" id="FromAddress" type="text" value="" class="form-control" placeholder="From Address" g-places-autocomplete force-selection="true" required autocomplete="off">
+				<input type="hidden" name="Decal" id="Decal" value="0" />
+				<input ng-model="FromAddress" id="FromAddress" type="text" value="" class="form-control" placeholder="From Address" g-places-autocomplete required autocomplete="off">
+            	<a href="javascript:void(0)" ng-click="clearFrom()" id="FromCross"><i class="fa fa-times"></i></a>
             </div>
             <div class="row col-xs-2">
                 <input type="submit" name="AddLocation" value="GO" class="login-button button-red red-bg button-fullscreen"/>
             </div>
             <div class="row col-xs-7" style="margin-top: 5px;">
-                <input ng-model="ToAddress" id="ToAddress" type="text" value="" class="form-control" g-places-autocomplete force-selection="true" placeholder="To Address" autocomplete="off">
+                <input ng-model="ToAddress" id="ToAddress" type="text" value="" class="form-control" g-places-autocomplete placeholder="To Address" autocomplete="off">
+                <a href="javascript:void(0)" ng-click="clearTo()" id="ToCross" style="display:none"><i class="fa fa-times"></i></a>
             </div>
 
 
