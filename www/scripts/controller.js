@@ -822,7 +822,21 @@ GoHereApp.config(['$routeProvider',
 		$(".custom-header").css("display","block");  
 		$("#status").fadeIn(); // will first fade out the loading animation
 		$("#preloader").delay(100).fadeIn("slow");
-
+		$("#OverallRating").rating();
+		
+		$("#Cleanness").rating();
+		$('#Cleanness').on('rating.change', function(event, value, caption) {
+			$scope.Cleanness = value;
+		});
+		$("#EaseAccess").rating();
+		$('#EaseAccess').on('rating.change', function(event, value, caption) {
+			$scope.EaseAccess = value;
+		});
+		$("#AvailableHours").rating();
+		$('#AvailableHours').on('rating.change', function(event, value, caption) {
+			$scope.AvailableHours = value;
+		});
+		
 		$cordovaGeolocation.getCurrentPosition({timeout: 10000, enableHighAccuracy: true}).then(function (position) {
 			$scope.Currentlats  = position.coords.latitude;
 			$scope.Currentlongs = position.coords.longitude;
@@ -872,6 +886,12 @@ GoHereApp.config(['$routeProvider',
 			addresstext = addresstext.replace(",", ", ");
 			$scope.WashroomAddress 	= $sce.trustAsHtml(addresstext);
 			$scope.WashroomDesc 	= $sce.trustAsHtml(response.data.response.Washroom.description);
+			if(response.data.response.Washroom.rating==null){
+				var washroomrating = 0;
+			} else {
+				var washroomrating = response.data.response.Washroom.rating;
+			}
+			$('#OverallRating').rating('update', washroomrating);
 			if($.trim(response.data.response.Washroom.from)==""){
 				var FromTime = "9:00 AM";
 			} else {
@@ -886,9 +906,13 @@ GoHereApp.config(['$routeProvider',
 			if($rootScope.currentUser == '' || $rootScope.currentUser == undefined){
 				$(".pleaselogin").removeClass("hide");
 				$(".pleasecomment").addClass("hide");
+				$(".logincomment").removeClass("hide");
+				$(".ratingbox").addClass("hide");
 			} else {
 				$(".pleaselogin").addClass("hide");
 				$(".pleasecomment").removeClass("hide");
+				$(".logincomment").addClass("hide");
+				$(".ratingbox").removeClass("hide");
 			}
 			$(".commentsuccess").addClass("hide");
 			
@@ -900,6 +924,33 @@ GoHereApp.config(['$routeProvider',
 			$("#preloader").delay(100).fadeOut("slow");
 		});
 		});
+		$scope.submitRating = function(){
+			$(".alert-danger").addClass("hide");
+			$(".alert-success").addClass("hide");
+			alert($routeParams.id);
+			if(angular.isUndefined($scope.Cleanness) || angular.isUndefined($scope.EaseAccess) || angular.isUndefined($scope.AvailableHours)){
+				$(".alert-danger").removeClass("hide");
+				$(".alert-danger").html('<span class="fa fa-user" aria-hidden="true"></span><span class="sr-only">Error:</span> Please select all 3 ratings.');
+				return;
+			}
+			var request = $http({
+				method: "post",
+				url: globalUrl+"/ratings/add_all.json",
+				data: {
+					user_id		: $rootScope.currentUser,
+					washroom_id	: $routeParams.id,
+					'rating[0]' : $scope.Cleanness,
+					'rating[1]' : $scope.EaseAccess,
+					'rating[2]' : $scope.AvailableHours,
+				}
+			});
+			request.success(
+				function( result ) {
+					$(".alert-success").removeClass("hide");
+					$(".alert-success").html('<span class="fa fa-user" aria-hidden="true"></span><span class="sr-only">Success:</span> Your Rating has been uploaded successfully');
+				}
+			);
+		}
 		$scope.checkFavorites = function(){
 			if($rootScope.currentUser == '' || $rootScope.currentUser == undefined){
 				alert("Please login to make this washroom as favorite.");
@@ -978,8 +1029,17 @@ GoHereApp.config(['$routeProvider',
 	$(".custom-header").css("display","block");  
 	$rootScope.PageName = "Add a Location";
 	$("#Cleanness").rating();
+	$('#Cleanness').on('rating.change', function(event, value, caption) {
+		$scope.Cleanness = value;
+	});
 	$("#EaseAccess").rating();
+	$('#EaseAccess').on('rating.change', function(event, value, caption) {
+		$scope.EaseAccess = value;
+	});
 	$("#AvailableHours").rating();
+	$('#AvailableHours').on('rating.change', function(event, value, caption) {
+		$scope.AvailableHours = value;
+	});
 	$('.switch-1').click(function(){
        $(this).toggleClass('switch-1-on'); 
         return false;
@@ -1019,11 +1079,10 @@ GoHereApp.config(['$routeProvider',
 	$scope.addLocation = function(){
 		$(".alert-danger").addClass("hide");
 		$(".alert-success").addClass("hide");
-		
 		if(angular.isUndefined($scope.BusinessName) || angular.isUndefined($scope.Address) || angular.isUndefined($scope.Postcode)){
 			$(".alert-danger").removeClass("hide");
 			$(".alert-danger").html('<span class="fa fa-user" aria-hidden="true"></span><span class="sr-only">Error:</span> Business Name, Address and Postcode are required field.');
-			return false;
+			return;
 		}
 		$("#status").fadeIn(); // will first fade out the loading animation
 		$("#preloader").delay(100).fadeIn("slow");

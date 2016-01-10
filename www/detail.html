@@ -45,13 +45,31 @@
                 <p>{{WashroomDesc}}</p>
                 <ul class="font-icon-list">
                     <li><a href="javascript:void(0)"><i class="fa fa-star-o"></i><strong>Rating</strong></a></li>
-                    <li class="sub">Please login to submit rating</li>
+                    <li class="sub logincomment">Please login to submit rating</li>
                     <li class="sub">
+                    	<input type="number" id="OverallRating" class="rating" min=1 max=5 step=1 data-size="sm" data-symbol="&#xf005;" showCaption="false"  data-rating-class="rating-fa" data-disabled="true" value="" data-glyphicon="false">
+                        <!--<i class="fa fa-star" style="color:#ffcb34"></i>
                         <i class="fa fa-star" style="color:#ffcb34"></i>
                         <i class="fa fa-star" style="color:#ffcb34"></i>
                         <i class="fa fa-star" style="color:#ffcb34"></i>
-                        <i class="fa fa-star" style="color:#ffcb34"></i>
-                        <i class="fa fa-star-o" style="color:#ffcb34"></i>
+                        <i class="fa fa-star-o" style="color:#ffcb34"></i>-->
+                    </li>
+                    <li class="ratingbox">
+                    	<form name="ratingForm" ng-submit="submitRating(ratingForm.$valid)" novalidate>
+                        	<h5>Cleanness</h5>
+                        	<input id="Cleanness" type="number" class="rating" min=1 max=5 step=1 data-size="sm" data-symbol="&#xf005;" showCaption="false" clearButton="" data-rating-class="rating-fa" data-glyphicon="false">
+                            <input type="hidden" name="Cleanness" ng-model="Cleanness" value="" required/>
+                        	<h5>Ease of Access</h5>
+                        	<input id="EaseAccess" type="number" class="rating" min=1 max=5 step=1 data-size="sm" data-symbol="&#xf005;" showCaption="false" clearButton="" data-rating-class="rating-fa" data-glyphicon="false" >
+                            <input type="hidden" name="EaseAccess" ng-model="EaseAccess" value="" required/>
+                        	<h5>Available Hours</h5>
+                        	<input id="AvailableHours" type="number" class="rating" min=1 max=5 step=1 data-size="sm" data-symbol="&#xf005;" showCaption="false" clearButton="" data-rating-class="rating-fa" data-glyphicon="false">
+                            <input type="hidden" name="AvailableHours" ng-model="AvailableHours" value="" required />
+                            <div style="margin-bottom:15px;"></div>
+                            <div class="alert alert-danger hide" role="alert"></div>
+                            <div class="alert alert-success hide" role="alert"></div>
+                            <input type="submit" name="AddRating" value="Add Rating" class="login-button button button-small button-green button-fullscreen full-bottom" />   
+                        </form>
                     </li>
                 </ul>
                 <div class="decoration"></div>
@@ -73,7 +91,10 @@
 					<p><i class="fa fa-check"></i> Comment Posted Successfully.</p>
 			  	</div>
                 <form name="userForm" ng-submit="setComment(userForm.$valid)" novalidate>
-                  <textarea placeholder="Write your comment..."  ng-model="Comment" class="contactTextarea requiredField" required></textarea>
+                  <textarea placeholder="Write your comment..."  ng-model="Comment" name="Comment" class="contactTextarea requiredField" required></textarea>
+                  <div style="color:red" ng-show="userForm.Comment.$dirty && userForm.Comment.$invalid">
+                    <span ng-show="userForm.Comment.$error.required">Comment is required.</span>
+                  </div>
                   <input type="submit" value="SUBMIT" class="buttonWrap button button-green contactSubmitButton" ng-disabled="userForm.$invalid">
               	</form>
               </div>     
