@@ -5,24 +5,39 @@
     	<div class="pageapp-signup-content cover-center">
 			<div class="unboxed-layout">
             	<form name="userForm" ng-submit="checkRegister(userForm.$valid)" novalidate>
-          			<a href="javascript:void(0)" class="pageapp-signup-logo"></a>
+          			<a href="javascript:void(0)" class="pageapp-login-logo"></a>
                       <div class="alert alert-danger hide" role="alert"></div>
                       <div class="pageapp-signup-field" ng-class="{ 'has-error' : userForm.Name.$invalid && !userForm.name.$pristine }">
                           <i class="fa fa-user"></i>
-                          <input type="text" value="Full Name" ng-model="Name" placeholder="Full Name" required>
+                          <input type="text" value="Full Name" name="Name" ng-model="Name" placeholder="Full Name" required>
+                          <div style="color:red" ng-show="userForm.Name.$dirty && userForm.Name.$invalid">
+                              <span ng-show="userForm.Name.$error.required">Full Name is required.</span>
+                          </div>
                       </div>
           			  <div class="pageapp-signup-field">
-              <i class="fa fa-envelope-o"></i>
-              <input type="email" value="Email" ng-model="Email" placeholder="Email" required>
-          </div>
-            		  <div class="pageapp-signup-field">
-              <i class="fa fa-lock"></i>
-              <input type="password" value="password"  ng-model="Password" placeholder="password" ng-minlength="6" required>
-          </div>
-          			  <div class="pageapp-signup-field">
-              <i class="fa fa-calendar-o"></i>
-              <input type="text" value="Postal Code" ng-model="Postcode" placeholder="Postal Code" required>
-          </div>
+                          <i class="fa fa-envelope-o"></i>
+                          <input type="email" value="Email" ng-model="Email" name="Email" placeholder="Email" required>
+                          <div style="color:red" ng-show="userForm.Email.$dirty && userForm.Email.$invalid">
+                              <span ng-show="userForm.Email.$error.required">Email is required.</span>
+                              <span ng-show="userForm.Email.$error.email">Invalid email address.</span>
+                          </div>
+                      </div>
+                      <div class="pageapp-signup-field">
+                          <i class="fa fa-lock"></i>
+                          <input type="password" value="password"  ng-model="Password" name="Password" placeholder="password" ng-minlength="6" required>
+                      	  <div style="color:red" ng-show="userForm.Password.$dirty && userForm.Password.$invalid">
+                              <span ng-show="userForm.Password.$error.required">Password is required.</span>
+                              <span ng-show="userForm.Password.$error.minlength">Password must be minimum 6 characters long.</span>
+                          </div>
+                      </div>
+                      <div class="pageapp-signup-field">
+                          <i class="fa fa-calendar-o"></i>
+                          <input type="text" value="Postal Code" ng-model="Postcode" name="Postcode" placeholder="Postal Code" ng-minlength="6" ng-maxlength="6" required>
+			          	  <div style="color:red" ng-show="userForm.Postcode.$dirty && userForm.Postcode.$invalid">
+                              <span ng-show="userForm.Postcode.$error.required">Postcode is required.</span>
+                              <span ng-show="userForm.Postcode.$error.minlength || userForm.Postcode.$error.maxlength">Postcode must be exactly 6 characters long.</span>
+                          </div>
+                      </div>
           			  <div class="clear"></div>
           			  
           			  <input type="submit" name="Register" value="Register" ng-disabled="userForm.$invalid" class="login-button button button-small button-green button-fullscreen full-bottom"/>          

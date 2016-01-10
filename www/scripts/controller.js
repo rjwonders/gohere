@@ -1019,6 +1019,12 @@ GoHereApp.config(['$routeProvider',
 	$scope.addLocation = function(){
 		$(".alert-danger").addClass("hide");
 		$(".alert-success").addClass("hide");
+		
+		if(angular.isUndefined($scope.BusinessName) || angular.isUndefined($scope.Address) || angular.isUndefined($scope.Postcode)){
+			$(".alert-danger").removeClass("hide");
+			$(".alert-danger").html('<span class="fa fa-user" aria-hidden="true"></span><span class="sr-only">Error:</span> Business Name, Address and Postcode are required field.');
+			return false;
+		}
 		$("#status").fadeIn(); // will first fade out the loading animation
 		$("#preloader").delay(100).fadeIn("slow");
 		//if ($scope.userForm.$valid) {
