@@ -543,10 +543,10 @@ GoHereApp.config(['$routeProvider',
 	  //});
 	}
 	PositionError = function(position){
-		alert("Keep Check...");
+		navigator.geolocation.clearWatch($rootScope.watchID);
+		$rootScope.watchID = navigator.geolocation.watchPosition(PositionSuccess, PositionError, { enableHighAccuracy: true, timeout: 10000 });
 	}
 	PositionSuccess = function(position){
-		alert("Hi");
 		if($rootScope.PageName == "Find a Washroom"){
 			var Watchlat  = position.coords.latitude;
 			var Watchlong = position.coords.longitude;
@@ -613,7 +613,7 @@ GoHereApp.config(['$routeProvider',
 	}
 	$(document).ready(function(){
 		uiGmapGoogleMapApi.then(function(maps) {
-			$rootScope.watchID = navigator.geolocation.watchPosition(PositionSuccess, PositionError, { enableHighAccuracy: true });
+			$rootScope.watchID = navigator.geolocation.watchPosition(PositionSuccess, PositionError, { enableHighAccuracy: true, timeout: 10000 });
 			$cordovaGeolocation.getCurrentPosition(posOptions)
 			.then(function (position) {
 				$scope.gpsSuccess = 1;
@@ -1164,23 +1164,25 @@ GoHereApp.config(['$routeProvider',
         }]
     }
   });
-$(function(){
-  document.addEventListener("deviceready", onDeviceReady, false);
-})  
-function onDeviceReady() {
-  navigator.geolocation.getCurrentPosition(onSuccess, onError);     
-}
 function onSuccess(position) {
   // your callback here 
 }
 function onError(error) { 
- var deviceType = (navigator.userAgent.match(/iPad/i))  == "iPad" ? "iPad" : (navigator.userAgent.match(/iPhone/i))  == "iPhone" ? "iPhone" : (navigator.userAgent.match(/Android/i)) == "Android" ? "Android" : (navigator.userAgent.match(/BlackBerry/i)) == "BlackBerry" ? "BlackBerry" : "null";
+ /*var deviceType = (navigator.userAgent.match(/iPad/i))  == "iPad" ? "iPad" : (navigator.userAgent.match(/iPhone/i))  == "iPhone" ? "iPhone" : (navigator.userAgent.match(/Android/i)) == "Android" ? "Android" : (navigator.userAgent.match(/BlackBerry/i)) == "BlackBerry" ? "BlackBerry" : "null";
  if(deviceType!="Android"){
- 	window.location.href = "#/404";
+ 	alert("Geolocation errors");	
+	window.location.href = "#/404";
  } else {
 	alert("Geolocation error");	
- }
+ }*/
 }
+$(function(){
+  document.addEventListener("deviceready", onDeviceReady, false);
+})  
+function onDeviceReady() {
+  navigator.geolocation.getCurrentPosition(onSuccess, onError, { timeout: 10000 });     
+}
+
 function align_cover_elements(){
 		var cover_width = $(window).width();
         var cover_height = $(window).height() + 60;
