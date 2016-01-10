@@ -424,6 +424,7 @@ GoHereApp.config(['$routeProvider',
 	$rootScope.PageName = "Find a Washroom";
 	$scope.map = Array();
 	$scope.map.markers = Array();
+	$scope.gpsSuccess = 0;
 	var posOptions = {timeout: 10000, enableHighAccuracy: true};
 	getSetMapPageForSearch = function(loc1,loc2){
 		var html ='';
@@ -488,7 +489,7 @@ GoHereApp.config(['$routeProvider',
 		var html ='';
 		var thedecal = $("#Decal").val();
 		
-		uiGmapIsReady.promise(1).then(function(instances) {
+		//uiGmapIsReady.promise(1).then(function(instances) {
 		  var request = $http({
 			  method: "post",
 			  url: globalUrl+"/washrooms/index_distance.json",
@@ -539,20 +540,69 @@ GoHereApp.config(['$routeProvider',
 				  $("#preloader").delay(100).fadeOut("slow"); 
 			  }
 		  );
-	  });
+	  //});
+	}
+	PositionError = function(position){
+		alert("Keep Check...");
 	}
 	PositionSuccess = function(position){
+		alert("Hi");
 		if($rootScope.PageName == "Find a Washroom"){
 			var Watchlat  = position.coords.latitude;
 			var Watchlong = position.coords.longitude;
 			
-			if($scope.homemarker==undefined){
+			if($scope.map.homemarker==undefined){
+				//alert("Hiello");
+				$scope.map.homemarker = {
+					markid: 'homemarker',
+				  	name: "Current Location",
+				  	icon: 'images/gps.png',
+				  	coords: {
+					 	latitude	: Watchlat,
+					  	longitude	: Watchlong
+				  	}
+			  	};
+			  	$scope.$apply();
+				
+				if($scope.gpsSuccess == 0){
+					$("#status").fadeIn(); // will first fade out the loading animation
+						$("#preloader").delay(100).fadeIn("slow");
+	
+					$scope.Currentlats  = Watchlat;
+					$scope.Currentlongs = Watchlong;
+					
+					$scope.map = { center: { latitude: Watchlat, longitude: Watchlong }, markers:[], zoom: 12 };
+					
+					
+					var geocoder = new google.maps.Geocoder();
+					
+					var latlng = new google.maps.LatLng(Watchlat, Watchlong);
+					geocoder.geocode({ 'latLng': latlng }, function (results, status) {
+					  if (status == google.maps.GeocoderStatus.OK) {
+						$scope.FromAddress = results[0].formatted_address;
+					  }
+					});
+					$scope.autocompleteOptions = {
+						componentRestrictions: { country: 'ca' },
+						types: ['address']
+					}
+					$('.switch-1').click(function(){
+					   $(this).toggleClass('switch-1-on'); 
+						return false;
+					});
+					$scope.gpsSuccess = 1;
+					getSetMapPage(Watchlat,Watchlong);
+				}
+			  	
+			  //$scope.map.control.refresh();
 			} else {
-				$scope.homemarker.coords = {
+				//alert("zello");
+				$scope.map.homemarker.coords = {
 					latitude: Watchlat,
 					longitude: Watchlong
 			  	};
-				$scope.map.control.refresh();
+				$scope.$apply();
+			  	//$scope.map.control.refresh();
 				//$scope.map.refresh = true;
  			//home.setPosition(latlng);
 			}
@@ -563,9 +613,10 @@ GoHereApp.config(['$routeProvider',
 	}
 	$(document).ready(function(){
 		uiGmapGoogleMapApi.then(function(maps) {
-			$rootScope.watchID = navigator.geolocation.watchPosition(PositionSuccess, onError, { enableHighAccuracy: true });
+			$rootScope.watchID = navigator.geolocation.watchPosition(PositionSuccess, PositionError, { enableHighAccuracy: true });
 			$cordovaGeolocation.getCurrentPosition(posOptions)
 			.then(function (position) {
+				$scope.gpsSuccess = 1;
 				var lat  = position.coords.latitude;
 				var long = position.coords.longitude;
 				
@@ -574,15 +625,7 @@ GoHereApp.config(['$routeProvider',
 				
 				$scope.map = { center: { latitude: lat, longitude: long }, markers:[], zoom: 12 };
 				
-				$scope.homemarker = {
-						markid: 'homemarker',
-						name: "Current Location",
-						icon: 'images/gps.png',
-						coords: {
-							latitude	: lat,
-							longitude	: long
-						}
-					};
+				
 				var geocoder = new google.maps.Geocoder();
 				
 				var latlng = new google.maps.LatLng(lat, long);
@@ -603,6 +646,30 @@ GoHereApp.config(['$routeProvider',
 			}, function(err) {
 				var lat  = 43.6888092;
 				var long = -79.393413;
+				
+				$scope.Currentlats  = lat;
+				$scope.Currentlongs = long;
+				
+				$scope.map = { center: { latitude: lat, longitude: long }, markers:[], zoom: 12 };
+				
+				
+				var geocoder = new google.maps.Geocoder();
+				
+				var latlng = new google.maps.LatLng(lat, long);
+				geocoder.geocode({ 'latLng': latlng }, function (results, status) {
+				  if (status == google.maps.GeocoderStatus.OK) {
+					$scope.FromAddress = results[0].formatted_address;
+				  }
+			  	});
+				$scope.autocompleteOptions = {
+					componentRestrictions: { country: 'ca' },
+					types: ['address']
+				}
+				$('.switch-1').click(function(){
+				   $(this).toggleClass('switch-1-on'); 
+					return false;
+				});
+				
 				getSetMapPage(lat,long);
 			});
     	});
@@ -650,6 +717,7 @@ GoHereApp.config(['$routeProvider',
 	$scope.expandMap = function(){
 		var WindowHeight = $( window ).height() - 60;
 		$(".angular-google-map-container").animate({height: WindowHeight}, 500);
+		//$scope.map.control.refresh();
 		$(".searchmap").css("display","none");
 		$(".expandicon").css("display","block");	
 		//$(".angular-google-map-container").height(WindowHeight);	
@@ -1106,7 +1174,10 @@ function onSuccess(position) {
   // your callback here 
 }
 function onError(error) { 
-  window.location.href = "#/404";
+ var deviceType = (navigator.userAgent.match(/iPad/i))  == "iPad" ? "iPad" : (navigator.userAgent.match(/iPhone/i))  == "iPhone" ? "iPhone" : (navigator.userAgent.match(/Android/i)) == "Android" ? "Android" : (navigator.userAgent.match(/BlackBerry/i)) == "BlackBerry" ? "BlackBerry" : "null";
+ if(deviceType!="Android"){
+ 	window.location.href = "#/404";
+ }
 }
 function align_cover_elements(){
 		var cover_width = $(window).width();
