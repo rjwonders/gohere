@@ -44,8 +44,8 @@
     </div>
 	<div class="direction-controls row">
         <div class="col-xs-8 col-xs-offset-6">
-            <a class="btn btn-small btn-default col-xs-10" href="javascript:void(0)" ng-click="showdirections()">Directions</a>
-            <a class="btn btn-small btn-default col-xs-10" href="javascript:void(0)" ng-click="showdirections()">Save Route</a>
+            <a class="btn btn-small btn-default col-xs-10" href="javascript:void(0)" ng-click="showdirectionsMap()">Directions</a>
+            <a class="btn btn-small btn-default col-xs-10 simple-modal" href="javascript:void(0)" ng-click="saveRoutes()">Save Route</a>
         </div>
     </div>
 	<ui-gmap-google-map center='map.center' zoom='map.zoom' refresh='true' dorebuildall="true" expression='true' options="{disableDefaultUI: true}" ng-click="expandMap()" control="map.control">
@@ -64,3 +64,33 @@
         </div>
     </div>
 </div>
+<div class="simple-modal-content modal-content rounded-modal">
+    <h4>Save this route</h4>
+    <form name="routeForm" ng-submit="saveUserRoutes(routeForm.$valid)" novalidate>
+    <div class="row">
+    	<div class="col-xs-12">
+        	<label for="RouteName">Route Name</label>
+        </div>
+        <div class="col-xs-12">
+        	<input type="text" name="RouteName" value="" ng-model="RouteName" required />
+            <div style="color:red" ng-show="routeForm.Comment.$dirty && routeForm.Comment.$invalid">
+              <span ng-show="routeForm.Comment.$error.required">Route Name is required.</span>
+            </div>
+        </div>
+        <div class="col-xs-12">
+        	 <input type="submit" name="SaveRoutes" value="Save Route" class="button button-red button-small round-button button-center" />   
+        </div>
+    </div>
+    </form>
+</div>
+<div class="simple-modal-content2 modal-content rounded-modal">
+    <h4>Error!</h4>
+    <p>Please choose both From and To address.</p>
+    <a href="#" class="button button-red button-small round-button modal-close button-center">Close</a>
+</div>
+<div class="simple-modal-content3 modal-content rounded-modal">
+    <h4>Error</h4>
+    <p>Please login first to save the the route.</p>
+    <a href="#" class="button button-red button-small round-button modal-close button-center">Close</a>
+</div>
+<!-- /.modal -->
