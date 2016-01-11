@@ -429,8 +429,8 @@ GoHereApp.config(['$routeProvider',
 	$(".menu-item").removeClass('menu-item-active');  
 	$("#active-map").addClass('menu-item-active');  
 	$(".custom-header").css("display","block");  
-	//$("#status").fadeIn(); // will first fade out the loading animation
-	//$("#preloader").delay(100).fadeIn("slow");
+	$("#status").fadeIn(); // will first fade out the loading animation
+	$("#preloader").delay(100).fadeIn("slow");
 	$rootScope.PageName = "Find a Washroom";
 	$scope.map = Array();
 	$scope.map.markers = Array();

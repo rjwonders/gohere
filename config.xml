@@ -18,9 +18,18 @@
   <preference name="disable-cursor" value="false"/>
   <preference name="android-minSdkVersion" value="14"/>
   <preference name="android-installLocation" value="auto"/>
-  <preference name="DisallowOverscroll" value="false"/>
+  <preference name="DisallowOverscroll" value="true"/>
+  <gap:plugin name="org.apache.cordova.console"/>
+  <gap:plugin name="org.apache.cordova.device"/>
+  <gap:plugin name="org.apache.cordova.device-motion"/>
+  <gap:plugin name="org.apache.cordova.dialogs"/>
   <gap:plugin name="org.apache.cordova.geolocation"/>
+  <gap:plugin name="org.apache.cordova.globalization"/>
+  <gap:plugin name="org.apache.cordova.inappbrowser"/>
+  <gap:plugin name="org.apache.cordova.media"/>
+  <gap:plugin name="org.apache.cordova.network-information"/>
   <gap:plugin name="org.apache.cordova.splashscreen"/>
+  <gap:plugin name="org.apache.cordova.vibration"/>
   <icon src="res/icon/ios/Icon.png"/>
   
   <icon src="res/icon/android/drawable-ldpi/ic_launcher.png" density="ldpi" />
@@ -64,7 +73,7 @@
 
   <preference name="websecurity" value="disable" />
   <access origin="*" />
-  
+  <plugin name="cordova-plugin-whitelist" version="1"/>
   <allow-intent href="http://*/*"/>
   <allow-intent href="https://*/*"/>
   <allow-intent href="tel:*"/>
@@ -77,12 +86,6 @@
 	<access origin="*" />
   </platform>
   <platform name="ios">
-  	<access origin="*" />
-  	<allow-intent href="http://*/*" />
-    <allow-intent href="itms:*"/>
-    <allow-intent href="itms-apps:*"/>
-  </platform>
-  <platform name="blackberry">
   	<access origin="*" />
   	<allow-intent href="http://*/*" />
     <allow-intent href="itms:*"/>
