@@ -33,6 +33,7 @@ GoHereApp.config(function ($translateProvider, $httpProvider, $cordovaInAppBrows
 	ACCESS_CARD		: 'Washroom Access Card',
 	FAVOURITE		: 'My Favourites',
 	LOGOUT			: 'Logout',
+	ROUTES			: 'My Saved Routes',
   });
   $translateProvider.translations('fr', {
     ABOUT_BUTTON	: 'A propos de GoHere',
@@ -46,6 +47,7 @@ GoHereApp.config(function ($translateProvider, $httpProvider, $cordovaInAppBrows
 	ACCESS_CARD		: 'Buanderie Access Card',
 	FAVOURITE		: 'Mes préférés',
 	LOGOUT			: 'Se déconnecter',
+	ROUTES			: 'Mes itinéraires enregistrés',
   });
   if(localStorage.SelectedLanguage!==undefined){
   	$translateProvider.preferredLanguage(localStorage.SelectedLanguage);
@@ -132,6 +134,10 @@ GoHereApp.config(['$routeProvider',
 		controller:  'mapController',   
         templateUrl: 'map.html',
       }).
+	  when('/map/:source/:destination', {
+		controller:  'mapController',   
+        templateUrl: 'map.html',
+      }).
 	  when('/detail/:id', {
 		controller:  'detailController',   
         templateUrl: 'detail.html',
@@ -147,6 +153,10 @@ GoHereApp.config(['$routeProvider',
 	  when('/my-access-card', {
 		controller:  'accessController',   
         templateUrl: 'access.html',
+      }).
+	  when('/saved-routes', {
+		controller:  'routesController',   
+        templateUrl: 'routes.html',
       }).
 	  when('/favourite', {
 		controller:  'favouriteController',   
@@ -164,6 +174,7 @@ GoHereApp.config(['$routeProvider',
         redirectTo: '/'
       });
   }]);
+  
   GoHereApp.controller('splashController', ['$scope','$location', '$translate', function($scope,$location,$translate) {
 	  if(localStorage.hasSplashed!==undefined){
 	  	$location.path("/language");
@@ -413,7 +424,7 @@ GoHereApp.config(['$routeProvider',
 	}
   }]);
   
-  GoHereApp.controller('mapController', ['$scope', '$rootScope', '$http', '$sce', '$cordovaGeolocation',  'uiGmapGoogleMapApi', 'uiGmapIsReady', function($scope,$rootScope, $http,$sce, $cordovaGeolocation, uiGmapGoogleMapApi,uiGmapIsReady) {
+  GoHereApp.controller('mapController', ['$scope', '$rootScope', '$http', '$sce', '$cordovaGeolocation',  'uiGmapGoogleMapApi', 'uiGmapIsReady', '$routeParams', function($scope,$rootScope, $http,$sce, $cordovaGeolocation, uiGmapGoogleMapApi,uiGmapIsReady,$routeParams) {
 	GoHereApp.snapper.close();
 	$(".menu-item").removeClass('menu-item-active');  
 	$("#active-map").addClass('menu-item-active');  
@@ -421,7 +432,11 @@ GoHereApp.config(['$routeProvider',
 	$("#status").fadeIn(); // will first fade out the loading animation
 	$("#preloader").delay(100).fadeIn("slow");
 	$rootScope.PageName = "Find a Washroom";
+	$scope.map = Array();
+	$scope.map.markers = Array();
+	$scope.gpsSuccess = 0;
 	var posOptions = {timeout: 10000, enableHighAccuracy: true};
+	
 	getSetMapPageForSearch = function(loc1,loc2){
 		var html ='';
 		var thedecal = $("#Decal").val();
@@ -453,7 +468,8 @@ GoHereApp.config(['$routeProvider',
 							  inarrayid.push(val.Washroom.id);	
 							  var marker = {
 								  id: val.Washroom.id,
-								  icon: 'images/map-pin_.png',
+								  name: val.Washroom.name,
+								  icon: 'images/map-pin-active.png',
 								  coords: {
 									  latitude	: val.Washroom.lat,
 									  longitude	: val.Washroom.log
@@ -483,8 +499,8 @@ GoHereApp.config(['$routeProvider',
 	getSetMapPage = function(lat,long){
 		var html ='';
 		var thedecal = $("#Decal").val();
-		$scope.map = { center: { latitude: lat, longitude: long }, markers:[], zoom: 12 };
-		uiGmapIsReady.promise(1).then(function(instances) {
+		
+		//uiGmapIsReady.promise(1).then(function(instances) {
 		  var request = $http({
 			  method: "post",
 			  url: globalUrl+"/washrooms/index_distance.json",
@@ -498,21 +514,13 @@ GoHereApp.config(['$routeProvider',
 		  request.success(
 			  function( data ) {
 				  var markers = Array();
-				  var marker = {
-					  id: 'home',
-					  icon: 'images/map-pin-active.png',
-					  coords: {
-						  latitude	: lat,
-						  longitude	: long
-					  }
-				  };
-				  $scope.map.markers.push(marker);
 				  
 				  if(data.response!="No record found"){
 					  $.each(data.response,function(i,val){
 						  var marker = {
 							  id: val.Washroom.id,
-							  icon: 'images/map-pin_.png',
+							  name: val.Washroom.name,
+							  icon: 'images/map-pin-active.png',
 							  coords: {
 								  latitude	: val.Washroom.lat,
 								  longitude	: val.Washroom.log
@@ -527,6 +535,13 @@ GoHereApp.config(['$routeProvider',
 				  } else {
 					  $('.mapinfo').html("");
 				  }
+				  
+				  
+				  $scope.windowOptions = {
+						visible: false
+					};
+					$scope.onClick = function(marker, eventName, model) {
+					};
 				  $scope.scrollbarConfig = {
 					  theme: 'dark',
 					  scrollInertia: 500
@@ -536,14 +551,124 @@ GoHereApp.config(['$routeProvider',
 				  $("#preloader").delay(100).fadeOut("slow"); 
 			  }
 		  );
-	  });
+	  //});
+	}
+	PositionError = function(position){
+		navigator.geolocation.clearWatch($rootScope.watchID);
+		$rootScope.watchID = navigator.geolocation.watchPosition(PositionSuccess, PositionError, { enableHighAccuracy: true, timeout: 10000 });
+	}
+	PositionSuccess = function(position){
+		if($rootScope.PageName == "Find a Washroom"){
+			var Watchlat  = position.coords.latitude;
+			var Watchlong = position.coords.longitude;
+			
+			if($scope.map.homemarker==undefined){
+				//alert("Hiello");
+				$scope.map.homemarker = {
+					markid: 'homemarker',
+				  	name: "Current Location",
+				  	icon: 'images/gps.png',
+				  	coords: {
+					 	latitude	: Watchlat,
+					  	longitude	: Watchlong
+				  	}
+			  	};
+			  	$scope.$apply();
+				
+				if($scope.gpsSuccess == 0){
+					$("#status").fadeIn(); // will first fade out the loading animation
+						$("#preloader").delay(100).fadeIn("slow");
+	
+					$scope.Currentlats  = Watchlat;
+					$scope.Currentlongs = Watchlong;
+					
+					$scope.map = { center: { latitude: Watchlat, longitude: Watchlong }, markers:[], zoom: 12 };
+					
+					
+					var geocoder = new google.maps.Geocoder();
+					
+					var latlng = new google.maps.LatLng(Watchlat, Watchlong);
+					geocoder.geocode({ 'latLng': latlng }, function (results, status) {
+					  if (status == google.maps.GeocoderStatus.OK) {
+						$scope.FromAddress = results[0].formatted_address;
+					  }
+					});
+					$scope.autocompleteOptions = {
+						componentRestrictions: { country: 'ca' },
+						types: ['address']
+					}
+					$('.switch-1').click(function(){
+					   $(this).toggleClass('switch-1-on'); 
+						return false;
+					});
+					$scope.gpsSuccess = 1;
+					getSetMapPage(Watchlat,Watchlong);
+				}
+			  	
+			  //$scope.map.control.refresh();
+			} else {
+				//alert("zello");
+				$scope.map.homemarker.coords = {
+					latitude: Watchlat,
+					longitude: Watchlong
+			  	};
+				$scope.$apply();
+			  	//$scope.map.control.refresh();
+				//$scope.map.refresh = true;
+ 			//home.setPosition(latlng);
+			}
+		} else {	
+			navigator.geolocation.clearWatch($rootScope.watchID);
+		}
+		//alert(currPage);
 	}
 	$(document).ready(function(){
 		uiGmapGoogleMapApi.then(function(maps) {
+			$rootScope.watchID = navigator.geolocation.watchPosition(PositionSuccess, PositionError, { enableHighAccuracy: true, timeout: 10000 });
 			$cordovaGeolocation.getCurrentPosition(posOptions)
 			.then(function (position) {
+				$scope.gpsSuccess = 1;
 				var lat  = position.coords.latitude;
 				var long = position.coords.longitude;
+				
+				$scope.Currentlats  = lat;
+				$scope.Currentlongs = long;
+				
+				$scope.map = { center: { latitude: lat, longitude: long }, markers:[], zoom: 12 };
+				//alert($routeParams.source);
+				if($routeParams.source && $routeParams.destination && $routeParams.source!="" && $routeParams.destination!=""){
+					$scope.FromAddress = $routeParams.source;
+					$scope.ToAddress = $routeParams.destination;
+					getSetMapPageForSearch($routeParams.source,$routeParams.destination);
+				} else {
+					var geocoder = new google.maps.Geocoder();
+					
+					var latlng = new google.maps.LatLng(lat, long);
+					geocoder.geocode({ 'latLng': latlng }, function (results, status) {
+					  if (status == google.maps.GeocoderStatus.OK) {
+						$scope.FromAddress = results[0].formatted_address;
+					  }
+					});
+					$scope.autocompleteOptions = {
+						componentRestrictions: { country: 'ca' },
+						types: ['address']
+					}
+					$('.switch-1').click(function(){
+					   $(this).toggleClass('switch-1-on'); 
+						return false;
+					});
+					getSetMapPage(lat,long);			
+				}
+			}, function(err) {
+				var lat  = 43.6888092;
+				var long = -79.393413;
+				
+				$scope.Currentlats  = lat;
+				$scope.Currentlongs = long;
+				
+				$scope.map = { center: { latitude: lat, longitude: long }, markers:[], zoom: 12 };
+				
+				
 				var geocoder = new google.maps.Geocoder();
 				
 				var latlng = new google.maps.LatLng(lat, long);
@@ -560,16 +685,35 @@ GoHereApp.config(['$routeProvider',
 				   $(this).toggleClass('switch-1-on'); 
 					return false;
 				});
-				getSetMapPage(lat,long);			
-			}, function(err) {
-				var lat  = 43.6888092;
-				var long = -79.393413;
+				
 				getSetMapPage(lat,long);
 			});
     	});
 	});
+	$("#FromAddress").keydown(function(e){
+		if($(this).val().length>0){
+			$("#FromCross").css("display","block");
+		} else {
+			$("#FromCross").css("display","none");
+		}
+	});
+	$("#ToAddress").keydown(function(e){
+		if($(this).val().length>0){
+			$("#ToCross").css("display","block");
+		} else {
+			$("#ToCross").css("display","none");
+		}
+	});
 	$scope.showsearch = function(){
 		$(".searchs").slideToggle();
+	}
+	$scope.clearFrom = function(){
+		$scope.FromAddress = "";
+		$("#FromCross").css("display","none");
+	}
+	$scope.clearTo = function(){
+		$scope.ToAddress = "";
+		$("#ToCross").css("display","none");
 	}
 	$scope.getdecal = function(){
 		if($('.isDecals').hasClass('switch-1-on')){
@@ -589,10 +733,67 @@ GoHereApp.config(['$routeProvider',
 	$scope.expandMap = function(){
 		var WindowHeight = $( window ).height() - 60;
 		$(".angular-google-map-container").animate({height: WindowHeight}, 500);
+		//$scope.map.control.refresh();
 		$(".searchmap").css("display","none");
 		$(".expandicon").css("display","block");	
 		//$(".angular-google-map-container").height(WindowHeight);	
 		$(".hidetext").css("display","none");	
+	}
+	$scope.saveUserRoutes = function(){
+		//$('.simple-modal-content').modal('hide');
+		$.modal.close();
+		if(typeof $scope.FromAddress === 'object' ){
+			$scope.FromAddress = $scope.FromAddress.formatted_address;
+		}
+		if(typeof $scope.ToAddress === 'object' ){
+			$scope.ToAddress = $scope.ToAddress.formatted_address;
+		} 
+		var request = $http({
+			method: "post",
+			url: globalUrl+"/routes/add.json",
+			data: {
+				name : $scope.RouteName,
+				user_id : $rootScope.currentUser,
+				source : $scope.FromAddress,
+				distination : $scope.ToAddress,
+			}
+		});
+		request.success(
+			function( result ) {
+			}
+		);
+	}
+	$scope.saveRoutes = function(){
+		if($rootScope.currentUser == '' || $rootScope.currentUser == undefined){
+			$('.simple-modal-content3').modal();
+			return;
+		}
+		if($.trim($scope.FromAddress)!="" && $.trim($scope.ToAddress)!=""){
+			if(typeof $scope.FromAddress === 'object' ){
+				$scope.FromAddress = $scope.FromAddress.formatted_address;
+			}
+			if(typeof $scope.ToAddress === 'object' ){
+				$scope.ToAddress = $scope.ToAddress.formatted_address;
+			} 
+			$('.simple-modal-content').modal();
+			return;
+		} else {
+			$('.simple-modal-content2').modal();
+			return;
+		}
+	}
+	$scope.showdirectionsMap = function(){
+		if($.trim($scope.FromAddress)!="" && $.trim($scope.ToAddress)!=""){
+			if(typeof $scope.FromAddress === 'object' ){
+				$scope.FromAddress = $scope.FromAddress.formatted_address;
+			}
+			if(typeof $scope.ToAddress === 'object' ){
+				$scope.ToAddress = $scope.ToAddress.formatted_address;
+			} 
+			window.location.href = "https://www.google.ca/maps/dir/"+$scope.FromAddress+"/"+$scope.ToAddress;
+		} else {
+			alert("From and To Address both are required.");
+		}
 	}
 	$scope.searchzip = function(){
 		if(typeof $scope.FromAddress === 'object' ){
@@ -605,6 +806,7 @@ GoHereApp.config(['$routeProvider',
 			$("#status").fadeIn(); // will first fade out the loading animation
 			$("#preloader").delay(100).fadeIn("slow");
 			getSetMapPageForSearch($.trim($scope.FromAddress),$.trim($scope.ToAddress));
+			$('.direction-controls').fadeIn();
 		} else if($.trim($scope.FromAddress)!=""){
 			$("#status").fadeIn(); // will first fade out the loading animation
 			$("#preloader").delay(100).fadeIn("slow");
@@ -616,7 +818,6 @@ GoHereApp.config(['$routeProvider',
 					getSetMapPage(lat,lng);
 				}
 			});
-            $('.direction-controls').fadeIn();
 		} else {
 			alert("Please enter valid From Address.");
 		}
@@ -693,11 +894,27 @@ GoHereApp.config(['$routeProvider',
 		$(".custom-header").css("display","block");  
 		$("#status").fadeIn(); // will first fade out the loading animation
 		$("#preloader").delay(100).fadeIn("slow");
-
+		$("#OverallRating").rating();
+		
+		$("#Cleanness").rating();
+		$('#Cleanness').on('rating.change', function(event, value, caption) {
+			$scope.Cleanness = value;
+		});
+		$("#EaseAccess").rating();
+		$('#EaseAccess').on('rating.change', function(event, value, caption) {
+			$scope.EaseAccess = value;
+		});
+		$("#AvailableHours").rating();
+		$('#AvailableHours').on('rating.change', function(event, value, caption) {
+			$scope.AvailableHours = value;
+		});
+		
 		$cordovaGeolocation.getCurrentPosition({timeout: 10000, enableHighAccuracy: true}).then(function (position) {
 			$scope.Currentlats  = position.coords.latitude;
 			$scope.Currentlongs = position.coords.longitude;
-			$http.get(globalUrl+"/washrooms/view/"+$routeParams.id+".json").then(function(response) {
+		});
+		
+		$http.get(globalUrl+"/washrooms/view/"+$routeParams.id+".json").then(function(response) {
 			var collectComment = '';
 			var requester = $http({
 				method: "post",
@@ -743,6 +960,12 @@ GoHereApp.config(['$routeProvider',
 			addresstext = addresstext.replace(",", ", ");
 			$scope.WashroomAddress 	= $sce.trustAsHtml(addresstext);
 			$scope.WashroomDesc 	= $sce.trustAsHtml(response.data.response.Washroom.description);
+			if(response.data.response.Washroom.rating==null){
+				var washroomrating = 0;
+			} else {
+				var washroomrating = response.data.response.Washroom.rating;
+			}
+			$('#OverallRating').rating('update', washroomrating);
 			if($.trim(response.data.response.Washroom.from)==""){
 				var FromTime = "9:00 AM";
 			} else {
@@ -757,9 +980,13 @@ GoHereApp.config(['$routeProvider',
 			if($rootScope.currentUser == '' || $rootScope.currentUser == undefined){
 				$(".pleaselogin").removeClass("hide");
 				$(".pleasecomment").addClass("hide");
+				$(".logincomment").removeClass("hide");
+				$(".ratingbox").addClass("hide");
 			} else {
 				$(".pleaselogin").addClass("hide");
 				$(".pleasecomment").removeClass("hide");
+				$(".logincomment").addClass("hide");
+				$(".ratingbox").removeClass("hide");
 			}
 			$(".commentsuccess").addClass("hide");
 			
@@ -767,10 +994,42 @@ GoHereApp.config(['$routeProvider',
 			   $(this).slideUp(200); 
 				return false;
 			});
+			
 			$("#status").fadeOut(); // will first fade out the loading animation
 			$("#preloader").delay(100).fadeOut("slow");
 		});
-		});
+		
+		$scope.submitRating = function(){
+			$(".alert-danger").addClass("hide");
+			$(".alert-success").addClass("hide");
+			
+			if(angular.isUndefined($scope.Cleanness) || angular.isUndefined($scope.EaseAccess) || angular.isUndefined($scope.AvailableHours)){
+				$(".alert-danger").removeClass("hide");
+				$(".alert-danger").html('<span class="fa fa-user" aria-hidden="true"></span><span class="sr-only">Error:</span> Please select all 3 ratings.');
+				return;
+			}
+			var request = $http({
+				method: "post",
+				url: globalUrl+"/ratings/add_all.json",
+				data: {
+					user_id		: $rootScope.currentUser,
+					washroom_id	: $routeParams.id,
+					rating		: {0: $scope.Cleanness,1: $scope.EaseAccess,2: $scope.AvailableHours},
+				}
+			});
+			request.success(
+				function( result ) {
+					$('#Cleanness').rating('update', 0);
+					$('#EaseAccess').rating('update', 0);
+					$('#AvailableHours').rating('update', 0);
+					$http.get(globalUrl+"/ratings/viewAvgByWashroomId/"+$routeParams.id+".json").then(function(response) {
+						$('#OverallRating').rating('update', response.data.response.avg_rate);
+					});
+					$(".alert-success").removeClass("hide");
+					$(".alert-success").html('<span class="fa fa-user" aria-hidden="true"></span><span class="sr-only">Success:</span> Your Rating has been uploaded successfully');
+				}
+			);
+		}
 		$scope.checkFavorites = function(){
 			if($rootScope.currentUser == '' || $rootScope.currentUser == undefined){
 				alert("Please login to make this washroom as favorite.");
@@ -849,8 +1108,17 @@ GoHereApp.config(['$routeProvider',
 	$(".custom-header").css("display","block");  
 	$rootScope.PageName = "Add a Location";
 	$("#Cleanness").rating();
+	$('#Cleanness').on('rating.change', function(event, value, caption) {
+		$scope.Cleanness = value;
+	});
 	$("#EaseAccess").rating();
+	$('#EaseAccess').on('rating.change', function(event, value, caption) {
+		$scope.EaseAccess = value;
+	});
 	$("#AvailableHours").rating();
+	$('#AvailableHours').on('rating.change', function(event, value, caption) {
+		$scope.AvailableHours = value;
+	});
 	$('.switch-1').click(function(){
        $(this).toggleClass('switch-1-on'); 
         return false;
@@ -890,6 +1158,11 @@ GoHereApp.config(['$routeProvider',
 	$scope.addLocation = function(){
 		$(".alert-danger").addClass("hide");
 		$(".alert-success").addClass("hide");
+		if(angular.isUndefined($scope.BusinessName) || angular.isUndefined($scope.Address) || angular.isUndefined($scope.Postcode)){
+			$(".alert-danger").removeClass("hide");
+			$(".alert-danger").html('<span class="fa fa-user" aria-hidden="true"></span><span class="sr-only">Error:</span> Business Name, Address and Postcode are required field.');
+			return;
+		}
 		$("#status").fadeIn(); // will first fade out the loading animation
 		$("#preloader").delay(100).fadeIn("slow");
 		//if ($scope.userForm.$valid) {
@@ -961,6 +1234,30 @@ GoHereApp.config(['$routeProvider',
 			$("#preloader").delay(100).fadeOut("slow");
 		});
   }]);  
+  GoHereApp.controller('routesController', ['$scope', '$rootScope', '$http', '$sce', '$cordovaGeolocation',  'uiGmapGoogleMapApi', '$routeParams', '$location', function($scope,$rootScope, $http,$sce, $cordovaGeolocation, uiGmapGoogleMapApi, $routeParams, $location) {
+	  	GoHereApp.snapper.close();
+		if($rootScope.currentUser == '' || $rootScope.currentUser == undefined){
+			localStorage.SetRedirect = '/saved-routes';
+			$location.path("/login");
+		}
+		$(".menu-item").removeClass('menu-item-active');  
+		$("#active-routes").addClass('menu-item-active');  
+		$(".custom-header").css("display","block");  
+		$("#status").fadeIn(); // will first fade out the loading animation
+		$("#preloader").delay(100).fadeIn("slow");
+		$rootScope.PageName = "My Saved Routes";
+		var html = '<div class="decoration"></div>';
+		$http.get(globalUrl+"/routes/index/"+$rootScope.currentUser+".json").then(function(response) {
+			$.each(response.data.response,function(i,val){
+				html = html + '<div class="row"><div class="col-xs-9">'+val.Route.name+'</div><div class="col-xs-1"><a href="https://www.google.ca/maps/dir/'+val.Route.source+'/'+val.Route.distination+'"><i class="fa fa-street-view"></i></a></div><div class="col-xs-1"><a href="#/map/'+val.Route.source+'/'+val.Route.distination+'"><i class="fa fa-location-arrow"></i></a></div></div><div class="decoration"></div>';
+				//html = html + '<a href="#/detail/'+val.Favourite.washroom_id+'" class="user-list-item2"><div class"row"><div class="col-xs-12"><strong>'+val.Washroom.name+'<br/></strong><em>'+val.Washroom.address+'</em></div></div></a><div class="decoration"></div>';
+			});
+			$('.mapinfo').html(html);
+			$("#status").fadeOut(); // will first fade out the loading animation
+			$("#preloader").delay(100).fadeOut("slow");
+		});
+  }]);  
+  
   GoHereApp.controller('accessController', ['$scope', '$rootScope', '$http', '$sce', '$cordovaGeolocation',  'uiGmapGoogleMapApi', '$routeParams', '$location', function($scope,$rootScope, $http,$sce, $cordovaGeolocation, uiGmapGoogleMapApi, $routeParams, $location) {
   	GoHereApp.snapper.close();
 	if($rootScope.currentUser == '' || $rootScope.currentUser == undefined){
@@ -1035,19 +1332,25 @@ GoHereApp.config(['$routeProvider',
         }]
     }
   });
+function onSuccess(position) {
+  // your callback here 
+}
+function onError(error) { 
+ /*var deviceType = (navigator.userAgent.match(/iPad/i))  == "iPad" ? "iPad" : (navigator.userAgent.match(/iPhone/i))  == "iPhone" ? "iPhone" : (navigator.userAgent.match(/Android/i)) == "Android" ? "Android" : (navigator.userAgent.match(/BlackBerry/i)) == "BlackBerry" ? "BlackBerry" : "null";
+ if(deviceType!="Android"){
+ 	alert("Geolocation errors");	
+	window.location.href = "#/404";
+ } else {
+	alert("Geolocation error");	
+ }*/
+}
 $(function(){
   document.addEventListener("deviceready", onDeviceReady, false);
 })  
 function onDeviceReady() {
-  navigator.geolocation.getCurrentPosition(onSuccess, onError);     
-}
-function onSuccess(position) {
-  // your callback here 
+  navigator.geolocation.getCurrentPosition(onSuccess, onError, { timeout: 10000 });     
 }
 
-function onError(error) { 
-  window.location.href = "#/404";
-}
 function align_cover_elements(){
 		var cover_width = $(window).width();
         var cover_height = $(window).height() + 60;

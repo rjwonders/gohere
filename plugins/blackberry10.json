@@ -7,10 +7,7 @@
         "files": {}
     },
     "installed_plugins": {
-        "cordova-plugin-whitelist": {
-            "PACKAGE_NAME": "com.GoHere.GoHere"
-        },
-        "cordova-plugin-console": {
+        "cordova-plugin-geolocation": {
             "PACKAGE_NAME": "com.GoHere.GoHere"
         }
     },

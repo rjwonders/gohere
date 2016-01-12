@@ -18,7 +18,7 @@
   <preference name="disable-cursor" value="false"/>
   <preference name="android-minSdkVersion" value="14"/>
   <preference name="android-installLocation" value="auto"/>
-  <preference name="DisallowOverscroll" value="false"/>
+  <preference name="DisallowOverscroll" value="true"/>
   <gap:plugin name="org.apache.cordova.console"/>
   <gap:plugin name="org.apache.cordova.device"/>
   <gap:plugin name="org.apache.cordova.device-motion"/>
@@ -86,6 +86,12 @@
 	<access origin="*" />
   </platform>
   <platform name="ios">
+  	<access origin="*" />
+  	<allow-intent href="http://*/*" />
+    <allow-intent href="itms:*"/>
+    <allow-intent href="itms-apps:*"/>
+  </platform>
+  <platform name="blackberry">
   	<access origin="*" />
   	<allow-intent href="http://*/*" />
     <allow-intent href="itms:*"/>

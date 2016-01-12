@@ -8,11 +8,19 @@
                     <div class="alert alert-danger hide" role="alert"></div>
                       <div class="pageapp-login-field">
                           <i class="fa fa-user"></i>
-                          <input type="email" value="Email" ng-model="Email" placeholder="Email">
+                          <input type="email" value="Email" name="Email" ng-model="Email" placeholder="Email" required>
+                          <div style="color:red" ng-show="userForm.Email.$dirty && userForm.Email.$invalid">
+                              <span ng-show="userForm.Email.$error.required">Email is required.</span>
+                              <span ng-show="userForm.Email.$error.email">Invalid email address.</span>
+                          </div>
                       </div>
                       <div class="pageapp-login-field">
                           <i class="fa fa-lock"></i>
-                          <input type="password" value="password"  ng-model="Password" placeholder="password" required>
+                          <input type="password" value="password" name="Password" ng-model="Password" placeholder="password" ng-minlength="6" required>
+                          <div style="color:red" ng-show="userForm.Password.$dirty && userForm.Password.$invalid">
+                              <span ng-show="userForm.Password.$error.required">Password is required.</span>
+                              <span ng-show="userForm.Password.$error.minlength">Password must be minimum 6 characters long.</span>
+                          </div>
                       </div>
                       <div class="clear"></div>
                       <input type="submit" name="Login" value="Login" ng-disabled="userForm.$invalid" class="login-button button button-small button-green button-fullscreen full-bottom"/> 

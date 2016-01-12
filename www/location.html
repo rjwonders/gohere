@@ -4,9 +4,12 @@
     	<div class="decoration"></div>
 		<div class="container">
                     <div class="one-third-responsive full-bottom">
-                    	<form name="userForm" ng-submit="addLocation()" novalidate>
+                    	<form name="userForm" ng-submit="addLocation(userForm.$valid)" novalidate>
                         	
-							<input class="text-field green-field" ng-model="BusinessName" placeholder="Business Name" type="text" value="" required>
+							<input class="text-field green-field" ng-model="BusinessName" name="BusinessName" placeholder="Business Name" type="text" value="" required>
+                            <div style="color:red" ng-show="userForm.BusinessName.$dirty && userForm.BusinessName.$invalid">
+                            	<span ng-show="userForm.BusinessName.$error.required">Business Name is required.</span>
+                          	</div>
                         	<div class="row" style="margin-bottom:10px;">
                         	<div class="col-xs-3">
                             	<a href="javascript:void(0)" class="switch switch-1 switch-1-off getlocation">
@@ -23,9 +26,15 @@
                         </div>
                         	<input ng-model="lat" id="lat" type="hidden" value="">
                             <input ng-model="long" id="long" type="hidden" value="">
-                        	<input class="text-field green-field" ng-model="Address" id="Addresses" placeholder="Address" type="text" value="" required>
-                        	<input class="text-field red-field" ng-model="PostCode" id="PostCode" placeholder="Postal Code" type="text" value="" required>
-                        	<div class="row">
+                        	<input class="text-field green-field" ng-model="Address" name="Address" id="Addresses" placeholder="Address" type="text" value="" required>
+                            <div style="color:red" ng-show="userForm.Address.$dirty && userForm.Address.$invalid">
+                             	<span ng-show="userForm.Address.$error.required">Address is required.</span>
+                          	</div>
+                        	<input class="text-field red-field" ng-model="Postcode" name="Postcode" id="Postcode" placeholder="Postal Code" type="text" value="" required>
+                        	<div style="color:red" ng-show="userForm.Postcode.$dirty && userForm.Postcode.$invalid">
+                              <span ng-show="userForm.Postcode.$error.required">Postcode is required.</span>
+                            </div>
+                            <div class="row">
                         	<div class="col-xs-3">
                             	<a href="javascript:void(0)" class="switch switch-1 isDecals switch-1-off">
                                     <em>I</em>
@@ -40,13 +49,16 @@
                                 </em>
                             </div>
                         </div>
-                        	<textarea  ng-model="Comment" class="contactTextarea requiredField" required></textarea>
+                        	<textarea  ng-model="Comment" name="Comment" class="contactTextarea requiredField"></textarea>
                         	<h5>Cleanness</h5>
-                        	<input id="Cleanness" type="number" ng-model="Cleanness" class="rating" min=1 max=5 step=1 data-size="sm" data-symbol="&#xf005;" showCaption="false" clearButton="" data-rating-class="rating-fa" data-glyphicon="false">
+                        	<input id="Cleanness" type="number"  class="rating" min=1 max=5 step=1 data-size="sm" data-symbol="&#xf005;" showCaption="false" clearButton="" data-rating-class="rating-fa" data-glyphicon="false">
+                            <input type="hidden" name="Cleanness" ng-model="Cleanness" value="" />
                         	<h5>Ease of Access</h5>
-                        	<input id="EaseAccess" type="number" ng-model="EaseAccess" class="rating" min=1 max=5 step=1 data-size="sm" data-symbol="&#xf005;" showCaption="false" clearButton="" data-rating-class="rating-fa" data-glyphicon="false">
+                        	<input id="EaseAccess" type="number" class="rating" min=1 max=5 step=1 data-size="sm" data-symbol="&#xf005;" showCaption="false" clearButton="" data-rating-class="rating-fa" data-glyphicon="false">
+                            <input type="hidden" name="EaseAccess" ng-model="EaseAccess" value="" />
                         	<h5>Available Hours</h5>
-                        	<input id="AvailableHours" ng-model="AvailableHours" type="number" class="rating" min=1 max=5 step=1 data-size="sm" data-symbol="&#xf005;" showCaption="false" clearButton="" data-rating-class="rating-fa" data-glyphicon="false">
+                        	<input id="AvailableHours" type="number" class="rating" min=1 max=5 step=1 data-size="sm" data-symbol="&#xf005;" showCaption="false" clearButton="" data-rating-class="rating-fa" data-glyphicon="false">
+                            <input type="hidden" name="AvailableHours" ng-model="AvailableHours" value="" />
                             <div style="margin-bottom:15px;"></div>
                             <div class="alert alert-success hide" role="alert"></div>
                     		<div class="alert alert-danger hide" role="alert"></div>
