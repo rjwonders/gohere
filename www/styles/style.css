@@ -615,6 +615,8 @@
     /* border-color: #FFFFFF; */
     text-shadow: none;
 }
+#ToCross, #FromCross{position:absolute;top:1px; padding-left:4px;}
+form[name='userForm'] input[type='text']{padding-left:20px}
 #access-card{
     margin-top: 115px;
     width: 90%;

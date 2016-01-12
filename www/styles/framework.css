@@ -3200,7 +3200,13 @@ ul.tabs li.active-tab{
 /*-----------------------*/
 
 #simplemodal-overlay {background-color:#000;}
-
+#save-route-modal.simple-modal-content{
+    overflow:hidden!important;
+    text-align:center;
+    height:250px;
+}
+.simplemodal-wrap{overflow:initial!important}
+input[name='RouteName']{width:100%; margin:10px 0px;border:1px solid #bbb; padding:10px}
 .simple-modal-content {
     display:none;
     background-color:rgba(255,255,255,0.9);
