@@ -499,7 +499,7 @@ GoHereApp.config(['$routeProvider',
 	getSetMapPage = function(lat,long){
 		var html ='';
 		var thedecal = $("#Decal").val();
-		
+		$scope.map = { center: { latitude: lat, longitude: long }, markers:[], zoom: 12 };
 		//uiGmapIsReady.promise(1).then(function(instances) {
 		  var request = $http({
 			  method: "post",
@@ -660,6 +660,9 @@ GoHereApp.config(['$routeProvider',
 					getSetMapPage(lat,long);			
 				}
 			}, function(err) {
+				
+				$('.simple-modal-content4').modal();
+				
 				var lat  = 43.6888092;
 				var long = -79.393413;
 				
