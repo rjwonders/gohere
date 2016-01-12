@@ -660,6 +660,9 @@ GoHereApp.config(['$routeProvider',
 					getSetMapPage(lat,long);			
 				}
 			}, function(err) {
+				
+				$('.simple-modal-content4').modal();
+				
 				var lat  = 43.6888092;
 				var long = -79.393413;
 				

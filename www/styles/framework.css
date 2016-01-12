@@ -3219,7 +3219,12 @@ ul.tabs li.active-tab{
     margin-top:20px;
     padding-bottom:2px;
 }
-
+.simple-modal-content4 {
+    display:none;
+    background-color:rgba(255,255,255,0.9);
+    margin-top:20px;
+    padding-bottom:2px;
+}
 @media (max-width:350px){
     #simplemodal-container{
         width:300px!important;
@@ -3260,6 +3265,17 @@ ul.tabs li.active-tab{
 }
 
 .simple-modal-content3 p{
+    padding:20px;
+    padding-top:0px;
+    padding-bottom:0px;
+}
+
+.simple-modal-content4 h4{
+    padding:20px;
+    padding-bottom:10px;
+}
+
+.simple-modal-content4 p{
     padding:20px;
     padding-top:0px;
     padding-bottom:0px;
