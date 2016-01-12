@@ -2270,8 +2270,17 @@ ul.tabs li.active-tab{
     border-radius:28px;
     margin-top:2px;
     transform: translateX(-13px);
-    -webkit-transform: translateX(-13px);
+    -webkit-transform: translateX(18px);
     transition:all 200ms ease;
+}
+.decal .switch-1-on span{
+    transform:translateX(1px);
+    -webkit-transform: translateX(1px)!important;
+    transition:all 200ms ease;
+}
+.decal .switch-1 span{
+    transform: translateX(-13px);
+    -webkit-transform: translateX(-13px);
 }
 
 .switch-1-on{

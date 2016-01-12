@@ -13,9 +13,7 @@
                         	<div class="row" style="margin-bottom:10px;">
                         	<div class="col-xs-3">
                             	<a href="javascript:void(0)" class="switch switch-1 switch-1-off getlocation">
-                                    <em>I</em>
                                     <span></span>
-                                    <em>0</em>
                                 </a>
                             </div>
                             <div class="col-xs-9">
@@ -37,9 +35,7 @@
                             <div class="row">
                         	<div class="col-xs-3">
                             	<a href="javascript:void(0)" class="switch switch-1 isDecals switch-1-off">
-                                    <em>I</em>
                                     <span></span>
-                                    <em>0</em>
                                 </a>
                             </div>
                             <div class="col-xs-9">
@@ -49,14 +45,14 @@
                                 </em>
                             </div>
                         </div>
-                        	<textarea  ng-model="Comment" name="Comment" class="contactTextarea requiredField"></textarea>
-                        	<h5>Cleanness</h5>
+                        	<textarea style="position:relative;z-index:2000;border: 1px solid rgb(130, 130, 130);width: 90% !important;margin-top: 20px;height: 47px;" placeholder="Please describe this washroom" ng-model="Comment" name="Comment" class="contactTextarea requiredField col-xs-12"></textarea><br>
+                        	<h5 class="col-xs-12">Cleanliness</h5>
                         	<input id="Cleanness" type="number"  class="rating" min=1 max=5 step=1 data-size="sm" data-symbol="&#xf005;" showCaption="false" clearButton="" data-rating-class="rating-fa" data-glyphicon="false">
                             <input type="hidden" name="Cleanness" ng-model="Cleanness" value="" />
-                        	<h5>Ease of Access</h5>
+                            <h5 class="col-xs-12">Ease of Access</h5>
                         	<input id="EaseAccess" type="number" class="rating" min=1 max=5 step=1 data-size="sm" data-symbol="&#xf005;" showCaption="false" clearButton="" data-rating-class="rating-fa" data-glyphicon="false">
                             <input type="hidden" name="EaseAccess" ng-model="EaseAccess" value="" />
-                        	<h5>Available Hours</h5>
+                            <h5 class="col-xs-12">Available Hours</h5>
                         	<input id="AvailableHours" type="number" class="rating" min=1 max=5 step=1 data-size="sm" data-symbol="&#xf005;" showCaption="false" clearButton="" data-rating-class="rating-fa" data-glyphicon="false">
                             <input type="hidden" name="AvailableHours" ng-model="AvailableHours" value="" />
                             <div style="margin-bottom:15px;"></div>
