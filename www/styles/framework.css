@@ -2270,8 +2270,17 @@ ul.tabs li.active-tab{
     border-radius:28px;
     margin-top:2px;
     transform: translateX(-13px);
-    -webkit-transform: translateX(-13px);
+    -webkit-transform: translateX(18px);
     transition:all 200ms ease;
+}
+.decal .switch-1-on span{
+    transform:translateX(1px);
+    -webkit-transform: translateX(1px)!important;
+    transition:all 200ms ease;
+}
+.decal .switch-1 span{
+    transform: translateX(-13px);
+    -webkit-transform: translateX(-13px);
 }
 
 .switch-1-on{
@@ -3200,7 +3209,13 @@ ul.tabs li.active-tab{
 /*-----------------------*/
 
 #simplemodal-overlay {background-color:#000;}
-
+#save-route-modal.simple-modal-content{
+    overflow:hidden!important;
+    text-align:center;
+    height:250px;
+}
+.simplemodal-wrap{overflow:initial!important}
+input[name='RouteName']{width:100%; margin:10px 0px;border:1px solid #bbb; padding:10px}
 .simple-modal-content {
     display:none;
     background-color:rgba(255,255,255,0.9);
