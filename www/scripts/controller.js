@@ -434,6 +434,7 @@ GoHereApp.config(['$routeProvider',
 	$rootScope.PageName = "Find a Washroom";
 	$scope.map = Array();
 	$scope.map.markers = Array();
+
 	$scope.gpsSuccess = 0;
 	var posOptions = {timeout: 10000, enableHighAccuracy: true};
 	
@@ -548,7 +549,9 @@ GoHereApp.config(['$routeProvider',
 					  theme: 'dark',
 					  scrollInertia: 500
 				  }
-				  
+				  $(".angular-google-map-container").css("height", 300);
+				  $scope.map.center = { latitude: lat, longitude: long };
+				  $scope.apply();
 				  $("#status").fadeOut(); // will first fade out the loading animation
 				  $("#preloader").delay(100).fadeOut("slow"); 
 			  }
@@ -630,6 +633,8 @@ GoHereApp.config(['$routeProvider',
 		//alert(currPage);
 	}
 	$(document).ready(function(){
+		var WindowHeight = $( window ).height() - 60;
+		$(".angular-google-map-container").css("height", WindowHeight);
 		uiGmapGoogleMapApi.then(function(maps) {
 			$rootScope.watchID = navigator.geolocation.watchPosition(PositionSuccess, PositionError, { enableHighAccuracy: true, timeout: 10000 });
 			$cordovaGeolocation.getCurrentPosition(posOptions)
@@ -698,6 +703,7 @@ GoHereApp.config(['$routeProvider',
 				
 				getSetMapPage(lat,long);
 			});
+			
     	});
 	});
 	$("#FromAddress").keydown(function(e){
@@ -743,6 +749,8 @@ GoHereApp.config(['$routeProvider',
 	$scope.expandMap = function(){
 		var WindowHeight = $( window ).height() - 60;
 		$(".angular-google-map-container").animate({height: WindowHeight}, 500);
+		//$scope.map.visualRefresh = true;
+		//$scope.map.control.refresh();
 		//$scope.map.control.refresh();
 		$(".searchmap").css("display","none");
 		$(".expandicon").css("display","block");	
