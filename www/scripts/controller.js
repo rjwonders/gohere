@@ -446,7 +446,9 @@ GoHereApp.config(['$routeProvider',
 			lat = results[0].geometry.location.lat();
 			lng = results[0].geometry.location.lng();
 			$scope.map = { center: { latitude: lat, longitude: lng }, markers:[], zoom: 10 };
+			
 		});
+		
 		
 	   	var request = $http({
 			method: "post",
@@ -553,12 +555,17 @@ GoHereApp.config(['$routeProvider',
 		  );
 	  //});
 	}
+	$scope.mylocation = function(){
+		$scope.map.center = { latitude: $scope.Currentlats , longitude: $scope.Currentlongs };
+	}
 	PositionError = function(position){
+		$(".gocurrentpostiton").css("display","none");
 		navigator.geolocation.clearWatch($rootScope.watchID);
 		$rootScope.watchID = navigator.geolocation.watchPosition(PositionSuccess, PositionError, { enableHighAccuracy: true, timeout: 10000 });
 	}
 	PositionSuccess = function(position){
 		if($rootScope.PageName == "Find a Washroom"){
+			$(".gocurrentpostiton").css("display","");
 			var Watchlat  = position.coords.latitude;
 			var Watchlong = position.coords.longitude;
 			
