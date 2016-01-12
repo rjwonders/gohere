@@ -551,7 +551,11 @@ GoHereApp.config(['$routeProvider',
 				  }
 				  $(".angular-google-map-container").css("height", 300);
 				  $scope.map.center = { latitude: lat, longitude: long };
-				  $scope.apply();
+
+				  if(!$scope.$$phase) {
+					  //$digest or $apply
+					  $scope.$apply();
+				  }
 				  $("#status").fadeOut(); // will first fade out the loading animation
 				  $("#preloader").delay(100).fadeOut("slow"); 
 			  }
@@ -560,6 +564,7 @@ GoHereApp.config(['$routeProvider',
 	}
 	$scope.mylocation = function(){
 		$scope.map.center = { latitude: $scope.Currentlats , longitude: $scope.Currentlongs };
+
 	}
 	PositionError = function(position){
 		$(".gocurrentpostiton").css("display","none");
@@ -592,7 +597,7 @@ GoHereApp.config(['$routeProvider',
 					$scope.Currentlats  = Watchlat;
 					$scope.Currentlongs = Watchlong;
 					
-					$scope.map = { center: { latitude: Watchlat, longitude: Watchlong }, markers:[], zoom: 12 };
+					$scope.map = { center: { latitude: Watchlat, longitude: Watchlong }, markers:[], zoom: 8 };
 					
 					
 					var geocoder = new google.maps.Geocoder();
