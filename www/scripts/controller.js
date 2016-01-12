@@ -443,14 +443,41 @@ GoHereApp.config(['$routeProvider',
 		var thedecal = $("#Decal").val();
 		var geocoder = new google.maps.Geocoder();
 		var bounds = new google.maps.LatLngBounds();
+		var path = Array();
 		geocoder.geocode( { 'address': loc1}, function(results, status) {
 			lat = results[0].geometry.location.lat();
 			lng = results[0].geometry.location.lng();
-			$scope.map = { center: { latitude: lat, longitude: lng }, markers:[], zoom: 10 };
-			
+			$scope.map = { center: { latitude: lat, longitude: lng }, markers:[], zoom: 10 };		
 		});
-		
-		
+		var request = {
+			origin : loc1,
+			destination : loc2,
+			travelMode : google.maps.TravelMode.DRIVING
+		};
+		var html ='';
+		var directionsService = new google.maps.DirectionsService();
+		directionsService.route(request, function(response, status){
+			if(status == google.maps.DirectionsStatus.OK){
+				pointsArray = response.routes[0].overview_path;
+                for (j = 0; j < pointsArray.length; j++)
+                {
+					temppath = {
+                        latitude: pointsArray[j].lat(),
+                        longitude: pointsArray[j].lng()
+                    };
+					path.push(temppath);
+                }
+				
+			}
+		});
+		$scope.polylines = [
+            {
+                path: path,
+            },
+            
+        ];
+		//$scope.polylines = path;
+		console.log(path);
 	   	var request = $http({
 			method: "post",
 			url: globalUrl+"/washrooms/locations.json",
@@ -553,8 +580,7 @@ GoHereApp.config(['$routeProvider',
 				  $scope.map.center = { latitude: lat, longitude: long };
 
 				  if(!$scope.$$phase) {
-					  //$digest or $apply
-					  $scope.$apply();
+				  	$scope.$apply();
 				  }
 				  $("#status").fadeOut(); // will first fade out the loading animation
 				  $("#preloader").delay(100).fadeOut("slow"); 

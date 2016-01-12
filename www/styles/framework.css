@@ -7649,5 +7649,5 @@ input[name='RouteName']{width:100%; margin:10px 0px;border:1px solid #bbb; paddi
 
 .searchmap  { z-index:1001; position:absolute; margin: 10px;opacity: 0.9;}
 
-#location-arrow{position:absolute; bottom:20px; z-index:9}
+#location-arrow{position:absolute;bottom: 36px; z-index:9}
 #location-list{display: block; z-index: 100; position: relative; background: white;}
