@@ -189,9 +189,12 @@ a:hover{
 
 div, a, p, img, blockquote, form, fieldset, textarea, input, label, iframe, code, pre {
     display: block;
+    font-family:'Avenir-light';
     position:relative;
 }
-
+strong{
+    font-family:'Avenir-Heavy';
+}
 textarea, input { outline: none; }
 
 input {
@@ -446,7 +449,7 @@ textarea{
 /*----------------------*/
 
 h1, h2, h3, h4, h5, h6{
-    font-family:'Roboto', sans-serif;
+    font-family:'Avenir-Heavy';
     color:#1f1f1f;
     margin-bottom:10px;
 }
@@ -3828,6 +3831,8 @@ input[name='RouteName']{width:100%; margin:10px 0px;border:1px solid #bbb; paddi
     font-style:normal;
     color:#666666;
     font-weight:500;
+    line-height: 17px;
+    margin-bottom: 17px;
 }
 
 .user-list-item2 i{
