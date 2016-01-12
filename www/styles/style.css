@@ -1,4 +1,61 @@
 /* Epsilon Framework Styles*/
+@font-face {
+    font-family: 'Avenir-Heavy';
+    src: url('../fonts/fonts/AvenirLTStd-Heavy.eot');
+}
+
+@font-face {
+    font-family: 'Avenir-Heavy';
+    src:url('../fonts/fonts/AvenirLTStd-Heavy.svg#AvenirLTStd-Heavy') format('svg'),
+    url('../fonts/fonts/AvenirLTStd-Heavy.woff') format('woff');
+}
+
+
+@font-face {
+    font-family: 'Avenir-Book';
+    src: url('../fonts/fonts/AvenirLTStd-Book.eot');
+}
+
+@font-face {
+    font-family: 'Avenir-Book';
+    src:url('../fonts/fonts/AvenirLTStd-Book.svg#AvenirLTStd-Book') format('svg'),
+    url('../fonts/fonts/AvenirLTStd-Book.woff') format('woff');
+
+}
+
+@font-face {
+    font-family: 'Avenir-Medium';
+    src: url('../fonts/fonts/AvenirLTStd-Medium.eot');
+}
+
+@font-face {
+    font-family: 'Avenir-Medium';
+    src:  url('../fonts/fonts/AvenirLTStd-Book.svg#AvenirLTStd-Book') format('svg'),
+    url('../fonts/fonts/AvenirLTStd-Medium.woff') format('woff');
+    font-weight:normal!important;
+
+}
+
+
+@font-face {
+    font-family: 'Avenir-Light';
+    src: url('../fonts/fonts/AvenirLTStd-Light.eot');
+}
+
+@font-face {
+    font-family: 'Avenir-Light';
+    src: url('../fonts/fonts/AvenirLTStd-Light.svg#AvenirLTStd-Light') format('svg'),
+    url('../fonts/fonts/AvenirLTStd-Light.woff') format('woff');
+
+}
+
+@font-face {
+    font-family: 'MyriadProRegular';
+    src:  url('../fonts/fonts/AvenirLTStd-Book.svg#AvenirLTStd-Book') format('svg'),
+    url('../fonts/fonts/AvenirLTStd-Medium.woff') format('woff');
+    font-weight:normal!important;
+}
+
 
 .disabled{
     display:none;

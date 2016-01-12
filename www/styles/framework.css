@@ -3828,6 +3828,8 @@ input[name='RouteName']{width:100%; margin:10px 0px;border:1px solid #bbb; paddi
     font-style:normal;
     color:#666666;
     font-weight:500;
+    line-height: 17px;
+    margin-bottom: 17px;
 }
 
 .user-list-item2 i{
