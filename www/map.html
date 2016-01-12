@@ -12,10 +12,8 @@
         <div class="col-xs-3">
             <a style="margin-left: 10px" class="btn btn-small btn-default" href="javascript:void(0)" ng-click="showsearch()">Search</a>
         </div>
-        <div class="col-xs-3">
-            <a style="margin-left: 10px" class="btn btn-small gocurrentpostiton btn-default" href="javascript:void(0)" ng-click="mylocation()"><i class="fa fa-map-marker"></i></a>
-        </div>
-        <div class="col-xs-4 col-xs-offset-2">
+
+        <div class="col-xs-4 col-xs-offset-5">
             <div class="row decal">
 
                 <strong class="col-xs-6 text-left">Decal</strong>
@@ -51,6 +49,9 @@
             <a class="btn btn-small btn-default col-xs-10 simple-modal" href="javascript:void(0)" ng-click="saveRoutes()">Save Route</a>
         </div>
     </div>
+    <div id="location-arrow">
+        <a style="margin-left: 10px" class="gocurrentpostiton" href="javascript:void(0)" ng-click="mylocation()"><img src="images/location-arrow.png"></a>
+    </div>
 	<ui-gmap-google-map center='map.center' zoom='map.zoom' refresh='true' dorebuildall="true" expression='true' options="{disableDefaultUI: true}" ng-click="expandMap()" control="map.control">
     	<ui-gmap-marker idkey="map.homemarker.markid" coords="map.homemarker.coords" options="{icon:map.homemarker.icon}" events="map.homemarker.events" dorebuildall="true"></ui-gmap-marker>
         <ui-gmap-marker ng-repeat="m in map.markers" idKey="m.id" options="{icon:m.icon}" coords="m.coords" click="onClick()" events="marker.events">
@@ -61,8 +62,9 @@
                 </div>
             </ui-gmap-window>
         </ui-gmap-marker>
+
     </ui-gmap-google-map>
-    <div class="container hidetext" ng-scrollbars ng-scrollbars-config="scrollbarConfig">
+    <div id='location-list' class="container hidetext" ng-scrollbars ng-scrollbars-config="scrollbarConfig">
     	<div class="one-third-responsive mapinfo" style="width:100%">
         </div>
     </div>
