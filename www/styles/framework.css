@@ -189,9 +189,12 @@ a:hover{
 
 div, a, p, img, blockquote, form, fieldset, textarea, input, label, iframe, code, pre {
     display: block;
+    font-family:'Avenir-light';
     position:relative;
 }
-
+strong{
+    font-family:'Avenir-Heavy';
+}
 textarea, input { outline: none; }
 
 input {
@@ -446,7 +449,7 @@ textarea{
 /*----------------------*/
 
 h1, h2, h3, h4, h5, h6{
-    font-family:'Roboto', sans-serif;
+    font-family:'Avenir-Heavy';
     color:#1f1f1f;
     margin-bottom:10px;
 }
