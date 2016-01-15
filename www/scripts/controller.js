@@ -604,9 +604,9 @@ GoHereApp.config(['$routeProvider',
 			$(".gocurrentpostiton").css("display","");
 			var Watchlat  = position.coords.latitude;
 			var Watchlong = position.coords.longitude;
-			
+			uiGmapGoogleMapApi.then(function(maps) {
 			if($scope.map.homemarker==undefined){
-				//alert("Hiello");
+				
 				$scope.map.homemarker = {
 					markid: 'homemarker',
 				  	name: "Current Location",
@@ -616,7 +616,7 @@ GoHereApp.config(['$routeProvider',
 					  	longitude	: Watchlong
 				  	}
 			  	};
-			  	$scope.$apply();
+			  	//$scope.$apply();
 				
 				if($scope.gpsSuccess == 0){
 					$("#status").fadeIn(); // will first fade out the loading animation
@@ -655,11 +655,14 @@ GoHereApp.config(['$routeProvider',
 					latitude: Watchlat,
 					longitude: Watchlong
 			  	};
-				$scope.$apply();
-			  	//$scope.map.control.refresh();
+				if(!$scope.$$phase) {
+					$scope.$apply();
+				}
+				//$scope.map.control.refresh();
 				//$scope.map.refresh = true;
  			//home.setPosition(latlng);
 			}
+			});
 		} else {	
 			navigator.geolocation.clearWatch($rootScope.watchID);
 		}
@@ -754,7 +757,12 @@ GoHereApp.config(['$routeProvider',
 		}
 	});
 	$scope.showsearch = function(){
-		$(".searchs").slideToggle();
+		if(!$('.searchs').is(':visible')){
+			$(".searchs").css("display","block");
+		} else {
+			$(".searchs").css("display","none");
+		}
+		
 	}
 	$scope.clearFrom = function(){
 		$scope.FromAddress = "";

@@ -9,6 +9,12 @@
     "installed_plugins": {
         "cordova-plugin-geolocation": {
             "PACKAGE_NAME": "com.GoHere.GoHere"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.GoHere.GoHere"
+        },
+        "cordova-plugin-inappbrowser": {
+            "PACKAGE_NAME": "com.GoHere.GoHere"
         }
     },
     "dependent_plugins": {}
