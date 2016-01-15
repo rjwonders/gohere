@@ -21,34 +21,8 @@ var GoHereApp = angular.module('mainApp', [
 GoHereApp.value('snapper');
 
 GoHereApp.config(function ($translateProvider, $httpProvider, $cordovaInAppBrowserProvider, uiGmapGoogleMapApiProvider, ScrollBarsProvider,$authProvider) {
-  $translateProvider.translations('en', {
-    ABOUT_BUTTON	: 'About GoHere',
-	FIND_BUTTON		: 'Find Washroom',
-	ENG_BUTTON		: 'English',
-	FR_BUTTON		: 'French',
-	CURRENT_LOCATION: 'My Current Location',
-	MAP				: 'Map',
-	LOGIN			: 'Login',
-	ADD_LOCATION	: 'Add a Location',
-	ACCESS_CARD		: 'Washroom Access Card',
-	FAVOURITE		: 'My Favourites',
-	LOGOUT			: 'Logout',
-	ROUTES			: 'My Saved Routes',
-  });
-  $translateProvider.translations('fr', {
-    ABOUT_BUTTON	: 'A propos de GoHere',
-	FIND_BUTTON		: 'Trouver salle d\'eau',
-	ENG_BUTTON		: 'English',
-	FR_BUTTON		: 'French',
-	CURRENT_LOCATION: 'Ma position actuelle',
-	MAP				: 'Carte',
-	LOGIN			: 'Login',
-	ADD_LOCATION	: 'Ajouter un lieu',
-	ACCESS_CARD		: 'Buanderie Access Card',
-	FAVOURITE		: 'Mes préférés',
-	LOGOUT			: 'Se déconnecter',
-	ROUTES			: 'Mes itinéraires enregistrés',
-  });
+  $translateProvider.translations('en', LangEn);
+  $translateProvider.translations('fr', LangFr);
   if(localStorage.SelectedLanguage!==undefined){
   	$translateProvider.preferredLanguage(localStorage.SelectedLanguage);
   } else {
@@ -236,14 +210,14 @@ GoHereApp.config(['$routeProvider',
 	
   }]);
   
-  GoHereApp.controller('sponcersController', ['$scope', '$rootScope', '$http', '$sce', function($scope,$rootScope, $http,$sce) {
+  GoHereApp.controller('sponcersController', ['$scope', '$rootScope', '$http', '$sce', '$translate', function($scope,$rootScope, $http,$sce, $translate) {
 	GoHereApp.snapper.close();
 	$(".menu-item").removeClass('menu-item-active');  
 	$(".custom-header").css("display","block");  
 	$("#status").fadeIn(); // will first fade out the loading animation
 	$("#preloader").delay(100).fadeIn("slow");
 	$http.get(globalUrl+"/supporters/index/1.json").then(function(response) {
-		$rootScope.PageName = "Supporters";
+		$rootScope.PageName = 'SUPPORTERS';
 		var htmls = "";
 		angular.forEach(response.data.response, function(value, key) {
 		  	if(key!="image_url"){
@@ -272,12 +246,12 @@ GoHereApp.config(['$routeProvider',
 		$("#active-logout").addClass("hide");
 		$("#active-login").removeClass("hide");
   }]);
-  GoHereApp.controller('forgetController', ['$scope', '$rootScope', '$location', '$http', '$sce', '$cordovaOauth', '$cordovaInAppBrowser', function($scope,$rootScope, $location, $http,$sce, $cordovaOauth, $cordovaInAppBrowser) {
+  GoHereApp.controller('forgetController', ['$scope', '$rootScope', '$location', '$http', '$sce', '$cordovaOauth', '$cordovaInAppBrowser', '$translate', function($scope,$rootScope, $location, $http,$sce, $cordovaOauth, $cordovaInAppBrowser, $translate) {
 	  GoHereApp.snapper.close();
 	  $(".menu-item").removeClass('menu-item-active');  
 	  $("#active-login").addClass('menu-item-active');  
 	  $(".custom-header").css("display","block");  
-	  $rootScope.PageName = "Reset Password";
+	  $rootScope.PageName = 'RESET_PASSWORD';
 	  align_cover_elements();
 	  $scope.resetpass = function(){
 		if ($scope.userForm.$valid) {
@@ -311,12 +285,12 @@ GoHereApp.config(['$routeProvider',
 		}
 	  }
   }]);
-  GoHereApp.controller('loginController', ['$scope', '$rootScope', '$location', '$http', '$sce', '$cordovaOauth', '$cordovaInAppBrowser', '$auth', function($scope,$rootScope, $location, $http,$sce, $cordovaOauth, $cordovaInAppBrowser, $auth) {
+  GoHereApp.controller('loginController', ['$scope', '$rootScope', '$location', '$http', '$sce', '$cordovaOauth', '$cordovaInAppBrowser', '$auth', '$translate', function($scope,$rootScope, $location, $http,$sce, $cordovaOauth, $cordovaInAppBrowser, $auth, $translate) {
 	GoHereApp.snapper.close();
 	$(".menu-item").removeClass('menu-item-active');  
 	$("#active-login").addClass('menu-item-active');  
-	$(".custom-header").css("display","block");  
-	$rootScope.PageName = "Login";
+	$(".custom-header").css("display","block"); 
+	$rootScope.PageName = 'LOGIN';
 	align_cover_elements(); 
 	$scope.facebookLogin = function(){
 		$cordovaInAppBrowser.open('#/fblogin', '_blank').then(function(event) {
@@ -372,12 +346,12 @@ GoHereApp.config(['$routeProvider',
   }]);
   
   
-  GoHereApp.controller('signupController', ['$scope', '$rootScope', '$location', '$http', '$sce', '$cordovaOauth', '$cordovaInAppBrowser', function($scope,$rootScope, $location, $http,$sce, $cordovaOauth, $cordovaInAppBrowser) {
+  GoHereApp.controller('signupController', ['$scope', '$rootScope', '$location', '$http', '$sce', '$cordovaOauth', '$cordovaInAppBrowser', '$translate', function($scope,$rootScope, $location, $http,$sce, $cordovaOauth, $cordovaInAppBrowser, $translate) {
 	GoHereApp.snapper.close();
 	$(".menu-item").removeClass('menu-item-active');  
 	$("#active-login").addClass('menu-item-active');  
 	$(".custom-header").css("display","block");  
-	$rootScope.PageName = "Signup";
+	$rootScope.PageName = 'SIGNUP';
 	align_cover_elements();
 	$scope.checkRegister = function(){
 		if ($scope.userForm.$valid) {
@@ -424,14 +398,14 @@ GoHereApp.config(['$routeProvider',
 	}
   }]);
   
-  GoHereApp.controller('mapController', ['$scope', '$rootScope', '$http', '$sce', '$cordovaGeolocation',  'uiGmapGoogleMapApi', 'uiGmapIsReady', '$routeParams', function($scope,$rootScope, $http,$sce, $cordovaGeolocation, uiGmapGoogleMapApi,uiGmapIsReady,$routeParams) {
+  GoHereApp.controller('mapController', ['$scope', '$rootScope', '$http', '$sce', '$cordovaGeolocation',  'uiGmapGoogleMapApi', 'uiGmapIsReady', '$routeParams', '$translate', function($scope,$rootScope, $http,$sce, $cordovaGeolocation, uiGmapGoogleMapApi,uiGmapIsReady,$routeParams, $translate) {
 	GoHereApp.snapper.close();
 	$(".menu-item").removeClass('menu-item-active');  
 	$("#active-map").addClass('menu-item-active');  
 	$(".custom-header").css("display","block");  
 	$("#status").fadeIn(); // will first fade out the loading animation
 	$("#preloader").delay(100).fadeIn("slow");
-	$rootScope.PageName = "Find a Washroom";
+	$rootScope.PageName = 'FIND_A_WASHROOM';
 	$scope.map = Array();
 	$scope.map.markers = Array();
 
@@ -580,11 +554,14 @@ GoHereApp.config(['$routeProvider',
 					  theme: 'dark',
 					  scrollInertia: 500
 				  }
-				  //$(".angular-google-map-container").css("height", 300);
+
+
+	  //$(".angular-google-map-container").css("height", 300);
 				  //$scope.map.center = { latitude: lat, longitude: long };
 				  //if(!$scope.$$phase) {
 				  	//$scope.$apply();
 				  //}
+
 				  $("#status").fadeOut(); // will first fade out the loading animation
 				  $("#preloader").delay(100).fadeOut("slow"); 
 			  }
@@ -593,6 +570,7 @@ GoHereApp.config(['$routeProvider',
 	}
 	$scope.mylocation = function(){
 		$scope.map.center = { latitude: $scope.Currentlats , longitude: $scope.Currentlongs };
+
 	}
 	PositionError = function(position){
 		$(".gocurrentpostiton").css("display","none");
@@ -600,7 +578,7 @@ GoHereApp.config(['$routeProvider',
 		$rootScope.watchID = navigator.geolocation.watchPosition(PositionSuccess, PositionError, { enableHighAccuracy: true, timeout: 10000 });
 	}
 	PositionSuccess = function(position){
-		if($rootScope.PageName == "Find a Washroom"){
+		if($rootScope.PageName == 'FIND_A_WASHROOM'){
 			$(".gocurrentpostiton").css("display","");
 			var Watchlat  = position.coords.latitude;
 			var Watchlong = position.coords.longitude;
@@ -625,7 +603,7 @@ GoHereApp.config(['$routeProvider',
 					$scope.Currentlats  = Watchlat;
 					$scope.Currentlongs = Watchlong;
 					
-					$scope.map = { center: { latitude: Watchlat, longitude: Watchlong }, markers:[], zoom: 12 };
+					$scope.map = { center: { latitude: Watchlat, longitude: Watchlong }, markers:[], zoom: 8 };
 					
 					
 					var geocoder = new google.maps.Geocoder();
@@ -882,8 +860,8 @@ GoHereApp.config(['$routeProvider',
 		}
 	}
   }]);
-  GoHereApp.controller('directionController', ['$scope', '$rootScope', '$http', '$sce', '$cordovaGeolocation',  'uiGmapGoogleMapApi', '$routeParams',function($scope,$rootScope, $http,$sce, $cordovaGeolocation, uiGmapGoogleMapApi, $routeParams) {
-  	$rootScope.PageName = "Detail of route";
+  GoHereApp.controller('directionController', ['$scope', '$rootScope', '$http', '$sce', '$cordovaGeolocation',  'uiGmapGoogleMapApi', '$routeParams', '$translate', function($scope,$rootScope, $http,$sce, $cordovaGeolocation, uiGmapGoogleMapApi, $routeParams, $translate) {
+  	$rootScope.PageName = 'DETAIL_ROUTE';
 	$("#status").fadeIn(); // will first fade out the loading animation
 	$("#preloader").delay(100).fadeIn("slow");
 	uiGmapGoogleMapApi.then(function(maps) {
@@ -1155,7 +1133,7 @@ GoHereApp.config(['$routeProvider',
 			}
 		};
   }]);	  
-  GoHereApp.controller('locationController', ['$scope', '$rootScope', '$http', '$sce', '$cordovaGeolocation',  'uiGmapGoogleMapApi', '$routeParams', '$location', function($scope,$rootScope, $http,$sce, $cordovaGeolocation, uiGmapGoogleMapApi, $routeParams, $location) {
+  GoHereApp.controller('locationController', ['$scope', '$rootScope', '$http', '$sce', '$cordovaGeolocation',  'uiGmapGoogleMapApi', '$routeParams', '$location', '$translate', function($scope,$rootScope, $http,$sce, $cordovaGeolocation, uiGmapGoogleMapApi, $routeParams, $location, $translate) {
   	GoHereApp.snapper.close();
 	if($rootScope.currentUser == '' || $rootScope.currentUser == undefined){
 		
@@ -1165,7 +1143,7 @@ GoHereApp.config(['$routeProvider',
 	$(".menu-item").removeClass('menu-item-active');  
 	$("#active-location").addClass('menu-item-active'); 
 	$(".custom-header").css("display","block");  
-	$rootScope.PageName = "Add a Location";
+	$rootScope.PageName = 'ADD_LOCATION';
 	$("#Cleanness").rating();
 	$('#Cleanness').on('rating.change', function(event, value, caption) {
 		$scope.Cleanness = value;
@@ -1272,7 +1250,7 @@ GoHereApp.config(['$routeProvider',
 		//}
 	}
   }]);
-  GoHereApp.controller('favouriteController', ['$scope', '$rootScope', '$http', '$sce', '$cordovaGeolocation',  'uiGmapGoogleMapApi', '$routeParams', '$location', function($scope,$rootScope, $http,$sce, $cordovaGeolocation, uiGmapGoogleMapApi, $routeParams, $location) {
+  GoHereApp.controller('favouriteController', ['$scope', '$rootScope', '$http', '$sce', '$cordovaGeolocation',  'uiGmapGoogleMapApi', '$routeParams', '$location', '$translate', function($scope,$rootScope, $http,$sce, $cordovaGeolocation, uiGmapGoogleMapApi, $routeParams, $location, $translate) {
 	  	GoHereApp.snapper.close();
 		if($rootScope.currentUser == '' || $rootScope.currentUser == undefined){
 			localStorage.SetRedirect = '/my-access-card';
@@ -1282,7 +1260,7 @@ GoHereApp.config(['$routeProvider',
 		$(".custom-header").css("display","block");  
 		$("#status").fadeIn(); // will first fade out the loading animation
 		$("#preloader").delay(100).fadeIn("slow");
-		$rootScope.PageName = "My Favorites";
+		$rootScope.PageName = 'FAVOURITE';
 		var html = "";
 		$http.get(globalUrl+"/favourites/index_favourite/"+$rootScope.currentUser+".json").then(function(response) {
 			$.each(response.data.response,function(i,val){
@@ -1293,7 +1271,7 @@ GoHereApp.config(['$routeProvider',
 			$("#preloader").delay(100).fadeOut("slow");
 		});
   }]);  
-  GoHereApp.controller('routesController', ['$scope', '$rootScope', '$http', '$sce', '$cordovaGeolocation',  'uiGmapGoogleMapApi', '$routeParams', '$location', function($scope,$rootScope, $http,$sce, $cordovaGeolocation, uiGmapGoogleMapApi, $routeParams, $location) {
+  GoHereApp.controller('routesController', ['$scope', '$rootScope', '$http', '$sce', '$cordovaGeolocation',  'uiGmapGoogleMapApi', '$routeParams', '$location', '$translate', function($scope,$rootScope, $http,$sce, $cordovaGeolocation, uiGmapGoogleMapApi, $routeParams, $location, $translate) {
 	  	GoHereApp.snapper.close();
 		if($rootScope.currentUser == '' || $rootScope.currentUser == undefined){
 			localStorage.SetRedirect = '/saved-routes';
@@ -1304,7 +1282,7 @@ GoHereApp.config(['$routeProvider',
 		$(".custom-header").css("display","block");  
 		$("#status").fadeIn(); // will first fade out the loading animation
 		$("#preloader").delay(100).fadeIn("slow");
-		$rootScope.PageName = "My Saved Routes";
+		$rootScope.PageName = 'ROUTES';
 		var html = '<div class="decoration"></div>';
 		$http.get(globalUrl+"/routes/index/"+$rootScope.currentUser+".json").then(function(response) {
 			$.each(response.data.response,function(i,val){
@@ -1317,7 +1295,7 @@ GoHereApp.config(['$routeProvider',
 		});
   }]);  
   
-  GoHereApp.controller('accessController', ['$scope', '$rootScope', '$http', '$sce', '$cordovaGeolocation',  'uiGmapGoogleMapApi', '$routeParams', '$location', function($scope,$rootScope, $http,$sce, $cordovaGeolocation, uiGmapGoogleMapApi, $routeParams, $location) {
+  GoHereApp.controller('accessController', ['$scope', '$rootScope', '$http', '$sce', '$cordovaGeolocation',  'uiGmapGoogleMapApi', '$routeParams', '$location', '$translate', function($scope,$rootScope, $http,$sce, $cordovaGeolocation, uiGmapGoogleMapApi, $routeParams, $location, $translate) {
   	GoHereApp.snapper.close();
 	if($rootScope.currentUser == '' || $rootScope.currentUser == undefined){
 		
@@ -1327,7 +1305,7 @@ GoHereApp.config(['$routeProvider',
 	$(".menu-item").removeClass('menu-item-active');  
 	$("#active-location").addClass('menu-item-active'); 
 	$(".custom-header").css("display","block");  
-	$rootScope.PageName = "My Access Card";
+	$rootScope.PageName = 'MY_ACCESS_CARD';
 	align_cover_elements(); 
 	$http.get(globalUrl+"/users/access_card/"+$rootScope.currentUser+".json").then(function(response) {
 		$scope.UserName = response.data.response.User.username;
