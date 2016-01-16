@@ -963,7 +963,7 @@ GoHereApp.config(['$routeProvider',
 			requester.success(
 				function( result ) {
 					if(result.response.length == 0){
-						collectComment = '<div class="static-notification bg-red-dark tap-dismiss"><p><i class="fa fa-times"></i>No Comments has been posted.</p></div> ';
+						collectComment = '<div class="static-notification bg-red-dark tap-dismiss"><p><i class="fa fa-times"></i>No comments have been posted.</p></div> ';
 					} else {
 						$.each(result.response,function(i,data){
 							if(i%2==0){

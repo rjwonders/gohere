@@ -18,7 +18,7 @@ var LangEn = {
 	MEDICAL_ALERT	: 'I live with Crohn’s or colitis, a medical condition requiring urgent use of the washroom. Thank you for your understanding and cooperation',
 	DIRECTION		: 'Directions to here',
 	OP_HOURS		: 'Hours of Operation',
-	RATING			: 'Rating',
+	RATING			: 'Overall rating',
 	RATING_LOGIN	: 'Please login to submit rating',
 	CLEANLINESS		: 'Cleanliness',
 	EASE_ACCESS		: 'Ease of Access',
