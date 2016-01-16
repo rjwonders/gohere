@@ -1,5 +1,7 @@
 var globalUrl = 'http://52.4.100.3/gohere/rest';
 var imgurl = "http://52.4.100.3/gohere/admin/uploads/setting";
+//var globalUrl = 'http://52.3.29.145/gohere/rest';
+//var imgurl = "http://52.3.29.145/gohere/admin/uploads/setting";
 
 $(window).load(function() { 
 	$("#status").fadeOut(); // will first fade out the loading animation
@@ -220,8 +222,9 @@ GoHereApp.config(['$routeProvider',
 		$rootScope.PageName = 'SUPPORTERS';
 		var htmls = "";
 		angular.forEach(response.data.response, function(value, key) {
-		  	if(key!="image_url"){
-				htmls+= '<a href="javascript:void(0)" class="user-list-item"><img src="images/pictures/1s.jpg" alt="img"><strong>'+value.Supporter.name+'<br/></strong><em>United States, New York, NY </em></a><div class="decoration"></div>';
+			if(key!="image_url"){
+				//console.log(response.data.response.image_url+value.Supporter.image);
+				htmls+= '<a href="javascript:void(0)" class="user-list-item"><img src="'+response.data.response.image_url+value.Supporter.image+'" alt="img"><strong>'+value.Supporter.name+'<br/></strong></a><div class="decoration"></div>';
 			}
 		});
 		$scope.PageContent = $sce.trustAsHtml(htmls);
@@ -1069,7 +1072,7 @@ GoHereApp.config(['$routeProvider',
 		}
 		$scope.checkFavorites = function(){
 			if($rootScope.currentUser == '' || $rootScope.currentUser == undefined){
-				alert("Please login to make this washroom as favorite.");
+				alert("Please login to make this washroom as favourite.");
 				return false;
 			}
 			var request = $http({
@@ -1263,9 +1266,13 @@ GoHereApp.config(['$routeProvider',
 		$rootScope.PageName = 'FAVOURITE';
 		var html = "";
 		$http.get(globalUrl+"/favourites/index_favourite/"+$rootScope.currentUser+".json").then(function(response) {
-			$.each(response.data.response,function(i,val){
-				html = html + '<a href="#/detail/'+val.Favourite.washroom_id+'" class="user-list-item2"><div class"row"><div class="col-xs-12"><strong>'+val.Washroom.name+'<br/></strong><em>'+val.Washroom.address+'</em></div></div></a><div class="decoration"></div>';
-			});
+			if(response.data.response.length>0){
+				$.each(response.data.response,function(i,val){
+					html = html + '<a href="#/detail/'+val.Favourite.washroom_id+'" class="user-list-item2"><div class"row"><div class="col-xs-12"><strong>'+val.Washroom.name+'<br/></strong><em>'+val.Washroom.address+'</em></div></div></a><div class="decoration"></div>';
+				});
+			} else {
+				html = html + '<div class="row"><div class="col-xs-12">You don\'t have any favourite washroom locations</div><div class="decoration"></div>';
+			}
 			$('.mapinfo').html(html);
 			$("#status").fadeOut(); // will first fade out the loading animation
 			$("#preloader").delay(100).fadeOut("slow");
@@ -1285,10 +1292,14 @@ GoHereApp.config(['$routeProvider',
 		$rootScope.PageName = 'ROUTES';
 		var html = '<div class="decoration"></div>';
 		$http.get(globalUrl+"/routes/index/"+$rootScope.currentUser+".json").then(function(response) {
-			$.each(response.data.response,function(i,val){
-				html = html + '<div class="row"><div class="col-xs-9">'+val.Route.name+'</div><div class="col-xs-1"><a href="https://www.google.ca/maps/dir/'+val.Route.source+'/'+val.Route.distination+'"><i class="fa fa-street-view"></i></a></div><div class="col-xs-1"><a href="#/map/'+val.Route.source+'/'+val.Route.distination+'"><i class="fa fa-location-arrow"></i></a></div></div><div class="decoration"></div>';
-				//html = html + '<a href="#/detail/'+val.Favourite.washroom_id+'" class="user-list-item2"><div class"row"><div class="col-xs-12"><strong>'+val.Washroom.name+'<br/></strong><em>'+val.Washroom.address+'</em></div></div></a><div class="decoration"></div>';
-			});
+			if(response.data.response.length>0){
+				$.each(response.data.response,function(i,val){
+					html = html + '<div class="row"><div class="col-xs-9">'+val.Route.name+'</div><div class="col-xs-1"><a href="https://www.google.ca/maps/dir/'+val.Route.source+'/'+val.Route.distination+'"><i class="fa fa-street-view"></i></a></div><div class="col-xs-1"><a href="#/map/'+val.Route.source+'/'+val.Route.distination+'"><i class="fa fa-location-arrow"></i></a></div></div><div class="decoration"></div>';
+					//html = html + '<a href="#/detail/'+val.Favourite.washroom_id+'" class="user-list-item2"><div class"row"><div class="col-xs-12"><strong>'+val.Washroom.name+'<br/></strong><em>'+val.Washroom.address+'</em></div></div></a><div class="decoration"></div>';
+				});
+			} else {
+				html = html + '<div class="row"><div class="col-xs-12">You don\'t have any saved routes</div><div class="decoration"></div>';
+			}
 			$('.mapinfo').html(html);
 			$("#status").fadeOut(); // will first fade out the loading animation
 			$("#preloader").delay(100).fadeOut("slow");
@@ -1387,7 +1398,13 @@ $(function(){
 function onDeviceReady() {
   navigator.geolocation.getCurrentPosition(onSuccess, onError, { timeout: 10000 });     
 }
+$(document).on('click', 'a[href^=http], a[href^=https]', function(e){
+	e.preventDefault();
+	var $this = $(this); 
+	var target = $this.data('inAppBrowser') || '_blank';
 
+	window.open($this.attr('href'), target, 'location=no');
+});
 function align_cover_elements(){
 		var cover_width = $(window).width();
         var cover_height = $(window).height() + 60;
