@@ -9,40 +9,40 @@
                       <div class="alert alert-danger hide" role="alert"></div>
                       <div class="pageapp-signup-field" ng-class="{ 'has-error' : userForm.Name.$invalid && !userForm.name.$pristine }">
                           <i class="fa fa-user"></i>
-                          <input type="text" value="Full Name" name="Name" ng-model="Name" placeholder="Full Name" required>
+                          <input type="text" value="Full Name" name="Name" ng-model="Name" placeholder="{{ 'FULL_NAME' | translate}}" required>
                           <div style="color:red" ng-show="userForm.Name.$dirty && userForm.Name.$invalid">
-                              <span ng-show="userForm.Name.$error.required">Full Name is required.</span>
+                              <span ng-show="userForm.Name.$error.required">{{ 'NAME_REQUIRE' | translate}}.</span>
                           </div>
                       </div>
           			  <div class="pageapp-signup-field">
                           <i class="fa fa-envelope-o"></i>
-                          <input type="email" value="Email" ng-model="Email" name="Email" placeholder="Email" required>
+                          <input type="email" value="Email" ng-model="Email" name="Email" placeholder="{{ 'EMAIL' | translate}}" required>
                           <div style="color:red" ng-show="userForm.Email.$dirty && userForm.Email.$invalid">
-                              <span ng-show="userForm.Email.$error.required">Email is required.</span>
-                              <span ng-show="userForm.Email.$error.email">Invalid email address.</span>
+                              <span ng-show="userForm.Email.$error.required">{{ 'EMAIL_REQUIRE' | translate}}.</span>
+                              <span ng-show="userForm.Email.$error.email">{{ 'INVALID_EMAIL' | translate}}.</span>
                           </div>
                       </div>
                       <div class="pageapp-signup-field">
                           <i class="fa fa-lock"></i>
-                          <input type="password" value="password"  ng-model="Password" name="Password" placeholder="password" ng-minlength="6" required>
+                          <input type="password" value="password"  ng-model="Password" name="Password" placeholder="{{ 'PASSWORD' | translate}}" ng-minlength="6" required>
                       	  <div style="color:red" ng-show="userForm.Password.$dirty && userForm.Password.$invalid">
-                              <span ng-show="userForm.Password.$error.required">Password is required.</span>
-                              <span ng-show="userForm.Password.$error.minlength">Password must be minimum 6 characters long.</span>
+                              <span ng-show="userForm.Password.$error.required">{{ 'PASSWORD_REQUIRE' | translate}}.</span>
+                              <span ng-show="userForm.Password.$error.minlength">{{ 'PASSWORD_LENGTH' | translate}}.</span>
                           </div>
                       </div>
                       <div class="pageapp-signup-field">
                           <i class="fa fa-calendar-o"></i>
-                          <input type="text" value="Postal Code" ng-model="Postcode" name="Postcode" placeholder="Postal Code" ng-minlength="6" ng-maxlength="6" required>
+                          <input type="text" value="Postal Code" ng-model="Postcode" name="Postcode" placeholder="{{ 'POSTCODE' | translate}}" ng-minlength="6" ng-maxlength="6" required>
 			          	  <div style="color:red" ng-show="userForm.Postcode.$dirty && userForm.Postcode.$invalid">
-                              <span ng-show="userForm.Postcode.$error.required">Postcode is required.</span>
-                              <span ng-show="userForm.Postcode.$error.minlength || userForm.Postcode.$error.maxlength">Postcode must be exactly 6 characters long.</span>
+                              <span ng-show="userForm.Postcode.$error.required">{{ 'POSTCODE_REQUIRE' | translate}}.</span>
+                              <span ng-show="userForm.Postcode.$error.minlength || userForm.Postcode.$error.maxlength">{{ 'POSTCODE_LENGTH' | translate}}.</span>
                           </div>
                       </div>
           			  <div class="clear"></div>
           			  
-          			  <input type="submit" name="Register" value="Register" ng-disabled="userForm.$invalid" class="login-button button button-small button-green button-fullscreen full-bottom"/>          
+          			  <input type="submit" name="Register" value="{{ 'REGISTER' | translate}}" ng-disabled="userForm.$invalid" class="login-button button button-small button-green button-fullscreen full-bottom"/>          
 				</form>
-                <p class="text-center">Already Registered? <a href="#/login" class="login-already">Login here.</a></p>
+                <p class="text-center">{{ 'ALREADY_REGISTER' | translate}}? <a href="#/login" class="login-already">{{ 'LOGIN_HERE' | translate}}.</a></p>
                 
     		</div>
 		</div>

@@ -3,64 +3,64 @@
 	<div class="page-profile">
     	<div class="decoration"></div>
 		<div class="container">
-                    <div class="one-third-responsive full-bottom">
-                    	<form name="userForm" ng-submit="addLocation(userForm.$valid)" novalidate>
-                        	
-							<input class="text-field green-field" ng-model="BusinessName" name="BusinessName" placeholder="Business Name" type="text" value="" required>
-                            <div style="color:red" ng-show="userForm.BusinessName.$dirty && userForm.BusinessName.$invalid">
-                            	<span ng-show="userForm.BusinessName.$error.required">Business Name is required.</span>
-                          	</div>
-                        	<div class="row" style="margin-bottom:10px;">
-                        	<div class="col-xs-3">
-                            	<a href="javascript:void(0)" class="switch switch-1 switch-1-off getlocation">
-                                    <span></span>
-                                </a>
-                            </div>
-                            <div class="col-xs-9">
-                            	<em class="switch-box-subtitle">
-                                    Use Current Location
-                                </em>
-                            </div>
+            <div class="one-third-responsive full-bottom">
+                <form name="userForm" ng-submit="addLocation(userForm.$valid)" novalidate>
+                    
+                    <input class="text-field green-field" ng-model="BusinessName" name="BusinessName" placeholder="{{ 'BUSINESS_NAME' | translate}}" type="text" value="" required>
+                    <div style="color:red" ng-show="userForm.BusinessName.$dirty && userForm.BusinessName.$invalid">
+                        <span ng-show="userForm.BusinessName.$error.required">{{ 'BUSINESS_REQUIRE' | translate}}.</span>
+                    </div>
+                    <div class="row" style="margin-bottom:10px;">
+                        <div class="col-xs-3">
+                            <a href="javascript:void(0)" class="switch switch-1 switch-1-off getlocation">
+                                <span></span>
+                            </a>
                         </div>
-                        	<input ng-model="lat" id="lat" type="hidden" value="">
-                            <input ng-model="long" id="long" type="hidden" value="">
-                        	<input class="text-field green-field" ng-model="Address" name="Address" id="Addresses" placeholder="Address" type="text" value="" required>
-                            <div style="color:red" ng-show="userForm.Address.$dirty && userForm.Address.$invalid">
-                             	<span ng-show="userForm.Address.$error.required">Address is required.</span>
-                          	</div>
-                        	<input class="text-field red-field" ng-model="Postcode" name="Postcode" id="Postcode" placeholder="Postal Code" type="text" value="" required>
-                        	<div style="color:red" ng-show="userForm.Postcode.$dirty && userForm.Postcode.$invalid">
-                              <span ng-show="userForm.Postcode.$error.required">Postcode is required.</span>
-                            </div>
-                            <div class="row">
-                        	<div class="col-xs-3">
-                            	<a href="javascript:void(0)" class="switch switch-1 isDecals switch-1-off">
-                                    <span></span>
-                                </a>
-                            </div>
-                            <div class="col-xs-9">
-                            	<em class="switch-box-subtitle">
-                                	<input class="text-field red-field" ng-model="Decal" id="Decal" type="hidden" value="0">
-                                    Please check if this washroom has an international disability logo <i class="fa fa-wheelchair"></i>
-                                </em>
-                            </div>
+                        <div class="col-xs-9">
+                            <em class="switch-box-subtitle">
+                                {{ 'CURRENT_LOCATION' | translate}}
+                            </em>
                         </div>
-                        	<textarea style="position:relative;z-index:2000;border: 1px solid rgb(130, 130, 130);width: 90% !important;margin-top: 20px;height: 47px;" placeholder="Please describe this washroom" ng-model="Comment" name="Comment" class="contactTextarea requiredField col-xs-12"></textarea><br>
-                        	<h5 class="col-xs-12">Cleanliness</h5>
-                        	<input id="Cleanness" type="number"  class="rating" min=1 max=5 step=1 data-size="sm" data-symbol="&#xf005;" showCaption="false" clearButton="" data-rating-class="rating-fa" data-glyphicon="false">
-                            <input type="hidden" name="Cleanness" ng-model="Cleanness" value="" />
-                            <h5 class="col-xs-12">Ease of Access</h5>
-                        	<input id="EaseAccess" type="number" class="rating" min=1 max=5 step=1 data-size="sm" data-symbol="&#xf005;" showCaption="false" clearButton="" data-rating-class="rating-fa" data-glyphicon="false">
-                            <input type="hidden" name="EaseAccess" ng-model="EaseAccess" value="" />
-                            <h5 class="col-xs-12">Available Hours</h5>
-                        	<input id="AvailableHours" type="number" class="rating" min=1 max=5 step=1 data-size="sm" data-symbol="&#xf005;" showCaption="false" clearButton="" data-rating-class="rating-fa" data-glyphicon="false">
-                            <input type="hidden" name="AvailableHours" ng-model="AvailableHours" value="" />
-                            <div style="margin-bottom:15px;"></div>
-                            <div class="alert alert-success hide" role="alert"></div>
-                    		<div class="alert alert-danger hide" role="alert"></div>
-                    		<input type="submit" name="AddLocation" value="Add Location" class="login-button button button-small button-green button-fullscreen full-bottom"/>      
-                        </form>
+                    </div>
+                    <input ng-model="lat" id="lat" type="hidden" value="">
+                    <input ng-model="long" id="long" type="hidden" value="">
+                    <input class="text-field green-field" ng-model="Address" name="Address" id="Addresses" placeholder="{{ 'ADDRESS' | translate}}" type="text" value="" required>
+                    <div style="color:red" ng-show="userForm.Address.$dirty && userForm.Address.$invalid">
+                        <span ng-show="userForm.Address.$error.required">{{ 'ADDRESS_REQUIRE' | translate}}.</span>
+                    </div>
+                    <input class="text-field red-field" ng-model="Postcode" name="Postcode" id="Postcode" placeholder="{{ 'POSTCODE' | translate}}" type="text" value="" required>
+                    <div style="color:red" ng-show="userForm.Postcode.$dirty && userForm.Postcode.$invalid">
+                      <span ng-show="userForm.Postcode.$error.required">{{ 'POSTCODE_REQUIRE' | translate}}.</span>
+                    </div>
+                    <div class="row">
+                    <div class="col-xs-3">
+                        <a href="javascript:void(0)" class="switch switch-1 isDecals switch-1-off">
+                            <span></span>
+                        </a>
+                    </div>
+                    <div class="col-xs-9">
+                        <em class="switch-box-subtitle">
+                            <input class="text-field red-field" ng-model="Decal" id="Decal" type="hidden" value="0">
+                            {{ 'DISABILITY' | translate}} <i class="fa fa-wheelchair"></i>
+                        </em>
                     </div>
                 </div>
+                    <textarea style="position:relative;z-index:2000;border: 1px solid rgb(130, 130, 130);width: 90% !important;margin-top: 20px;height: 47px;" placeholder="Please describe this washroom" ng-model="Comment" name="Comment" class="contactTextarea requiredField col-xs-12"></textarea><br>
+                    <h5 class="col-xs-12">{{ 'CLEANLINESS' | translate}}</h5>
+                    <input id="Cleanness" type="number"  class="rating" min=1 max=5 step=1 data-size="sm" data-symbol="&#xf005;" showCaption="false" clearButton="" data-rating-class="rating-fa" data-glyphicon="false">
+                    <input type="hidden" name="Cleanness" ng-model="Cleanness" value="" />
+                    <h5 class="col-xs-12">{{ 'EASE_ACCESS' | translate}}</h5>
+                    <input id="EaseAccess" type="number" class="rating" min=1 max=5 step=1 data-size="sm" data-symbol="&#xf005;" showCaption="false" clearButton="" data-rating-class="rating-fa" data-glyphicon="false">
+                    <input type="hidden" name="EaseAccess" ng-model="EaseAccess" value="" />
+                    <h5 class="col-xs-12">{{ 'AVAIL_HOURS' | translate}}</h5>
+                    <input id="AvailableHours" type="number" class="rating" min=1 max=5 step=1 data-size="sm" data-symbol="&#xf005;" showCaption="false" clearButton="" data-rating-class="rating-fa" data-glyphicon="false">
+                    <input type="hidden" name="AvailableHours" ng-model="AvailableHours" value="" />
+                    <div style="margin-bottom:15px;"></div>
+                    <div class="alert alert-success hide" role="alert"></div>
+                    <div class="alert alert-danger hide" role="alert"></div>
+                    <input type="submit" name="AddLocation" value="{{ 'ADD_LOCATION' | translate}}" class="login-button button button-small button-green button-fullscreen full-bottom"/>      
+                </form>
+            </div>
+        </div>
 	</div>
 </div>

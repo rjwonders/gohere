@@ -10,13 +10,13 @@
     </div>
     <div class="row" id="search-decal">
         <div class="col-xs-3">
-            <a style="margin-left: 10px" class="btn btn-small btn-default" href="javascript:void(0)" ng-click="showsearch()">Search</a>
+            <a style="margin-left: 10px" class="btn btn-small btn-default" href="javascript:void(0)" ng-click="showsearch()">{{ 'SEARCH' | translate}}</a>
         </div>
 
         <div class="col-xs-4 col-xs-offset-5">
             <div class="row decal">
 
-                <strong class="col-xs-6 text-left">Decal</strong>
+                <strong class="col-xs-6 text-left">{{ 'DECAL' | translate}}</strong>
                 <a href="javascript:void(0)" class="switch switch-1 isDecals switch-1-off col-xs-2" ng-click="getdecal()">
                     <span></span>
                 </a>
@@ -25,18 +25,18 @@
         </div>
 
     </div>
-    <div class="row searchs center-block" style="display:none">
+    <div class="row searchs center-block" style="display:none;">
     	<form name="userForm" ng-submit="searchzip()" novalidate>
             <div class="row col-xs-7">
 				<input type="hidden" name="Decal" id="Decal" value="0" />
-				<input ng-model="FromAddress" id="FromAddress" type="text" value="" class="form-control" placeholder="From Address" g-places-autocomplete required autocomplete="off">
+				<input ng-model="FromAddress" id="FromAddress" type="text" value="" class="form-control" placeholder="{{ 'FROM_ADDRESS' | translate}}" g-places-autocomplete required autocomplete="off">
             	<a href="javascript:void(0)" ng-click="clearFrom()" id="FromCross"><i class="fa fa-times"></i></a>
             </div>
             <div class="row col-xs-2">
-                <input type="submit" name="AddLocation" value="GO" class="login-button button-red red-bg button-fullscreen"/>
+                <input type="submit" name="AddLocation" value="{{ 'GO' | translate}}" class="login-button button-red red-bg button-fullscreen"/>
             </div>
             <div class="row col-xs-7" style="margin-top: 5px;">
-                <input ng-model="ToAddress" id="ToAddress" type="text" value="" class="form-control" g-places-autocomplete placeholder="To Address" autocomplete="off">
+                <input ng-model="ToAddress" id="ToAddress" type="text" value="" class="form-control" g-places-autocomplete placeholder="{{ 'TO_ADDRESS' | translate}}" autocomplete="off">
                 <a href="javascript:void(0)" ng-click="clearTo()" id="ToCross" style="display:none"><i class="fa fa-times"></i></a>
             </div>
 
@@ -45,8 +45,8 @@
     </div>
 	<div class="direction-controls row">
         <div class="col-xs-8 col-xs-offset-6">
-            <a class="btn btn-small btn-default col-xs-10" href="javascript:void(0)" ng-click="showdirectionsMap()">Directions</a>
-            <a class="btn btn-small btn-default col-xs-10 simple-modal" href="javascript:void(0)" ng-click="saveRoutes()">Save Route</a>
+            <a class="btn btn-small btn-default col-xs-10" href="javascript:void(0)" ng-click="showdirectionsMap()">{{ 'DIRECTION' | translate}}</a>
+            <a class="btn btn-small btn-default col-xs-10 simple-modal" href="javascript:void(0)" ng-click="saveRoutes()">{{ 'SAVE_ROUTE' | translate}}</a>
         </div>
     </div>
     <div id="location-arrow">
@@ -58,7 +58,7 @@
         	<ui-gmap-window options="windowOptions" closeClick="closeClick()" ng-if="m.name != 'Current Location'">
                 <div>
                 	<span>{{m.name}}<br/></span>
-                	<span><a href="https://www.google.ca/maps/dir/{{Currentlats}},{{Currentlongs}}/{{m.coords.latitude}},{{m.coords.longitude}}">Get Direction to Here</a></span>
+                	<span><a href="https://www.google.ca/maps/dir/{{Currentlats}},{{Currentlongs}}/{{m.coords.latitude}},{{m.coords.longitude}}">{{ 'DIRECTION' | translate}}</a></span>
                 </div>
             </ui-gmap-window>
         </ui-gmap-marker>
@@ -70,16 +70,16 @@
     </div>
 </div>
 <div class="simple-modal-content modal-content rounded-modal" id="save-route-modal">
-    <h4>Save this route</h4>
+    <h4>{{ 'SAVE_THIS_ROUTE' | translate}}</h4>
     <form name="routeForm" ng-submit="saveUserRoutes(routeForm.$valid)" novalidate>
     <div class="row">
     	<div class="col-xs-12">
-        	<label for="RouteName">Route Name</label>
+        	<label for="RouteName">{{ 'ROUTE_NAME' | translate}}</label>
         </div>
         <div class="col-xs-12">
         	<input type="text" name="RouteName" value="" ng-model="RouteName" required />
             <div style="color:red" ng-show="routeForm.Comment.$dirty && routeForm.Comment.$invalid">
-              <span ng-show="routeForm.Comment.$error.required">Route Name is required.</span>
+              <span ng-show="routeForm.Comment.$error.required">{{ 'ROUTE_REQUIRE' | translate}}.</span>
             </div>
         </div>
         <div class="col-xs-12">
@@ -89,18 +89,18 @@
     </form>
 </div>
 <div style='background:transparent; box-shadow: none; border:none' class="simple-modal-content4 modal-content rounded-modal  text-center">
-    <h2 style="line-height: 30px; color:white">GoHere needs your current location</h2>
-    <h4 style="color:white">To access your nearest washroom please turn on your GPS</h4>
-    <a href="javascript:void(0)" class="button button-red button-small round-button modal-close button-center">Dismiss</a>
+    <h2 style="line-height: 30px; color:white">{{ 'LOCATION_ACCESS' | translate}}</h2>
+    <h4 style="color:white">{{ 'GPS_ACCESS' | translate}}</h4>
+    <a href="javascript:void(0)" class="button button-red button-small round-button modal-close button-center">{{ 'DISMISS' | translate}}</a>
 </div>
 <div class="simple-modal-content2 modal-content rounded-modal">
-    <h4>Error!</h4>
-    <p>Please choose both From and To address.</p>
-    <a href="#" class="button button-red button-small round-button modal-close button-center">Close</a>
+    <h4>{{ 'ERROR' | translate}}!</h4>
+    <p>{{ 'CHOOSE_BOTH' | translate}}.</p>
+    <a href="#" class="button button-red button-small round-button modal-close button-center">{{ 'CLOSE' | translate}}</a>
 </div>
 <div class="simple-modal-content3 modal-content rounded-modal">
-    <h4>Error</h4>
-    <p>Please login first to save the the route.</p>
-    <a href="#" class="button button-red button-small round-button modal-close button-center">Close</a>
+    <h4>{{ 'ERROR' | translate}}</h4>
+    <p>{{ 'ROUTE_LOGIN' | translate}}.</p>
+    <a href="#" class="button button-red button-small round-button modal-close button-center">{{ 'CLOSE' | translate}}</a>
 </div>
 <!-- /.modal -->

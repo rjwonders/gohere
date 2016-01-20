@@ -8,34 +8,34 @@
                     <div class="alert alert-danger hide" role="alert"></div>
                       <div class="pageapp-login-field">
                           <i class="fa fa-user"></i>
-                          <input type="email" value="Email" name="Email" ng-model="Email" placeholder="Email" required>
+                          <input type="email" value="Email" name="Email" ng-model="Email" placeholder="{{ 'EMAIL' | translate}}" required>
                           <div style="color:red" ng-show="userForm.Email.$dirty && userForm.Email.$invalid">
-                              <span ng-show="userForm.Email.$error.required">Email is required.</span>
-                              <span ng-show="userForm.Email.$error.email">Invalid email address.</span>
+                              <span ng-show="userForm.Email.$error.required">{{ 'EMAIL_REQUIRE' | translate}}.</span>
+                              <span ng-show="userForm.Email.$error.email">{{ 'INVALID_EMAIL' | translate}}.</span>
                           </div>
                       </div>
                       <div class="pageapp-login-field">
                           <i class="fa fa-lock"></i>
-                          <input type="password" value="password" name="Password" ng-model="Password" placeholder="password" ng-minlength="6" required>
+                          <input type="password" value="password" name="Password" ng-model="Password" placeholder="{{ 'PASSWORD' | translate}}" ng-minlength="6" required>
                           <div style="color:red" ng-show="userForm.Password.$dirty && userForm.Password.$invalid">
-                              <span ng-show="userForm.Password.$error.required">Password is required.</span>
-                              <span ng-show="userForm.Password.$error.minlength">Password must be minimum 6 characters long.</span>
+                              <span ng-show="userForm.Password.$error.required">{{ 'PASSWORD_REQUIRE' | translate}}.</span>
+                              <span ng-show="userForm.Password.$error.minlength">{{ 'PASSWORD_LENGTH' | translate}}.</span>
                           </div>
                       </div>
                       <div class="clear"></div>
-                      <input type="submit" name="Login" value="Login" ng-disabled="userForm.$invalid" class="login-button button button-small button-green button-fullscreen full-bottom"/> 
+                      <input type="submit" name="Login" value="{{ 'LOGIN' | translate}}" ng-disabled="userForm.$invalid" class="login-button button button-small button-green button-fullscreen full-bottom"/> 
                       <div class="decoration"></div>
                       <div class="row">
                       	<div class="col-xs-6">
-                            <a href="#/forget-password" class="login-forgot"><i class="fa fa-eye"></i> Forgot Credentials</a>
+                            <a href="#/forget-password" class="login-forgot"><i class="fa fa-eye"></i> {{ 'FORGET_PASSWORD' | translate}}</a>
                         </div>
                         <div class="col-xs-6">
-                            <a href="#/create-account" class="login-create"><i class="fa fa-user"></i> Create Account</a>
+                            <a href="#/create-account" class="login-create"><i class="fa fa-user"></i> {{ 'CREATE_ACCOUNT' | translate}}</a>
                         </div>
                       </div>
                       <div class="decoration"></div>
                       <div class="clear"></div>
-                      <a href="javascript:void(0)" ng-click="authenticate('facebook')" class="facebook-login facebook-color"><i class="fa fa-facebook"></i>Login with Facebook</a>
+                      <a href="javascript:void(0)" ng-click="authenticate('facebook')" class="facebook-login facebook-color"><i class="fa fa-facebook"></i>{{ 'FB_LOGIN' | translate}}</a>
 				</form>
     		</div>
 		</div>

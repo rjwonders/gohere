@@ -9,21 +9,21 @@
                     <div class="alert alert-danger hide" role="alert"></div>
                       <div class="pageapp-login-field">
                           <i class="fa fa-user"></i>
-                          <input type="email" value="Email" ng-model="Email" name="Email" placeholder="Email" required>
+                          <input type="email" value="Email" ng-model="Email" name="Email" placeholder="{{ 'EMAIL' | translate}}" required>
                           <div style="color:red" ng-show="userForm.Email.$dirty && userForm.Email.$invalid">
-                              <span ng-show="userForm.Email.$error.required">Email is required.</span>
-                              <span ng-show="userForm.Email.$error.email">Invalid email address.</span>
+                              <span ng-show="userForm.Email.$error.required">{{ 'EMAIL_REQUIRE' | translate}}.</span>
+                              <span ng-show="userForm.Email.$error.email">{{ 'INVALID_EMAIL' | translate}}.</span>
                           </div>
                       </div>
                       <div class="clear"></div>
-                      <input type="submit" name="Login" value="Reset Password" ng-disabled="userForm.$invalid" class="login-button button button-small button-green button-fullscreen full-bottom"/> 
+                      <input type="submit" name="Login" value="{{ 'RESET_PASSWORD' | translate}}" ng-disabled="userForm.$invalid" class="login-button button button-small button-green button-fullscreen full-bottom"/> 
                       <div class="decoration"></div>
                       <div class="row">
                       	<div class="col-xs-6">
-                            <a href="#/login" class="login-forgot"><i class="fa fa-lock"></i> Back to Login</a>
+                            <a href="#/login" class="login-forgot"><i class="fa fa-lock"></i> {{ 'BACK_LOGIN' | translate}}</a>
                         </div>
                         <div class="col-xs-6">
-                            <a href="#/create-account" class="login-create"><i class="fa fa-user"></i> Create Account</a>
+                            <a href="#/create-account" class="login-create"><i class="fa fa-user"></i> {{ 'CREATE_ACCOUNT' | translate}}</a>
                         </div>
                       </div>
                       <div class="decoration"></div>
