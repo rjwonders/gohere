@@ -680,7 +680,7 @@ form[name='userForm'] input[type='text']{padding-left:20px}
     margin-top: 115px;
     width: 90%;
     border:1px solid red;
-    height: 57%;
+    height: 50%;
     display:inline-block;
     margin-left:5%;
     /* -webkit-transform: rotate(-90deg); */
@@ -688,8 +688,24 @@ form[name='userForm'] input[type='text']{padding-left:20px}
     -o-transform: rotate(-90deg);
     -ms-transform: rotate(-90deg);
     /* transform: rotate(-90deg); */
+    box-shadow: 2px 2px 17px rgba(0, 0, 0, 0.52);
 }
+#access-left img.bottom{position:absolute;bottom:15px; width:70px!important;
+    display:inline-block }
 #access-left {/* margin-top:20px; */background: white;display: block;height: 100%;padding-top: 20px;}
 #access-right{padding:20px;height:100%; color:white!important}
 #access-right * {color:white!important}
-#access-right p strong{top:20px; font-size:25px;position:relative}
+#access-right p strong{
+    top:20px;
+    font-size: 20px;
+    line-height:20px!important;
+    position:relative;
+    border:1px dotted;
+    padding:10px 10px;
+    display: block;
+}
+#access-right p{line-height:20px!important; margin:20px 0px}
+.logo-right img{width:140px!important;height:70px; position:relative;top:-14px}
+.logo-right{display:flex; color:white;float:right;position: absolute;bottom: 5px;z-index: 10;right: 30px;}
+.about-us{padding:30px 20px;}
+.about-us p{line-height:26px}

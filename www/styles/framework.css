@@ -3026,13 +3026,13 @@ ul.tabs li.active-tab{
 .facebook-login,
 .twitter-login,
 .google-login{
-    height:50px;
-    line-height:50px;
+    height: 42px;
+    line-height: 45px;
     padding-left:20px;
     padding-right:20px;
     margin-top:8px;
     margin-bottom:8px;
-    font-size:12px;
+    font-size: 14px;
     text-align:center;
     transition:all 250ms ease;
 }
@@ -3042,6 +3042,7 @@ ul.tabs li.active-tab{
 .google-login:hover{
     opacity:0.9;
     transition:all 250ms ease;
+    font-size: 14px;
 }
 
 .facebook-login i,
@@ -3051,7 +3052,7 @@ ul.tabs li.active-tab{
     margin-right:20px;
     position:absolute;
     left:20px;
-    top:18px;
+    top: 14px;
     font-size:16px;
 }
 
@@ -5333,6 +5334,7 @@ input[name='RouteName']{width:100%; margin:10px 0px;border:1px solid #bbb; paddi
 
 .pageapp-login input{
     transition:all 200ms ease;
+    font-size: 15px;
 }
 
 .pageapp-login input:focus{
@@ -5363,7 +5365,7 @@ input[name='RouteName']{width:100%; margin:10px 0px;border:1px solid #bbb; paddi
     color:#FFFFFF;
     border-bottom:solid 1px rgba(255,255,255,0.1);
     margin-bottom:20px;
-    font-size:12px;
+    font-size: 15px;
 }
 
 .pageapp-login .unboxed-layout .decoration{
@@ -7625,7 +7627,7 @@ input[name='RouteName']{width:100%; margin:10px 0px;border:1px solid #bbb; paddi
 {
     margin-top: -95px!important;
 }
-
+.pageapp-login-content .unboxed-layout{margin-top:0px!important}
 
 .countdown-content .unboxed-layout,
 .countdown-content .boxed-layout,
