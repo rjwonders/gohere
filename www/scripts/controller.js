@@ -95,8 +95,10 @@ GoHereApp.config(['$routeProvider',
   function($routeProvider) {
     $routeProvider.
       when('/', {
-		controller:  'splashController',   
-        templateUrl: 'splash.html',
+		controller:  'LanguageController',
+		templateUrl: 'main.html',
+		//controller:  'splashController',
+        //templateUrl: 'splash.html',
       }).
 	  when('/language', {
 		controller:  'LanguageController',   
@@ -447,7 +449,7 @@ GoHereApp.config(['$routeProvider',
 		geocoder.geocode( { 'address': loc1}, function(results, status) {
 			lat = results[0].geometry.location.lat();
 			lng = results[0].geometry.location.lng();
-			$scope.map = { center: { latitude: lat, longitude: lng }, markers:[], zoom: 10 };		
+			$scope.map = { center: { latitude: lat, longitude: lng }, markers:[], zoom: 5 };
 		});
 		var request = {
 			origin : loc1,
@@ -610,7 +612,7 @@ GoHereApp.config(['$routeProvider',
 			var Watchlong = position.coords.longitude;
 			
 			if($scope.map.homemarker==undefined){
-				//alert("Hiello");
+
 				$scope.map.homemarker = {
 					markid: 'homemarker',
 				  	name: "Current Location",
@@ -654,11 +656,16 @@ GoHereApp.config(['$routeProvider',
 			  	
 			  //$scope.map.control.refresh();
 			} else {
-				//alert("zello");
-				$scope.map.homemarker.coords = {
-					latitude: Watchlat,
-					longitude: Watchlong
-			  	};
+
+			   $scope.map.homemarker = {
+                    markid: 'homemarker',
+                    name: "Current Location",
+                    icon: 'images/gps.png',
+                    coords: {
+                        latitude	: Watchlat,
+                        longitude	: Watchlong
+                    }
+                };
 				$scope.$apply();
 			  	//$scope.map.control.refresh();
 				//$scope.map.refresh = true;
