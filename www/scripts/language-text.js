@@ -15,7 +15,7 @@ var LangEn = {
 	SPONSORS		: 'Supporters',
 	ACCESS_ALERT	: 'Washroom Access Alert',
 	PLEASE_HELP		: 'PLEASE HELP',
-	MEDICAL_ALERT	: 'I live with Crohn’s or colitis, a medical condition requiring urgent use of the washroom. Thank you for your understanding and cooperation',
+	MEDICAL_ALERT	: 'I live with Crohn\'s or colitis, a medical condition requiring urgent use of the washroom. Thank you for your understanding and cooperation',
 	DIRECTION		: 'Directions to here',
 	OP_HOURS		: 'Hours of Operation',
 	RATING			: 'Overall rating',
