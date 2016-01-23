@@ -22,7 +22,7 @@ var GoHereApp = angular.module('mainApp', [
 
 GoHereApp.value('snapper');
 
-GoHereApp.config(function ($translateProvider, $httpProvider, $cordovaInAppBrowserProvider, uiGmapGoogleMapApiProvider, ScrollBarsProvider,$authProvider) {
+GoHereApp.config(function ($translateProvider, $httpProvider, $cordovaInAppBrowserProvider, uiGmapGoogleMapApiProvider, ScrollBarsProvider) {
   $translateProvider.translations('en', LangEn);
   $translateProvider.translations('fr', LangFr);
   if(localStorage.SelectedLanguage!==undefined){
@@ -54,17 +54,8 @@ GoHereApp.config(function ($translateProvider, $httpProvider, $cordovaInAppBrows
 			enable: true // enable scrolling buttons by default
 		}
 	};
-	
-	$authProvider.facebook({
-      clientId: '1621553258106847'
-    });
-	
-	$authProvider.twitch({
-      clientId: 'Twitch Client ID'
-    });
 	$cordovaInAppBrowserProvider.setDefaultOptions(defaultOptions);
 	delete $httpProvider.defaults.headers.common['X-Requested-With'];
-	
 });
 
 GoHereApp.config(['$routeProvider',
@@ -232,24 +223,15 @@ GoHereApp.config(['$routeProvider',
 		$("#preloader").delay(100).fadeOut("slow");
 	});
   }]);
-  
-  GoHereApp.controller('fbloginController', ['$scope', '$rootScope', '$http', '$sce', '$cordovaOauth', function($scope,$rootScope, $http,$sce, $cordovaOauth) {
-  	alert("Hi");
-	$cordovaOauth.facebook("1621553258106847", ["email"]).then(function(result) {
-		// results
-	}, function(error) {
-		alert(error);
-		// error
-	});
-  }]);	
-  GoHereApp.controller('logoutController', ['$scope', '$rootScope', '$location', '$http', '$sce', '$cordovaOauth', '$cordovaInAppBrowser', function($scope,$rootScope, $location, $http,$sce, $cordovaOauth, $cordovaInAppBrowser) {
+  	
+  GoHereApp.controller('logoutController', ['$scope', '$rootScope', '$location', '$http', '$sce', '$cordovaInAppBrowser', function($scope,$rootScope, $location, $http,$sce, $cordovaInAppBrowser) {
 	  	localStorage.removeItem('currentUser');
 		$rootScope.currentUser = '';
 		$location.path("/login");
 		$("#active-logout").addClass("hide");
 		$("#active-login").removeClass("hide");
   }]);
-  GoHereApp.controller('forgetController', ['$scope', '$rootScope', '$location', '$http', '$sce', '$cordovaOauth', '$cordovaInAppBrowser', '$translate', function($scope,$rootScope, $location, $http,$sce, $cordovaOauth, $cordovaInAppBrowser, $translate) {
+  GoHereApp.controller('forgetController', ['$scope', '$rootScope', '$location', '$http', '$sce', '$cordovaInAppBrowser', '$translate', function($scope,$rootScope, $location, $http,$sce, $cordovaInAppBrowser, $translate) {
 	  GoHereApp.snapper.close();
 	  $(".menu-item").removeClass('menu-item-active');  
 	  $("#active-login").addClass('menu-item-active');  
@@ -288,23 +270,53 @@ GoHereApp.config(['$routeProvider',
 		}
 	  }
   }]);
-  GoHereApp.controller('loginController', ['$scope', '$rootScope', '$location', '$http', '$sce', '$cordovaOauth', '$cordovaInAppBrowser', '$auth', '$translate', function($scope,$rootScope, $location, $http,$sce, $cordovaOauth, $cordovaInAppBrowser, $auth, $translate) {
+  GoHereApp.controller('loginController', ['$scope', '$rootScope', '$location', "$cordovaOauth", '$http', '$sce',  '$cordovaInAppBrowser', '$translate', function($scope,$rootScope, $location, $cordovaOauth, $http,$sce, $cordovaInAppBrowser, $translate) {
 	GoHereApp.snapper.close();
 	$(".menu-item").removeClass('menu-item-active');  
 	$("#active-login").addClass('menu-item-active');  
 	$(".custom-header").css("display","block"); 
 	$rootScope.PageName = 'LOGIN';
 	align_cover_elements(); 
-	$scope.facebookLogin = function(){
-		$cordovaInAppBrowser.open('#/fblogin', '_blank').then(function(event) {
-		})
-		.catch(function(event) {
-		});
-	};
 	
-	$scope.authenticate = function(provider) {
-      $auth.authenticate(provider);
-    };
+	displayData = function ($http, access_token){
+		$http.get("https://graph.facebook.com/v2.2/me", {params: {access_token: access_token, fields: "name,email,gender,location,picture", format: "json" }}).then(function(result) {
+			var request = $http({
+				method: "post",
+				url: globalUrl+"/users/add.json",
+				data: {
+					username	: result.data.name,
+					email		: result.data.email,
+					password	: "",
+					postal_code	: "",
+					year		: "",
+					regtype		: 'facebook',
+					registerId	: result.data.id,
+				}
+			});
+			request.success(
+				function( data ) {
+					if(data.response.status == true){
+						localStorage.currentUser = data.response.user_id;
+						$rootScope.currentUser = data.response.user_id;
+						$("#active-login").addClass("hide");
+						$("#active-logout").removeClass("hide");
+						if(localStorage.SetRedirect!==undefined && localStorage.SetRedirect!=""){
+							var paths = localStorage.SetRedirect;
+							localStorage.removeItem('SetRedirect');
+							$location.path(paths);
+						} else {
+							$location.path("/map");
+						}
+					}
+				}
+			);
+		});
+	}
+	$scope.fblogin = function() {
+		$cordovaOauth.facebook("1621553258106847", ["email", "public_profile"], {redirect_uri: "http://localhost/callback"}).then(function(result){
+			displayData($http, result.access_token);
+		});
+	}
 	$scope.checkLogin = function(){
 		if ($scope.userForm.$valid) {
 			$("#status").fadeIn(); // will first fade out the loading animation
@@ -349,7 +361,7 @@ GoHereApp.config(['$routeProvider',
   }]);
   
   
-  GoHereApp.controller('signupController', ['$scope', '$rootScope', '$location', '$http', '$sce', '$cordovaOauth', '$cordovaInAppBrowser', '$translate', function($scope,$rootScope, $location, $http,$sce, $cordovaOauth, $cordovaInAppBrowser, $translate) {
+  GoHereApp.controller('signupController', ['$scope', '$rootScope', '$location', '$http', '$sce', '$cordovaInAppBrowser', '$translate', function($scope,$rootScope, $location, $http,$sce, $cordovaInAppBrowser, $translate) {
 	GoHereApp.snapper.close();
 	$(".menu-item").removeClass('menu-item-active');  
 	$("#active-login").addClass('menu-item-active');  
