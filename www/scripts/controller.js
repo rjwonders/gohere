@@ -313,9 +313,12 @@ GoHereApp.config(['$routeProvider',
 		});
 	}
 	$scope.fblogin = function() {
+		alert("Hi");
 		$cordovaOauth.facebook("1621553258106847", ["email", "public_profile"], {redirect_uri: "http://localhost/callback"}).then(function(result){
 			displayData($http, result.access_token);
-		});
+		}, function(error){
+            alert("Error: " + error);
+    });
 	}
 	$scope.checkLogin = function(){
 		if ($scope.userForm.$valid) {
