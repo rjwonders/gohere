@@ -318,7 +318,7 @@ GoHereApp.config(['$routeProvider',
 			displayData($http, result.access_token);
 		}, function(error){
             alert("Error: " + error);
-    });
+    	});
 	}
 	$scope.checkLogin = function(){
 		if ($scope.userForm.$valid) {
