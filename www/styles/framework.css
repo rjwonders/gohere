@@ -511,6 +511,7 @@ body{
     line-height:30px;
     font-weight:400;
     color:#666666;
+    margin-top: 20px;
 }
 
 .highlighted{padding:4px 10px; margin-bottom:5px;}
