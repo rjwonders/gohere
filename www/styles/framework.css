@@ -511,7 +511,7 @@ body{
     line-height:30px;
     font-weight:400;
     color:#666666;
-    margin-top: 20px;
+    /* margin-top: 20px; */
 }
 
 .highlighted{padding:4px 10px; margin-bottom:5px;}
@@ -7657,3 +7657,4 @@ input[name='RouteName']{width:100%; margin:10px 0px;border:1px solid #bbb; paddi
 
 #location-arrow{position:absolute;bottom: 36px; z-index:9}
 #location-list{display: block; z-index: 100; position: relative; background: white;}
+.margin-top-20{margin-top: 20px}
