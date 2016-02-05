@@ -12,7 +12,8 @@ $( document ).ready(function() {
 		}, 500, 'easeInOutQuad');
 		return false;
 	});
-    
+
+
     //Show Back To Home When Scrolling
         
     $(document).on('scroll', '#content', function () {
