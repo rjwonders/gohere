@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="09dd7929-019f-4158-aa8d-346422bb8627" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/about.html" afterPath="$PROJECT_DIR$/www/about.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/favourite.html" afterPath="$PROJECT_DIR$/www/favourite.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/routes.html" afterPath="$PROJECT_DIR$/www/routes.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/styles/framework.css" afterPath="$PROJECT_DIR$/www/styles/framework.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/styles/style.css" afterPath="$PROJECT_DIR$/www/styles/style.css" />
-    </list>
+    <list default="true" id="09dd7929-019f-4158-aa8d-346422bb8627" name="Default" comment="" />
     <ignored path="gohere-git2.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -173,9 +167,10 @@
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="435" />
+    <option name="x" value="1573" />
+    <option name="y" value="79" />
     <option name="width" value="1176" />
-    <option name="height" value="862" />
+    <option name="height" value="735" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -287,7 +282,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="435" y="0" width="1176" height="862" extended-state="0" />
+    <frame x="1573" y="79" width="1176" height="735" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22849463" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
