@@ -190,7 +190,7 @@ a:hover{
     color: #000;
 }
 
-div, a, p, img, blockquote, form, fieldset, textarea, input, label, iframe, code, pre {
+a, p, img, blockquote, form, fieldset, textarea, input, label, iframe, code, pre {
     display: block;
     font-family:'Avenir-light';
     position:relative;
