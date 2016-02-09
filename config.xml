@@ -70,7 +70,7 @@
   <feature name="Geolocation">
 	<param name="ios-package" value="CDVLocation" />
   </feature>
-
+  <preference name="KeyboardShrinksView" value="false" />
   <preference name="websecurity" value="disable" />
   <access origin="*" />
   <plugin name="cordova-plugin-whitelist" version="1"/>
