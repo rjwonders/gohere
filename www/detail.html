@@ -89,7 +89,7 @@
 					<p><i class="fa fa-check"></i> {{ 'COMMENT_SUCCESS' | translate}}.</p>
 			  	</div>
                 <form name="userForm" ng-submit="setComment(userForm.$valid)" novalidate>
-                  <textarea placeholder="{{ 'WRITE_COMMENT' | translate}}..."  ng-model="Comment" name="Comment" class="contactTextarea requiredField" required></textarea>
+                  <textarea placeholder="{{ 'WRITE_COMMENT' | translate}}..."  ng-model="Comment" id="Comment" name="Comment" class="contactTextarea requiredField" required></textarea>
                     <input type="submit" value="{{ 'SUBMIT' | translate}}" class="buttonWrap button button-green contactSubmitButton" ng-disabled="userForm.$invalid">
                     <div id="comment-error" style="color:red" ng-show="userForm.Comment.$dirty && userForm.Comment.$invalid">
                     <span ng-show="userForm.Comment.$error.required">{{ 'COMMENT_REQUIRE' | translate}}.</span>

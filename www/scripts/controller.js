@@ -961,6 +961,7 @@ GoHereApp.config(['$routeProvider',
 			$scope.AvailableHours = value;
 		});
 		
+		
 		$cordovaGeolocation.getCurrentPosition({timeout: 10000, enableHighAccuracy: true}).then(function (position) {
 			$scope.Currentlats  = position.coords.latitude;
 			$scope.Currentlongs = position.coords.longitude;
