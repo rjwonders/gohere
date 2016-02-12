@@ -564,8 +564,7 @@ GoHereApp.config(['$routeProvider',
 						visible: false
 					};
 					$scope.onClick = function(marker, eventName, model) {
-						alert("Hi");
-						$("img[src='https://maps.gstatic.com/mapfiles/api-3/images/mapcnt6.png']").click();
+						$(".gm-style-iw").parent().hide();
 					};
 				  $scope.scrollbarConfig = {
 					  theme: 'dark',

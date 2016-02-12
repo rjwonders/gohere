@@ -55,7 +55,7 @@
 	<ui-gmap-google-map center='map.center' zoom='map.zoom' refresh='true' dorebuildall="true" expression='true' options="{disableDefaultUI: true}" ng-click="expandMap()" control="map.control">
     	<ui-gmap-marker idkey="map.homemarker.markid" coords="map.homemarker.coords" options="{icon:map.homemarker.icon}" events="map.homemarker.events" doRebuildAll="true"></ui-gmap-marker>
         <ui-gmap-marker ng-repeat="m in map.markers" idKey="m.id" options="{icon:m.icon}" coords="m.coords" click="onClick()" events="marker.events">
-        	<ui-gmap-window options="windowOptions" closeClick="closeClick()" ng-if="m.name != 'Current Location'">
+        	<ui-gmap-window show="0" options="windowOptions" closeClick="closeClick()" ng-if="m.name != 'Current Location'">
                 <div>
                 	<span>{{m.name}}<br/></span>
                 	<span><a href="https://www.google.ca/maps/dir/{{Currentlats}},{{Currentlongs}}/{{m.coords.latitude}},{{m.coords.longitude}}">{{ 'DIRECTION' | translate}}</a></span>
