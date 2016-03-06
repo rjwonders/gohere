@@ -5,7 +5,7 @@ var imgurl = "http://52.4.100.3/gohere/admin/uploads/setting";
 
 $(window).load(function() { 
 	$("#status").fadeOut(); // will first fade out the loading animation
-	$("#preloader").delay(100).fadeOut("slow"); // will fade out the white DIV that covers the website.
+	$("#preloader").fadeOut("fast"); // will fade out the white DIV that covers the website.
 });
 
 var GoHereApp = angular.module('mainApp', [
@@ -192,13 +192,13 @@ GoHereApp.config(['$routeProvider',
 	$("#active-about").addClass('menu-item-active');  
 	$(".custom-header").css("display","block");  
 	$("#status").fadeIn(); // will first fade out the loading animation
-	$("#preloader").delay(100).fadeIn("slow");
+	$("#preloader").fadeIn("fast");
 	$http.get(globalUrl+"/pages/view/2.json").then(function(response) {
 		$rootScope.PageName = response.data.response.page.name;
 		$scope.PageContent = $sce.trustAsHtml(response.data.response.page.description);
 		//$cordovaInAppBrowser.open('http://ngcordova.com', '_blank')
 		$("#status").fadeOut(); // will first fade out the loading animation
-		$("#preloader").delay(100).fadeOut("slow");
+		$("#preloader").fadeOut("fast");
 	});
 	
   }]);
@@ -208,7 +208,7 @@ GoHereApp.config(['$routeProvider',
 	$(".menu-item").removeClass('menu-item-active');  
 	$(".custom-header").css("display","block");  
 	$("#status").fadeIn(); // will first fade out the loading animation
-	$("#preloader").delay(100).fadeIn("slow");
+	$("#preloader").fadeIn("fast");
 	$http.get(globalUrl+"/supporters/index/1.json").then(function(response) {
 		$rootScope.PageName = 'SUPPORTERS';
 		var htmls = "";
@@ -220,7 +220,7 @@ GoHereApp.config(['$routeProvider',
 		});
 		$scope.PageContent = $sce.trustAsHtml(htmls);
 		$("#status").fadeOut(); // will first fade out the loading animation
-		$("#preloader").delay(100).fadeOut("slow");
+		$("#preloader").fadeOut("fast");
 	});
   }]);
   	
@@ -241,7 +241,7 @@ GoHereApp.config(['$routeProvider',
 	  $scope.resetpass = function(){
 		if ($scope.userForm.$valid) {
 			$("#status").fadeIn(); // will first fade out the loading animation
-			$("#preloader").delay(100).fadeIn("slow");
+			$("#preloader").fadeIn("fast");
 			$(".alert-danger").addClass("hide");
 			$(".alert-success").addClass("hide");
 			var request = $http({
@@ -261,7 +261,7 @@ GoHereApp.config(['$routeProvider',
 						$(".alert-danger").html('<span class="fa fa-user" aria-hidden="true"></span><span class="sr-only">Error:</span> Email not registered.');
 					}
 					$("#status").fadeOut(); // will first fade out the loading animation
-					$("#preloader").delay(100).fadeOut("slow");
+					$("#preloader").fadeOut("fast");
 				}
 			);
 		} else {
@@ -320,7 +320,7 @@ GoHereApp.config(['$routeProvider',
 	$scope.checkLogin = function(){
 		if ($scope.userForm.$valid) {
 			$("#status").fadeIn(); // will first fade out the loading animation
-			$("#preloader").delay(100).fadeIn("slow");
+			$("#preloader").fadeIn("fast");
 			var request = $http({
 				method: "post",
 				url: globalUrl+"/users/login.json",
@@ -340,7 +340,7 @@ GoHereApp.config(['$routeProvider',
 							var paths = localStorage.SetRedirect;
 							localStorage.removeItem('SetRedirect');
 							$("#status").fadeOut(); // will first fade out the loading animation
-							$("#preloader").delay(100).fadeOut("slow");
+							$("#preloader").fadeOut("fast");
 							$location.path(paths);
 						} else {
 							$location.path("/map");
@@ -349,7 +349,7 @@ GoHereApp.config(['$routeProvider',
 						$(".alert-danger").removeClass("hide");
 						$(".alert-danger").html('<span class="fa fa-user" aria-hidden="true"></span><span class="sr-only">Error:</span> Invalid email or password.');
 						$("#status").fadeOut(); // will first fade out the loading animation
-						$("#preloader").delay(100).fadeOut("slow");
+						$("#preloader").fadeOut("fast");
 					}
 				}
 			);
@@ -371,7 +371,7 @@ GoHereApp.config(['$routeProvider',
 	$scope.checkRegister = function(){
 		if ($scope.userForm.$valid) {
 			$("#status").fadeIn(); // will first fade out the loading animation
-			$("#preloader").delay(100).fadeIn("slow");
+			$("#preloader").fadeIn("fast");
 			var request = $http({
 				method: "post",
 				url: globalUrl+"/users/add.json",
@@ -402,7 +402,7 @@ GoHereApp.config(['$routeProvider',
 						$(".alert-danger").html('<span class="fa fa-user" aria-hidden="true"></span><span class="sr-only">Error:</span> User already registered.');
 						align_cover_elements();
 						$("#status").fadeOut(); // will first fade out the loading animation
-						$("#preloader").delay(100).fadeOut("slow");
+						$("#preloader").fadeOut("fast");
 					}
 					
 				}
@@ -419,7 +419,7 @@ GoHereApp.config(['$routeProvider',
 	$("#active-map").addClass('menu-item-active');  
 	$(".custom-header").css("display","block");  
 	$("#status").fadeIn(); // will first fade out the loading animation
-	$("#preloader").delay(100).fadeIn("slow");
+	$("#preloader").fadeIn("fast");
 	$rootScope.PageName = 'FIND_A_WASHROOM';
 	$scope.map = Array();
 	$scope.map.markers = Array();
@@ -515,7 +515,7 @@ GoHereApp.config(['$routeProvider',
 				  }
 				  
 				  $("#status").fadeOut(); // will first fade out the loading animation
-				  $("#preloader").delay(100).fadeOut("slow"); 
+				  $("#preloader").fadeOut("fast"); 
 			  }
 		);
 	}
@@ -579,7 +579,7 @@ GoHereApp.config(['$routeProvider',
 				  //}
 
 				  $("#status").fadeOut(); // will first fade out the loading animation
-				  $("#preloader").delay(100).fadeOut("slow"); 
+				  $("#preloader").fadeOut("fast"); 
 			  }
 		  );
 	  //});
@@ -614,7 +614,7 @@ GoHereApp.config(['$routeProvider',
 				
 				if($scope.gpsSuccess == 0){
 					$("#status").fadeIn(); // will first fade out the loading animation
-						$("#preloader").delay(100).fadeIn("slow");
+						$("#preloader").fadeIn("fast");
 	
 					$scope.Currentlats  = Watchlat;
 					$scope.Currentlongs = Watchlong;
@@ -857,12 +857,12 @@ GoHereApp.config(['$routeProvider',
 		}
 		if($.trim($scope.FromAddress)!="" && $.trim($scope.ToAddress)!=""){
 			$("#status").fadeIn(); // will first fade out the loading animation
-			$("#preloader").delay(100).fadeIn("slow");
+			$("#preloader").fadeIn("fast");
 			getSetMapPageForSearch($.trim($scope.FromAddress),$.trim($scope.ToAddress));
 			$('.direction-controls').fadeIn();
 		} else if($.trim($scope.FromAddress)!=""){
 			$("#status").fadeIn(); // will first fade out the loading animation
-			$("#preloader").delay(100).fadeIn("slow");
+			$("#preloader").fadeIn("fast");
 			var geocoder = new google.maps.Geocoder();
 			geocoder.geocode( { 'address': $scope.FromAddress}, function(results, status) {
 				if (status == google.maps.GeocoderStatus.OK) {
@@ -879,7 +879,7 @@ GoHereApp.config(['$routeProvider',
   GoHereApp.controller('directionController', ['$scope', '$rootScope', '$http', '$sce', '$cordovaGeolocation',  'uiGmapGoogleMapApi', '$routeParams', '$translate', function($scope,$rootScope, $http,$sce, $cordovaGeolocation, uiGmapGoogleMapApi, $routeParams, $translate) {
   	$rootScope.PageName = 'DETAIL_ROUTE';
 	$("#status").fadeIn(); // will first fade out the loading animation
-	$("#preloader").delay(100).fadeIn("slow");
+	$("#preloader").fadeIn("fast");
 	uiGmapGoogleMapApi.then(function(maps) {
 		$cordovaGeolocation.getCurrentPosition({timeout: 10000, enableHighAccuracy: true}).then(function (position) {
 			var originlat  = position.coords.latitude;
@@ -935,7 +935,7 @@ GoHereApp.config(['$routeProvider',
 						scrollInertia: 500,
 					}
 					$("#status").fadeOut(); // will first fade out the loading animation
-					$("#preloader").delay(100).fadeOut("slow"); 
+					$("#preloader").fadeOut("fast"); 
 				}
 			});
 		});
@@ -946,7 +946,7 @@ GoHereApp.config(['$routeProvider',
 		$(".menu-item").removeClass('menu-item-active');
 		$(".custom-header").css("display","block");  
 		$("#status").fadeIn(); // will first fade out the loading animation
-		$("#preloader").delay(100).fadeIn("slow");
+		$("#preloader").fadeIn("fast");
 		$("#OverallRating").rating();
 		
 		$("#Cleanness").rating();
@@ -1050,7 +1050,7 @@ GoHereApp.config(['$routeProvider',
 			});
 			
 			$("#status").fadeOut(); // will first fade out the loading animation
-			$("#preloader").delay(100).fadeOut("slow");
+			$("#preloader").fadeOut("fast");
 		});
 		
 		$scope.submitRating = function(){
@@ -1218,7 +1218,7 @@ GoHereApp.config(['$routeProvider',
 			return;
 		}
 		$("#status").fadeIn(); // will first fade out the loading animation
-		$("#preloader").delay(100).fadeIn("slow");
+		$("#preloader").fadeIn("fast");
 		//if ($scope.userForm.$valid) {
 			if($scope.lat=="" || $scope.long==""){
 				var geocoder = new google.maps.Geocoder();
@@ -1261,7 +1261,7 @@ GoHereApp.config(['$routeProvider',
 						$(".alert-success").html('<span class="fa fa-user" aria-hidden="true"></span><span class="sr-only">Success:</span> Location added succeesfully.');
 					}
 					$("#status").fadeOut(); // will first fade out the loading animation
-					$("#preloader").delay(100).fadeOut("slow"); 
+					$("#preloader").fadeOut("fast"); 
 				}
 			);	
 		//}
@@ -1276,7 +1276,7 @@ GoHereApp.config(['$routeProvider',
 		$(".menu-item").removeClass('menu-item-active');  
 		$(".custom-header").css("display","block");  
 		$("#status").fadeIn(); // will first fade out the loading animation
-		$("#preloader").delay(100).fadeIn("slow");
+		$("#preloader").fadeIn("fast");
 		$rootScope.PageName = 'FAVOURITE';
 		var html = "";
 		$http.get(globalUrl+"/favourites/index_favourite/"+$rootScope.currentUser+".json").then(function(response) {
@@ -1289,7 +1289,7 @@ GoHereApp.config(['$routeProvider',
 			}
 			$('.mapinfo').html(html);
 			$("#status").fadeOut(); // will first fade out the loading animation
-			$("#preloader").delay(100).fadeOut("slow");
+			$("#preloader").fadeOut("fast");
 		});
   }]);  
   GoHereApp.controller('routesController', ['$scope', '$rootScope', '$http', '$sce', '$cordovaGeolocation',  'uiGmapGoogleMapApi', '$routeParams', '$location', '$translate', function($scope,$rootScope, $http,$sce, $cordovaGeolocation, uiGmapGoogleMapApi, $routeParams, $location, $translate) {
@@ -1302,7 +1302,7 @@ GoHereApp.config(['$routeProvider',
 		$("#active-routes").addClass('menu-item-active');  
 		$(".custom-header").css("display","block");  
 		$("#status").fadeIn(); // will first fade out the loading animation
-		$("#preloader").delay(100).fadeIn("slow");
+		$("#preloader").fadeIn("fast");
 		$rootScope.PageName = 'ROUTES';
 		var html = '<div class="decoration"></div>';
 		$http.get(globalUrl+"/routes/index/"+$rootScope.currentUser+".json").then(function(response) {
@@ -1316,7 +1316,7 @@ GoHereApp.config(['$routeProvider',
 			}
 			$('.mapinfo').html(html);
 			$("#status").fadeOut(); // will first fade out the loading animation
-			$("#preloader").delay(100).fadeOut("slow");
+			$("#preloader").fadeOut("fast");
 		});
   }]);  
   
