@@ -171,6 +171,8 @@ html {
     max-height:auto;
 }
 
+.btn{font-size:17px}
+
 body {
     margin: 0;
     padding: 0;
@@ -221,7 +223,7 @@ textarea {
 p {
     line-height: 30px;
     margin-bottom: 30px;
-    font-size:14px;
+    font-size: 18px;
 }
 
 p > a {
@@ -2821,7 +2823,7 @@ ul.tabs li.active-tab{
     padding:5px 15px;
     margin-bottom:15px;
     margin-right:12px;
-    font-size:12px;
+    font-size: 18px;
 }
 
 .button-xl{
@@ -3784,19 +3786,22 @@ input[name='RouteName']{width:100%; margin:10px 0px;border:1px solid #bbb; paddi
 }
 
 .user-list-item img{
-    float:left;
-    width:50px;
-    height:50px;
+    /* float:left; */
+    /* width:50px; */
+    height: 70px;
     border-radius:50px;
+    margin: 0 auto;
+    margin-bottom: 20px;
 }
 
 .user-list-item strong{
     color:#1f1f1f;
-    margin-left:60px;
-    font-size:15px;
+    /* margin-left:60px; */
+    font-size: 17px;
     margin-bottom:0px;
-    margin-top:-5px;
+    margin-top: -7px;
     display:block;
+    margin-bottom: 29px;
 }
 
 .user-list-item em{
@@ -7648,7 +7653,7 @@ input[name='RouteName']{width:100%; margin:10px 0px;border:1px solid #bbb; paddi
 }
 
 .whitecolor { color:#FFF; font-size: 12px !important; }
-.expandicon { display: none;z-index: 10001; position:absolute; margin: 10px;left: 77px;top: 64px;}
+.expandicon { display: none;z-index: 10001; position:absolute; margin: 10px;left: 85px;top: 77px;}
 .roundbg { background:#666; border-radius: 15px; color:#FFF; width:30px; height:30px; font-size:15px;  }
 .fa-compress { margin:0px 8px;}
 
@@ -7658,3 +7663,5 @@ input[name='RouteName']{width:100%; margin:10px 0px;border:1px solid #bbb; paddi
 #location-arrow{position:absolute;bottom: 36px; z-index:9}
 #location-list{display: block; z-index: 100; position: relative; background: white;}
 .margin-top-20{margin-top: 20px}
+
+form[name=userForm]{margin-top:20px;}

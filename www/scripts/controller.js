@@ -215,7 +215,7 @@ GoHereApp.config(['$routeProvider',
 		angular.forEach(response.data.response, function(value, key) {
 			if(key!="image_url"){
 				//console.log(response.data.response.image_url+value.Supporter.image);
-				htmls+= '<a href="javascript:void(0)" class="user-list-item"><img src="'+response.data.response.image_url+value.Supporter.image+'" alt="img"><strong>'+value.Supporter.name+'<br/></strong></a><div class="decoration"></div>';
+				htmls+= '<a href="javascript:void(0)" class="user-list-item"><div class="col-xs-12 text-center"><img src="'+response.data.response.image_url+value.Supporter.image+'" alt="img"></div><strong class="col-xs-12 text-center">'+value.Supporter.name+'<br/></strong></a><div class="decoration"></div>';
 			}
 		});
 		$scope.PageContent = $sce.trustAsHtml(htmls);
