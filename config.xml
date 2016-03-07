@@ -1,4 +1,4 @@
-<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.GoHere.GoHere" version="1.0.0">
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.GoHere.GoHere" version="2.0.0">
   <name>GoHere</name>
   <description>Find a washroom near to you.</description>
   <author href="http://phonegap.com" email="rjwonders@gmail.com">Rahul Bhatt</author>
@@ -6,7 +6,7 @@
   <preference name="permissions" value="none"/>
   <preference name="orientation" value="portrait"/>
   <preference name="target-device" value="universal"/>
-  <preference name="fullscreen" value="true"/>
+  <preference name="fullscreen" value="false"/>
   <preference name="webviewbounce" value="true"/>
   <preference name="prerendered-icon" value="true"/>
   <preference name="stay-in-webview" value="false"/>
@@ -70,7 +70,6 @@
   <feature name="Geolocation">
 	<param name="ios-package" value="CDVLocation" />
   </feature>
-
   <preference name="websecurity" value="disable" />
   <access origin="*" />
   <plugin name="cordova-plugin-whitelist" version="1"/>

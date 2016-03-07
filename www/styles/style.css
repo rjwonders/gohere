@@ -126,6 +126,7 @@
     background-color:#FFFFFF;
     z-index:999999;
     bottom:0px;
+	margin-top: 10px;
 }
 
 .not-active{
@@ -743,3 +744,5 @@ form[name='userForm'] input[type='text']{padding-left:20px}
     border-radius:100px;
     width:60px!important;
 }
+
+.snap-content { margin-bottom:38px; }
