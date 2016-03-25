@@ -784,6 +784,10 @@ GoHereApp.config(['$routeProvider',
 		$(".hidetext").css("display","block");
 		$("#location-list-toggle-down").show();
 		$("#location-list-toggle-up").hide();
+		$(".searchs").hide();
+		$("#search-decal").animate({top: 85}, 500);
+
+
 	}
 	
 	$scope.expandMap = function(){
@@ -798,6 +802,8 @@ GoHereApp.config(['$routeProvider',
 		$(".hidetext").css("display","none");
 		$("#location-list-toggle-down").hide();
 		$("#location-list-toggle-up").show();
+		$(".searchs").show();
+		$("#search-decal").animate({top: 150}, 500);
 	}
 	$scope.saveUserRoutes = function(){
 		//$('.simple-modal-content').modal('hide');

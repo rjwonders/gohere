@@ -7660,7 +7660,7 @@ input[name='RouteName']{width:100%; margin:10px 0px;border:1px solid #bbb; paddi
 
 .searchmap  { z-index:1001; position:absolute; margin: 10px;opacity: 0.9;}
 
-#location-arrow{position:absolute;top: 155px;z-index: 229;left: 5px;}
+#location-arrow{position:absolute;/* top: 155px; */z-index: 229;left: 11px;}
 #location-list{display: block;z-index: 100;position: relative;background: white;/* top: -100px; */max-height: 284px;}
 .margin-top-20{margin-top: 20px}
 
