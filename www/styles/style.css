@@ -682,7 +682,7 @@
     background-color: rgba(0, 0, 0, 0.87)!important;
 }
 #search-decal{position:absolute;top: 150px;z-index: 200;width:100%;}
-.decal{background: rgba(255, 255, 255, 0.68);border-radius:4px;padding-right: 21px;padding-left: 0px;}
+.decal{background: rgba(255, 255, 255, 0.68);border-radius:4px;padding-right: 21px;padding-left: 0px;width: 135px;float: right;}
 .direction-controls{
     position:absolute;
     z-index:1000;
