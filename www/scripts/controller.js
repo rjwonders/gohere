@@ -663,6 +663,9 @@ GoHereApp.config(['$routeProvider',
 		//alert(currPage);
 	}
 	$(document).ready(function(){
+		$(".hidetext").css("display","none");
+		var WindowHeight = $( window ).height() - 130;
+		$(".angular-google-map-container").css({height: WindowHeight});
 		//var WindowHeight = $( window ).height() - 60;
 		//$(".angular-google-map-container").css("height", WindowHeight);
 		uiGmapGoogleMapApi.then(function(maps) {
@@ -778,11 +781,13 @@ GoHereApp.config(['$routeProvider',
 		$(".angular-google-map-container").animate({height: 300}, 500);
 		$(".expandicon").css("display","none");
 		$(".searchmap").css("display","block");	
-		$(".hidetext").css("display","block");	
+		$(".hidetext").css("display","block");
+		$("#location-list-toggle-down").show();
+		$("#location-list-toggle-up").hide();
 	}
 	
 	$scope.expandMap = function(){
-		var WindowHeight = $( window ).height() - 60;
+		var WindowHeight = $( window ).height() - 130;
 		$(".angular-google-map-container").animate({height: WindowHeight}, 500);
 		//$scope.map.visualRefresh = true;
 		//$scope.map.control.refresh();
@@ -790,7 +795,9 @@ GoHereApp.config(['$routeProvider',
 		$(".searchmap").css("display","none");
 		$(".expandicon").css("display","block");	
 		//$(".angular-google-map-container").height(WindowHeight);	
-		$(".hidetext").css("display","none");	
+		$(".hidetext").css("display","none");
+		$("#location-list-toggle-down").hide();
+		$("#location-list-toggle-up").show();
 	}
 	$scope.saveUserRoutes = function(){
 		//$('.simple-modal-content').modal('hide');

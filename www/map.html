@@ -3,17 +3,28 @@
 </style>
 <div class="content">
 	<div class="header-clear"></div>
-    <div class="row expandicon">
-    	<a href="" ng-click="closeMap()" class="roundbg">
-    		<i class="fa fa-compress"></i>
-    	</a>
+
+
+    <div class="row searchs center-block" style="">
+    	<form name="userForm" ng-submit="searchzip()" novalidate>
+            <div class="row col-xs-12">
+				<input type="hidden" name="Decal" id="Decal" value="0" />
+				<input ng-model="FromAddress" id="FromAddress" type="text" value="" class="form-control" placeholder="{{ 'FROM_ADDRESS' | translate}}" g-places-autocomplete required autocomplete="off">
+            	<a href="javascript:void(0)" ng-click="clearFrom()" id="FromCross"><i class="fa fa-times"></i></a>
+            </div>
+            <div class="row col-xs-12" style="">
+                <input ng-model="ToAddress" id="ToAddress" type="text" value="" class="form-control" g-places-autocomplete placeholder="{{ 'TO_ADDRESS' | translate}}" autocomplete="off">
+                <a href="javascript:void(0)" ng-click="clearTo()" id="ToCross" style="display:none"><i class="fa fa-times"></i></a>
+            </div>
+            <div class="row col-xs-offset-10 col-xs-2">
+                <input type="submit" name="AddLocation" value="{{ 'GO' | translate}}" class="login-button button-red red-bg button-fullscreen"/>
+            </div>
+
+
+        </form>
     </div>
     <div class="row" id="search-decal">
-        <div class="col-xs-3">
-            <a style="margin-left: 10px; color:white" class=" red-bg btn btn-small btn-default" href="javascript:void(0)" ng-click="showsearch()">{{ 'SEARCH' | translate}}</a>
-        </div>
-
-        <div class="col-xs-4 col-xs-offset-5">
+        <div class="col-xs-4 col-xs-offset-8">
             <div class="row decal">
 
                 <strong class="col-xs-6 text-left">{{ 'DECAL' | translate}}</strong>
@@ -23,25 +34,6 @@
 
             </div>
         </div>
-
-    </div>
-    <div class="row searchs center-block" style="display:none;">
-    	<form name="userForm" ng-submit="searchzip()" novalidate>
-            <div class="row col-xs-7">
-				<input type="hidden" name="Decal" id="Decal" value="0" />
-				<input ng-model="FromAddress" id="FromAddress" type="text" value="" class="form-control" placeholder="{{ 'FROM_ADDRESS' | translate}}" g-places-autocomplete required autocomplete="off">
-            	<a href="javascript:void(0)" ng-click="clearFrom()" id="FromCross"><i class="fa fa-times"></i></a>
-            </div>
-            <div class="row col-xs-2">
-                <input type="submit" name="AddLocation" value="{{ 'GO' | translate}}" class="login-button button-red red-bg button-fullscreen"/>
-            </div>
-            <div class="row col-xs-7" style="margin-top: 5px;">
-                <input ng-model="ToAddress" id="ToAddress" type="text" value="" class="form-control" g-places-autocomplete placeholder="{{ 'TO_ADDRESS' | translate}}" autocomplete="off">
-                <a href="javascript:void(0)" ng-click="clearTo()" id="ToCross" style="display:none"><i class="fa fa-times"></i></a>
-            </div>
-
-
-        </form>
     </div>
 	<div class="direction-controls row">
         <div class="col-xs-8 col-xs-offset-6">
@@ -64,6 +56,14 @@
         </ui-gmap-marker>
 		<ui-gmap-polyline ng-repeat="p in polylines" stroke="p.stroke" path="p.path"></ui-gmap-polyline>
     </ui-gmap-google-map>
+    <div id="location-list-toggle-up" ng-click="closeMap()">
+        List of Washrooms
+        <i class="fa fa-angle-up" style="font-size: 20px; margin-left:5px;"></i>
+    </div>
+    <div id="location-list-toggle-down" ng-click="expandMap()" style="display:none">
+        List of Washrooms
+        <i class="fa fa-angle-down" style="font-size: 20px; margin-left:5px;"></i>
+    </div>
     <div id='location-list' class="container hidetext" ng-scrollbars ng-scrollbars-config="scrollbarConfig">
     	<div class="one-third-responsive mapinfo" style="width:100%">
         </div>
