@@ -1435,9 +1435,11 @@ $(document).on('click', 'a[href^=http], a[href^=https]', function(e){
 function align_cover_elements(){
 		var cover_width = $(window).width();
         var cover_height = $(window).height() + 60;
-        var cover_vertical = -($('.cover-center').height())/2;
-        var cover_horizontal = -($('.cover-center').width())/2;
-        
+        //var cover_vertical = -($('.cover-center').height())/2;
+        //var cover_horizontal = -($('.cover-center').width())/2;
+        var cover_vertical = -253;
+		var cover_horizontal = -150;
+		
         $('.cover-screen').css('width', cover_width);
         $('.cover-screen').css('height', cover_height);
         $('.cover-screen .overlay').css('width', cover_width);
