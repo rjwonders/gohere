@@ -665,6 +665,9 @@ GoHereApp.config(['$routeProvider',
 	$(document).ready(function(){
 		$(".hidetext").css("display","none");
 		var WindowHeight = $( window ).height() - 130;
+		$('.direction-controls .btn-icon').click(function(){
+			$('.direction-controls').hide();
+		});
 		$(".angular-google-map-container").css({height: WindowHeight});
 		//var WindowHeight = $( window ).height() - 60;
 		//$(".angular-google-map-container").css("height", WindowHeight);
@@ -1321,7 +1324,9 @@ GoHereApp.config(['$routeProvider',
 		$http.get(globalUrl+"/routes/index/"+$rootScope.currentUser+".json").then(function(response) {
 			if(response.data.response.length>0){
 				$.each(response.data.response,function(i,val){
-					html = html + '<div class="row"><div class="col-xs-9">'+val.Route.name+'</div><div class="col-xs-1"><a href="https://www.google.ca/maps/dir/'+val.Route.source+'/'+val.Route.distination+'"><i class="fa fa-street-view"></i></a></div><div class="col-xs-1"><a href="#/map/'+val.Route.source+'/'+val.Route.distination+'"><i class="fa fa-location-arrow"></i></a></div></div><div class="decoration"></div>';
+					html = html + '<div class="row"><div class="col-xs-6 route-title" style="text-transform: capitalize">'+val.Route.name+'</div><div class="col-xs-3 route-controls">' +
+						'<a class="btn btn-small btn-default" href="https://www.google.ca/maps/dir/'+val.Route.source+'/'+val.Route.distination+'">Directions</a></div><div class="col-xs-3 route-controls">' +
+						'<a class="btn btn-small btn-default" href="#/map/'+val.Route.source+'/'+val.Route.distination+'">Route</a></div></div><div class="decoration"></div>';
 					//html = html + '<a href="#/detail/'+val.Favourite.washroom_id+'" class="user-list-item2"><div class"row"><div class="col-xs-12"><strong>'+val.Washroom.name+'<br/></strong><em>'+val.Washroom.address+'</em></div></div></a><div class="decoration"></div>';
 				});
 			} else {

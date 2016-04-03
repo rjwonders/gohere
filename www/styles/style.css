@@ -686,8 +686,8 @@
 .direction-controls{
     position:absolute;
     z-index:1000;
-    top:110px;
-    right:37px;
+    top: 184px;
+    right: 32px;
     display:none;
 }
 .direction-controls a{
@@ -696,12 +696,21 @@
     margin:2px;
     font-size: 13px;
 }
+.direction-controls .btn-icon i{
+    background: #524C4C;
+    display:inline-block;
+    padding: 6px;
+    color:white;
+    border-radius:40px;
+    font-size: 11px;
+}
 .direction-controls a:nth-child(2){
     background-color: #737373;
     color: #FFFFFF;
     /* border-color: #FFFFFF; */
     text-shadow: none;
 }
+.route-controls .btn{zoom:0.9; margin-bottom:10px;}
 #comment-error{float:left; top:-10px; position:relative;left:25px}
 #ToCross, #FromCross{position:absolute;top:1px; padding-left:4px;}
 form[name='userForm'] input[type='text']{padding-left:20px}
@@ -739,7 +748,7 @@ form[name='userForm'] input[type='text']{padding-left:20px}
 }
 #access-right p{line-height:20px!important; margin:20px 0px}
 .logo-right img{width:140px!important;height:70px; position:relative;top:-14px}
-.logo-right{display:flex; color:white;float:right;position: absolute;bottom: 5px;z-index: 10;right: 30px;}
+.logo-right{display:flex;color:white;float:right;position: absolute;bottom: 36px;z-index: 10;right: 30px;}
 .about-us{padding:30px 20px;}
 .about-us p{line-height:26px}
 .splash-icon{
