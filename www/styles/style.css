@@ -746,7 +746,7 @@ form[name='userForm'] input[type='text']{padding-left:20px}
     padding:10px 10px;
     display: block;
 }
-#access-right p{line-height:20px!important; margin:20px 0px}
+#access-right p{line-height: 19px!important;margin:20px 0px;font-size: 15px;}
 .logo-right img{width:140px!important;height:70px; position:relative;top:-14px}
 .logo-right{display:flex;color:white;float:right;position: absolute;bottom: 36px;z-index: 10;right: 30px;}
 .about-us{padding:30px 20px;}
