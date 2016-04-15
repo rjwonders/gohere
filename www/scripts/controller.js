@@ -1036,17 +1036,25 @@ GoHereApp.config(['$routeProvider',
 				var washroomrating = response.data.response.Washroom.rating;
 			}
 			$('#OverallRating').rating('update', washroomrating);
-			if($.trim(response.data.response.Washroom.from)==""){
-				var FromTime = "9:00 AM";
+			// if($.trim(response.data.response.Washroom.from)==""){
+			// 	var FromTime = "9:00 AM";
+			// } else {
+			// 	var FromTime = response.data.response.Washroom.from;
+			// }
+			// if($.trim(response.data.response.Washroom.to)==""){
+			// 	var ToTime = "6:00 PM";
+			// } else {
+			// 	var ToTime = response.data.response.Washroom.to;
+			// }
+			// $scope.WashroomTiming 	= $sce.trustAsHtml(FromTime+" To "+ToTime);
+
+			if (response.data.response.Washroom.weekday_text) {
+				$scope.WashroomSchedule	= angular.fromJson(response.data.response.Washroom.weekday_text);
 			} else {
-				var FromTime = response.data.response.Washroom.from;
+				$scope.WashroomSchedule	= false;
 			}
-			if($.trim(response.data.response.Washroom.to)==""){
-				var ToTime = "6:00 PM";
-			} else {
-				var ToTime = response.data.response.Washroom.to;
-			}
-			$scope.WashroomTiming 	= $sce.trustAsHtml(FromTime+" To "+ToTime);
+			$scope.WashroomPhone	= response.data.response.Washroom.phone;
+
 			if($rootScope.currentUser == '' || $rootScope.currentUser == undefined){
 				$(".pleaselogin").removeClass("hide");
 				$(".pleasecomment").addClass("hide");

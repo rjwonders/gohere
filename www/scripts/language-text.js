@@ -78,6 +78,7 @@ var LangEn = {
 	FIND_A_WASHROOM	: 'Find A Washroom',
 	DETAIL_ROUTE	: 'Detail of route',
 	MY_ACCESS_CARD	: 'My Access Card',
+	PHONE			: 'Phone',
 };
 
 var LangFr = {
@@ -160,4 +161,5 @@ var LangFr = {
 	FIND_A_WASHROOM	: 'Find A Washroom',
 	DETAIL_ROUTE	: 'Detail of route',
 	MY_ACCESS_CARD	: 'My Access Card',
+	PHONE			: 'Téléphone',
 };

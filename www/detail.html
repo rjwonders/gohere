@@ -34,11 +34,24 @@
                     </li>
                     <li class="col-xs-9 sub"><a href="javascript:void(0)">{{WashroomAddress}}</a></li>
 				</ul>
-                <div class="decoration"></div>
-                <ul class="font-icon-list">
+                <div class="decoration" ng-if="WashroomSchedule || WashroomPhone"></div>
+                <ul class="font-icon-list" ng-if="WashroomSchedule">
                 	<li><a href="javascript:void(0)"><i class="fa fa-clock-o"></i><strong>{{ 'OP_HOURS' | translate}}</strong></a></li>
-                    <li class="sub"><a href="javascript:void(0)">{{WashroomTiming}}</a></li>
-				</ul>
+                    <li class="sub">
+                        <span ng-repeat="scheduleDay in WashroomSchedule" style="display:block">{{scheduleDay}}</span>
+                
+                    </li>
+				</ul>   
+                <ul class="font-icon-list" ng-if="!WashroomSchedule && WashroomPhone">
+                    <li><a href="javascript:void(0)"><i class="fa fa-phone"></i><strong>{{ 'PHONE' | translate}}</strong></a></li>
+                    <li class="sub">
+                    <a href="javascript:void(0)">
+                        {{WashroomPhone}}
+                    </a>
+
+                    </li>
+                </ul>
+
                 <div class="decoration"></div>
                 <p>{{WashroomDesc}}</p>
                 <ul class="font-icon-list">
