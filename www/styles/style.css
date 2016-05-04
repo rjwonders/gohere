@@ -714,6 +714,7 @@
 #comment-error{float:left; top:-10px; position:relative;left:25px}
 #ToCross, #FromCross{position:absolute;top:1px; padding-left:4px;}
 form[name='userForm'] input[type='text']{padding-left:20px}
+form[name='feedbackForm'] input[type='text']{padding-left:20px}
 #access-card{
     margin-top: 115px;
     width: 90%;
