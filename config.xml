@@ -1,4 +1,4 @@
-<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.GoHere.GoHere" version="2.0.5">
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.GoHere.GoHere" version="2.0.7">
   <name>GoHere</name>
   <description>Find a washroom near to you.</description>
   <author href="http://phonegap.com" email="rjwonders@gmail.com">Rahul Bhatt</author>
