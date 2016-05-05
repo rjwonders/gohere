@@ -1070,7 +1070,7 @@ GoHereApp.config(['$routeProvider',
 			}
 
 
-			if (response.data.response.Washroom.analytics_enabled && $scope.loggedIn) {
+			if (response.data.response.Washroom.analytics_enabled == 1 && $scope.loggedIn) {
 				console.log("analytics are enabled. sending ping");
 				var feedbackData = {
 					user_id		: $rootScope.currentUser,
@@ -1196,29 +1196,29 @@ GoHereApp.config(['$routeProvider',
 				);
 			}
 		};
-	  	$scope.setFeedback = function(){
-			var feedbackData = {
-				user_id		: $rootScope.currentUser,
-				washroom_id	: $routeParams.id,
-				feedback		: $scope.Feedback
-			};
+	  	$scope.setFeedback = function() {
+			if ($scope.feedbackForm.$valid) {
 
-			console.log(feedbackData);
-		  var request = $http({
-			  method: "post",
-			  url: globalUrl+"/feedback/add.json",
-			  data: feedbackData
-		  });
-		  request.success(
-			  function( result ) {
-				  if(result.response.status == true){
-					  $scope.Feedback = "";
-					  $(".feedbacksuccess").removeClass("hide");
-				  }
-			  }
-		  );
-	  };
-
+				var request = $http({
+					method: "post",
+					url: globalUrl + "/feedback/add.json",
+					data: {
+						user_id: $rootScope.currentUser,
+						washroom_id: $routeParams.id,
+						feedback: $scope.Feedback
+					}
+				});
+				request.success(
+					function (result) {
+						if (result.response.status == true) {
+							$scope.Feedback = "";
+							$(".feedbacksuccess").removeClass("hide");
+						}
+					}
+				);
+			}
+			;
+		}
   }]);	  
   GoHereApp.controller('locationController', ['$scope', '$rootScope', '$http', '$sce', '$cordovaGeolocation',  'uiGmapGoogleMapApi', '$routeParams', '$location', '$translate', function($scope,$rootScope, $http,$sce, $cordovaGeolocation, uiGmapGoogleMapApi, $routeParams, $location, $translate) {
   	GoHereApp.snapper.close();

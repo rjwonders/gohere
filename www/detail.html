@@ -63,7 +63,7 @@
                 <p ng-if="WashroomDesc">{{WashroomDesc}}</p>
                 <div class="decoration"></div>
 
-                <ul class="font-icon-list" ng-if="showRatings == 1">
+                <ul class="font-icon-list" ng-show="showRatings == 1">
                     <li><a href="javascript:void(0)"><i class="fa fa-star-o"></i><strong>{{ 'RATING' | translate}}</strong></a></li>
                     <li class="sub logincomment" ng-if="!loggedIn">{{ 'RATING_LOGIN' | translate}}</li>
                     <li class="sub">
@@ -74,7 +74,7 @@
                         <i class="fa fa-star" style="color:#ffcb34"></i>
                         <i class="fa fa-star-o" style="color:#ffcb34"></i>-->
                     </li>
-                    <li class="ratingbox" ng-if="loggedIn">
+                    <li class="ratingbox" ng-show="loggedIn">
                         <form name="ratingForm" ng-submit="submitRating(ratingForm.$valid)" novalidate>
                             <h5>{{ 'CLEANLINESS' | translate}}</h5>
                             <input id="Cleanness" type="number" class="rating" min=1 max=5 step=1 data-size="sm" data-symbol="&#xf005;" showCaption="false" clearButton="" data-rating-class="rating-fa" data-glyphicon="false">
@@ -94,7 +94,7 @@
                 </ul>
                 <div class="decoration" ng-if="showRatings == 1"></div>
 
-                <ul class="font-icon-list" ng-if="showFeedback == 1">
+                <ul class="font-icon-list" ng-show="showFeedback == 1">
                     <li><a href="javascript:void(0)"><i class="fa fa-comment-o"></i><strong>{{ 'FEEDBACK' | translate}}</strong></a></li>
                     <li>
 
@@ -105,9 +105,6 @@
                     <form name="feedbackForm" ng-submit="setFeedback(feedbackForm.$valid)" role="form" novalidate>
                         <textarea placeholder="{{ 'WRITE_COMMENT' | translate}}..."  ng-model="Feedback" id="Feedback" name="Feedback" class="contactTextarea requiredField" required></textarea>
                         <input type="submit" value="{{ 'SUBMIT' | translate}}" class="buttonWrap button button-green contactSubmitButton" ng-disabled="feedbackForm.$invalid">
-                        <div id="feedback-error" style="color:red" ng-show="feedbackForm.Feedback.$dirty && feedbackForm.Feedback.$invalid">
-                            <span ng-show="feedbackForm.Feedback.$error.required">{{ 'COMMENT_REQUIRE' | translate}}.</span>
-                        </div>
                     </form>
 
                     <div class="pleaselogin" ng-if="!loggedIn">
