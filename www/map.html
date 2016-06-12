@@ -4,7 +4,6 @@
 <div class="content">
 	<div class="header-clear"></div>
 
-
     <div class="row searchs center-block" style="">
     	<form name="userForm" ng-submit="searchzip()" novalidate>
             <div class="row col-xs-12">
@@ -51,13 +50,20 @@
         <ui-gmap-marker ng-repeat="m in map.markers" idKey="m.id" options="{icon:m.icon}" coords="m.coords" click="onClick()" events="marker.events">
         	<ui-gmap-window show="0" options="windowOptions" closeClick="closeClick()" ng-if="m.name != 'Current Location'">
                 <div>
-                	<span>{{m.name}}<br/></span>
-                	<span><a href="https://www.google.ca/maps/dir/{{Currentlats}},{{Currentlongs}}/{{m.coords.latitude}},{{m.coords.longitude}}">{{ 'DIRECTION' | translate}}</a></span>
+                    <a href="#/detail/{{m.id}}"><h5>{{m.name}}<br/></h5></a>
+                    <a class="col-xs-12 favid" href="https://www.google.ca/maps/dir/{{Currentlats}},{{Currentlongs}}/{{m.coords.latitude}},{{m.coords.longitude}}">
+                        <i class="fa fa-map-marker"></i> {{ 'Get Directions' | translate}}
+                    </a>
+                    <br>
+                    <a class="col-xs-12 favid"  ng-click="checkFavorite()" >
+                        <i class="fa fa-star"></i> {{ 'Add to Favourites' | translate}}
+                    </a>
                 </div>
             </ui-gmap-window>
         </ui-gmap-marker>
 		<ui-gmap-polyline ng-repeat="p in polylines" stroke="p.stroke" path="p.path"></ui-gmap-polyline>
     </ui-gmap-google-map>
+
     <div id="location-list-toggle-up" ng-click="closeMap()">
         List of Washrooms
         <i class="fa fa-angle-up" style="font-size: 20px; margin-left:5px;"></i>

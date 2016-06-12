@@ -147,6 +147,7 @@ GoHereApp.config(['$routeProvider',
 	  if(localStorage.hasSplashed!==undefined){
 	  	$location.path("/language");
 	  } else {
+
 		  $(".custom-header").css("display","none");
 		  GoHereApp.snapper.disable();
 		  align_cover_elements(); 
@@ -154,9 +155,14 @@ GoHereApp.config(['$routeProvider',
 			  loop:false,
 			  margin:-2,
 			  nav:false,
-			  dots:false,
+			  dots:true,
 			  items:1
 		  });
+
+// Listen to owl events:
+		  $('.coverpage-slider').on('changed.owl.carousel', function(event) {
+
+		  })
 	  }
   }]);
   GoHereApp.controller('LanguageController', ['$scope','$location', '$translate', function($scope,$location,$translate) {
@@ -427,7 +433,7 @@ GoHereApp.config(['$routeProvider',
 
 	$scope.gpsSuccess = 0;
 	var posOptions = {timeout: 10000, enableHighAccuracy: true};
-	
+
 	getSetMapPageForSearch = function(loc1,loc2){
 		var html ='';
 		var thedecal = $("#Decal").val();
@@ -499,7 +505,7 @@ GoHereApp.config(['$routeProvider',
 									  longitude	: val.Washroom.log
 								  }
 							  };
-							  markers.push(marker);	
+							  markers.push(marker);
 							  var distances = parseFloat(val.Washroom.distance);
 							  html = html + '<div class="decoration"></div><a href="#/detail/'+val.Washroom.id+'" class="user-list-item2"><div class"row"><div class="col-xs-8"><strong>'+val.Washroom.name+'<br/></strong><em>'+val.Washroom.address+'</em></div><div class="col-xs-4 vcenter"> <i class="fa fa-chevron-right"></i></div></div></a>';
 						  }
@@ -589,6 +595,8 @@ GoHereApp.config(['$routeProvider',
 		$scope.map.center = { latitude: $scope.Currentlats , longitude: $scope.Currentlongs };
 
 	}
+
+
 	PositionError = function(position){
 		$(".gocurrentpostiton").css("display","none");
 		navigator.geolocation.clearWatch($rootScope.watchID);
@@ -793,8 +801,28 @@ GoHereApp.config(['$routeProvider',
 
 
 	}
-	
-	$scope.expandMap = function(){
+      $scope.checkFavorite = function(){
+          alert(5);
+          if($rootScope.currentUser == '' || $rootScope.currentUser == undefined){
+              alert("Please login to make this washroom as favourite.");
+              return false;
+          }
+          var request = $http({
+              method: "post",
+              url: globalUrl+"/favourites/add.json",
+              data: {
+                  user_id		: $rootScope.currentUser,
+                  washroom_id	: $routeParams.id,
+              }
+          });
+          request.success(
+              function( result ) {
+                  $(".favid").html('<i class="fa fa-star"></i>');
+              }
+          );
+      }
+
+      $scope.expandMap = function(){
 		var WindowHeight = $( window ).height() - 130;
 		$(".angular-google-map-container").animate({height: WindowHeight}, 500);
 		//$scope.map.visualRefresh = true;

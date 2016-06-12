@@ -5332,6 +5332,7 @@ input[name='RouteName']{width:100%; margin:10px 0px;border:1px solid #bbb; paddi
 .pageapp-login-content{
     width:300px;
     z-index:10;
+    margin-top: 0px!important;
 }
 
 .pageapp-login .overlay{
@@ -5384,13 +5385,14 @@ input[name='RouteName']{width:100%; margin:10px 0px;border:1px solid #bbb; paddi
 }
 
 .pageapp-login .unboxed-layout .pageapp-login-logo{
-    width:125px;
+    width:105px;
     height: 135px;
-    background-image:url(../images/pages-logo-dark.png);
-    background-size: 125px 135px;
+    background-image:url(../images/logo-login.png);
+    background-size: 105px 135px;
     margin-left:auto;
     margin-right:auto;
     margin-bottom:20px;
+    zoom: 0.7;
 }
 
 @media screen and ( max-height: 570px ){
@@ -6289,7 +6291,7 @@ input[name='RouteName']{width:100%; margin:10px 0px;border:1px solid #bbb; paddi
 
 .coverpage-slider .owl-dots{
     margin-top:-50px;
-    opacity:0.5;
+    opacity: 0.8;
 }
 
 .coverpage-slider .owl-dots .active{
@@ -6297,10 +6299,10 @@ input[name='RouteName']{width:100%; margin:10px 0px;border:1px solid #bbb; paddi
 }
 
 .cover-screen .overlay{opacity:0.8;}
-.cover-center{  position:absolute;   top:50%; left:50%; position:absolute; z-index:10; width:300px;}
+.cover-center{position:absolute;top: 50%;left:50%;position:absolute;z-index:10;width:300px;}
 .cover-left{    position:absolute;   top:50%; left:30px; position:absolute; z-index:10;}
 .cover-right{   position:absolute;   top:50%; right:30px; position:absolute; z-index:10;}
-
+.pageapp-login-content.cover-center{top:10%}
 .cover-slide h1{
     font-size:40px;
     line-height:50px;
@@ -6970,15 +6972,15 @@ input[name='RouteName']{width:100%; margin:10px 0px;border:1px solid #bbb; paddi
     background-color:#bdc3c7;
     margin-top:5px;
     border-radius:13px;
-    height:14px;
-    width:14px;
+    height: 10px;
+    width: 10px;
     float:left;
-    margin-left:5px;
+    margin-left: 17px;
     margin-right:5px;
 }
 
 .owl-dots .active{
-    background-color:#7f8c8d!important;
+    background-color: #ec5f5f!important;
 }
 
 .owl-carousel.owl-loaded {
@@ -7665,3 +7667,12 @@ input[name='RouteName']{width:100%; margin:10px 0px;border:1px solid #bbb; paddi
 .margin-top-20{margin-top: 20px}
 
 form[name=userForm]{margin-top:20px;}
+
+
+.owl-controls{position: absolute;
+    top: 65%;
+    /* margin: 0 auto; */
+    width: 100%;
+    text-align: center;
+}
+.owl-dot {background: white!important;opacity: 1;}

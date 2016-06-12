@@ -1,3 +1,6 @@
+<style>.ng-scope{
+    overflow: hidden;}
+</style>
 <div class="content">
 	<div class="header-clear"></div>
     <div class="pageapp-login bg-5 cover-screen">  
@@ -14,7 +17,7 @@
                               <span ng-show="userForm.Email.$error.email">{{ 'INVALID_EMAIL' | translate}}.</span>
                           </div>
                       </div>
-                      <div class="pageapp-login-field">
+                      <div class="pageapp-login-field" style="position: absolute;">
                           <i class="fa fa-lock"></i>
                           <input type="password" value="password" name="Password" ng-model="Password" placeholder="{{ 'PASSWORD' | translate}}" ng-minlength="6" required>
                           <div style="color:red" ng-show="userForm.Password.$dirty && userForm.Password.$invalid">
