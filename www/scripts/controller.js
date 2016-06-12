@@ -1,3 +1,4 @@
+//var globalUrl = 'http://mba.gohere-api.com';
 var globalUrl = 'http://52.4.100.3/gohere/rest';
 var imgurl = "http://52.4.100.3/gohere/admin/uploads/setting";
 //var globalUrl = 'http://52.3.29.145/gohere/rest';
@@ -977,8 +978,8 @@ GoHereApp.config(['$routeProvider',
 		$('#AvailableHours').on('rating.change', function(event, value, caption) {
 			$scope.AvailableHours = value;
 		});
-		
-		
+
+	  	$scope.Feedback = '';
 		$cordovaGeolocation.getCurrentPosition({timeout: 10000, enableHighAccuracy: true}).then(function (position) {
 			$scope.Currentlats  = position.coords.latitude;
 			$scope.Currentlongs = position.coords.longitude;
@@ -1030,36 +1031,66 @@ GoHereApp.config(['$routeProvider',
 			addresstext = addresstext.replace(",", ", ");
 			$scope.WashroomAddress 	= $sce.trustAsHtml(addresstext);
 			$scope.WashroomDesc 	= $sce.trustAsHtml(response.data.response.Washroom.description);
+			$scope.showRatings = response.data.response.Washroom.show_ratings;
+			$scope.showComments = response.data.response.Washroom.show_comments;
+			$scope.showFeedback = response.data.response.Washroom.show_feedback;
+			$scope.keyRequired = response.data.response.Washroom.key_required;
+
 			if(response.data.response.Washroom.rating==null){
 				var washroomrating = 0;
 			} else {
 				var washroomrating = response.data.response.Washroom.rating;
 			}
 			$('#OverallRating').rating('update', washroomrating);
-			if($.trim(response.data.response.Washroom.from)==""){
-				var FromTime = "9:00 AM";
+			// if($.trim(response.data.response.Washroom.from)==""){
+			// 	var FromTime = "9:00 AM";
+			// } else {
+			// 	var FromTime = response.data.response.Washroom.from;
+			// }
+			// if($.trim(response.data.response.Washroom.to)==""){
+			// 	var ToTime = "6:00 PM";
+			// } else {
+			// 	var ToTime = response.data.response.Washroom.to;
+			// }
+			// $scope.WashroomTiming 	= $sce.trustAsHtml(FromTime+" To "+ToTime);
+
+			if (response.data.response.Washroom.weekday_text) {
+				$scope.WashroomSchedule	= angular.fromJson(response.data.response.Washroom.weekday_text);
 			} else {
-				var FromTime = response.data.response.Washroom.from;
+				$scope.WashroomSchedule	= false;
 			}
-			if($.trim(response.data.response.Washroom.to)==""){
-				var ToTime = "6:00 PM";
-			} else {
-				var ToTime = response.data.response.Washroom.to;
-			}
-			$scope.WashroomTiming 	= $sce.trustAsHtml(FromTime+" To "+ToTime);
+			$scope.WashroomPhone	= response.data.response.Washroom.phone;
+
 			if($rootScope.currentUser == '' || $rootScope.currentUser == undefined){
-				$(".pleaselogin").removeClass("hide");
-				$(".pleasecomment").addClass("hide");
-				$(".logincomment").removeClass("hide");
-				$(".ratingbox").addClass("hide");
+				$scope.loggedIn = false;
+				//console.log("current user is undefined or blank");
 			} else {
-				$(".pleaselogin").addClass("hide");
-				$(".pleasecomment").removeClass("hide");
-				$(".logincomment").addClass("hide");
-				$(".ratingbox").removeClass("hide");
+				//console.log("current user is:", $rootScope.currentUser);
+				$scope.loggedIn = true;
 			}
-			$(".commentsuccess").addClass("hide");
-			
+
+
+			if (response.data.response.Washroom.analytics_enabled == 1 && $scope.loggedIn) {
+				console.log("analytics are enabled. sending ping");
+				var feedbackData = {
+					user_id		: $rootScope.currentUser,
+					washroom_id	: $routeParams.id,
+					feedback		: ""
+				};
+				var request = $http({
+					method: "post",
+					url: globalUrl+"/analytics/add.json",
+					data: feedbackData
+				}).success(function(responseData) {
+						console.log("analytics ping sent");
+					}
+				).error(function(responseData) {
+						console.log("analytics ping CANNOT be sent: ", responseData);
+					}
+				);
+			}
+
+
 			$('.tap-dismiss').click(function(){
 			   $(this).slideUp(200); 
 				return false;
@@ -1165,6 +1196,29 @@ GoHereApp.config(['$routeProvider',
 				);
 			}
 		};
+	  	$scope.setFeedback = function() {
+			if ($scope.feedbackForm.$valid) {
+
+				var request = $http({
+					method: "post",
+					url: globalUrl + "/feedback/add.json",
+					data: {
+						user_id: $rootScope.currentUser,
+						washroom_id: $routeParams.id,
+						feedback: $scope.Feedback
+					}
+				});
+				request.success(
+					function (result) {
+						if (result.response.status == true) {
+							$scope.Feedback = "";
+							$(".feedbacksuccess").removeClass("hide");
+						}
+					}
+				);
+			}
+			;
+		}
   }]);	  
   GoHereApp.controller('locationController', ['$scope', '$rootScope', '$http', '$sce', '$cordovaGeolocation',  'uiGmapGoogleMapApi', '$routeParams', '$location', '$translate', function($scope,$rootScope, $http,$sce, $cordovaGeolocation, uiGmapGoogleMapApi, $routeParams, $location, $translate) {
   	GoHereApp.snapper.close();

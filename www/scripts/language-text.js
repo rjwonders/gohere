@@ -24,8 +24,11 @@ var LangEn = {
 	EASE_ACCESS		: 'Ease of Access',
 	AVAIL_HOURS		: 'Available Hours',
 	COMMENTS		: 'Comments',
+	FEEDBACK		: 'Feedback',
 	PLEASE			: 'Please',
 	TO_COMMENT		: 'to Comment',
+	TO_FEEDBACK		: 'to leave Feedback',
+	FEEDBACK_SUCCESS: 'Feedback Sent Successfully',
 	COMMENT_SUCCESS	: 'Comment Posted Successfully',
 	COMMENT_REQUIRE	: 'Comment is required',
 	EMAIL_REQUIRE	: 'Email is required',
@@ -78,6 +81,7 @@ var LangEn = {
 	FIND_A_WASHROOM	: 'Find A Washroom',
 	DETAIL_ROUTE	: 'Detail of route',
 	MY_ACCESS_CARD	: 'My Access Card',
+	PHONE			: 'Phone',
 };
 
 var LangFr = {
@@ -106,8 +110,11 @@ var LangFr = {
 	EASE_ACCESS		: 'Ease of Access',
 	AVAIL_HOURS		: 'Available Hours',
 	COMMENTS		: 'Comments',
+	FEEDBACK		: 'Feedback',
 	PLEASE			: 'Please',
 	TO_COMMENT		: 'to Comment',
+	TO_FEEDBACK		: 'to leave Feedback',
+	FEEDBACK_SUCCESS: 'Feedback Sent Successfully',
 	COMMENT_SUCCESS	: 'Comment Posted Successfully',
 	COMMENT_REQUIRE	: 'Comment is required',
 	EMAIL_REQUIRE	: 'Email is required',
@@ -160,4 +167,5 @@ var LangFr = {
 	FIND_A_WASHROOM	: 'Find A Washroom',
 	DETAIL_ROUTE	: 'Detail of route',
 	MY_ACCESS_CARD	: 'My Access Card',
+	PHONE			: 'Téléphone',
 };

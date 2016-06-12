@@ -1,10 +1,10 @@
 <style type="text/css">
-	.angular-google-map-container { height: 200px;  width: 100%; }
+    .angular-google-map-container { height: 200px;  width: 100%; }
 </style>
 <div class="content">
-	<div class="header-clear"></div>
-	<div class="page-profile">
-    	<div class="page-profile-header">
+    <div class="header-clear"></div>
+    <div class="page-profile">
+        <div class="page-profile-header">
             <ui-gmap-google-map center='map.center' zoom='map.zoom' expression='true' options="{disableDefaultUI: true}">
                 <ui-gmap-marker ng-repeat="m in map.markers" idKey="m.id" options="{icon:m.icon}" coords="m.coords" ></ui-gmap-marker>
             </ui-gmap-google-map>
@@ -22,84 +22,131 @@
                 </a>
             </div>
         </div>
-		<div class="decoration"></div>
-		<div class="container no-bottom detail-page">
-        	<div class="sidebar-left-small">
-            	<ul class="font-icon-list">
-                	<li>
+        <div class="decoration"></div>
+        <div class="container no-bottom detail-page">
+            <div class="sidebar-left-small">
+                <ul class="font-icon-list">
+                    <li>
                         <a  href="https://www.google.ca/maps/dir/{{Currentlats}},{{Currentlongs}}/{{lats}},{{longs}}">
                             <i class="fa fa-map-marker"></i>
                             <strong class="red">{{ 'DIRECTION' | translate}}</strong>
                         </a>
                     </li>
                     <li class="col-xs-9 sub"><a href="javascript:void(0)">{{WashroomAddress}}</a></li>
-				</ul>
-                <div class="decoration"></div>
-                <ul class="font-icon-list">
-                	<li><a href="javascript:void(0)"><i class="fa fa-clock-o"></i><strong>{{ 'OP_HOURS' | translate}}</strong></a></li>
-                    <li class="sub"><a href="javascript:void(0)">{{WashroomTiming}}</a></li>
-				</ul>
-                <div class="decoration"></div>
-                <p>{{WashroomDesc}}</p>
-                <ul class="font-icon-list">
-                    <li><a href="javascript:void(0)"><i class="fa fa-star-o"></i><strong>{{ 'RATING' | translate}}</strong></a></li>
-                    <li class="sub logincomment">{{ 'RATING_LOGIN' | translate}}</li>
+                </ul>
+                <div class="decoration" ng-if="WashroomSchedule || WashroomPhone"></div>
+
+                <ul class="font-icon-list" ng-if="keyRequired == 1">
+
+                    <li><a href="javascript:void(0)"><i class="fa fa-key"></i><strong>Key required</strong></a></li>
+                </ul>
+                <div class="decoration" ng-if="keyRequired == 1"></div>
+
+                <ul class="font-icon-list" ng-if="WashroomSchedule">
+                    <li><a href="javascript:void(0)"><i class="fa fa-clock-o"></i><strong>{{ 'OP_HOURS' | translate}}</strong></a></li>
                     <li class="sub">
-                    	<input type="number" id="OverallRating" class="rating" min=1 max=5 step=1 data-size="sm" data-symbol="&#xf005;" showCaption="false"  data-rating-class="rating-fa" data-disabled="true" value="" data-glyphicon="false">
+                        <span ng-repeat="scheduleDay in WashroomSchedule" style="display:block">{{scheduleDay}}</span>
+
+                    </li>
+                </ul>
+                <ul class="font-icon-list" ng-if="!WashroomSchedule && WashroomPhone">
+                    <li><a href="javascript:void(0)"><i class="fa fa-phone"></i><strong>{{ 'PHONE' | translate}}</strong></a></li>
+                    <li class="sub">
+                        <a href="javascript:void(0)">
+                            {{WashroomPhone}}
+                        </a>
+
+                    </li>
+                </ul>
+
+                <div class="decoration" ng-if="WashroomDesc"></div>
+                <p ng-if="WashroomDesc">{{WashroomDesc}}</p>
+                <div class="decoration"></div>
+
+                <ul class="font-icon-list" ng-show="showRatings == 1">
+                    <li><a href="javascript:void(0)"><i class="fa fa-star-o"></i><strong>{{ 'RATING' | translate}}</strong></a></li>
+                    <li class="sub logincomment" ng-if="!loggedIn">{{ 'RATING_LOGIN' | translate}}</li>
+                    <li class="sub">
+                        <input type="number" id="OverallRating" class="rating" min=1 max=5 step=1 data-size="sm" data-symbol="&#xf005;" showCaption="false"  data-rating-class="rating-fa" data-disabled="true" value="" data-glyphicon="false">
                         <!--<i class="fa fa-star" style="color:#ffcb34"></i>
                         <i class="fa fa-star" style="color:#ffcb34"></i>
                         <i class="fa fa-star" style="color:#ffcb34"></i>
                         <i class="fa fa-star" style="color:#ffcb34"></i>
                         <i class="fa fa-star-o" style="color:#ffcb34"></i>-->
                     </li>
-                    <li class="ratingbox">
-                    	<form name="ratingForm" ng-submit="submitRating(ratingForm.$valid)" novalidate>
-                        	<h5>{{ 'CLEANLINESS' | translate}}</h5>
-                        	<input id="Cleanness" type="number" class="rating" min=1 max=5 step=1 data-size="sm" data-symbol="&#xf005;" showCaption="false" clearButton="" data-rating-class="rating-fa" data-glyphicon="false">
+                    <li class="ratingbox" ng-show="loggedIn">
+                        <form name="ratingForm" ng-submit="submitRating(ratingForm.$valid)" novalidate>
+                            <h5>{{ 'CLEANLINESS' | translate}}</h5>
+                            <input id="Cleanness" type="number" class="rating" min=1 max=5 step=1 data-size="sm" data-symbol="&#xf005;" showCaption="false" clearButton="" data-rating-class="rating-fa" data-glyphicon="false">
                             <input type="hidden" name="Cleanness" ng-model="Cleanness" value="" required/>
-                        	<h5>{{ 'EASE_ACCESS' | translate}}</h5>
-                        	<input id="EaseAccess" type="number" class="rating" min=1 max=5 step=1 data-size="sm" data-symbol="&#xf005;" showCaption="false" clearButton="" data-rating-class="rating-fa" data-glyphicon="false" >
+                            <h5>{{ 'EASE_ACCESS' | translate}}</h5>
+                            <input id="EaseAccess" type="number" class="rating" min=1 max=5 step=1 data-size="sm" data-symbol="&#xf005;" showCaption="false" clearButton="" data-rating-class="rating-fa" data-glyphicon="false" >
                             <input type="hidden" name="EaseAccess" ng-model="EaseAccess" value="" required/>
-                        	<h5>{{ 'AVAIL_HOURS' | translate}}</h5>
-                        	<input id="AvailableHours" type="number" class="rating" min=1 max=5 step=1 data-size="sm" data-symbol="&#xf005;" showCaption="false" clearButton="" data-rating-class="rating-fa" data-glyphicon="false">
+                            <h5>{{ 'AVAIL_HOURS' | translate}}</h5>
+                            <input id="AvailableHours" type="number" class="rating" min=1 max=5 step=1 data-size="sm" data-symbol="&#xf005;" showCaption="false" clearButton="" data-rating-class="rating-fa" data-glyphicon="false">
                             <input type="hidden" name="AvailableHours" ng-model="AvailableHours" value="" required />
                             <div style="margin-bottom:15px;"></div>
                             <div class="alert alert-danger hide" role="alert"></div>
                             <div class="alert alert-success hide" role="alert"></div>
-                            <input type="submit" name="AddRating" value="{{ 'ADD_RATING' | translate}}" class="login-button button button-small button-green button-fullscreen full-bottom" />   
+                            <input type="submit" name="AddRating" value="{{ 'ADD_RATING' | translate}}" class="login-button button button-small button-green button-fullscreen full-bottom" />
                         </form>
                     </li>
                 </ul>
-                <div class="decoration"></div>
-                <ul class="font-icon-list">
+                <div class="decoration" ng-if="showRatings == 1"></div>
+
+                <ul class="font-icon-list" ng-show="showFeedback == 1">
+                    <li><a href="javascript:void(0)"><i class="fa fa-comment-o"></i><strong>{{ 'FEEDBACK' | translate}}</strong></a></li>
+                    <li>
+
+
+                    <div class="static-notification bg-green-dark tap-dismiss feedbacksuccess hide">
+                        <p><i class="fa fa-check"></i> {{ 'FEEDBACK_SUCCESS' | translate}}.</p>
+                    </div>
+                    <form name="feedbackForm" ng-submit="setFeedback(feedbackForm.$valid)" role="form" novalidate>
+                        <textarea placeholder="{{ 'WRITE_COMMENT' | translate}}..."  ng-model="Feedback" id="Feedback" name="Feedback" class="contactTextarea requiredField" required></textarea>
+                        <input type="submit" value="{{ 'SUBMIT' | translate}}" class="buttonWrap button button-green contactSubmitButton" ng-disabled="feedbackForm.$invalid">
+                    </form>
+
+                    <div class="pleaselogin" ng-if="!loggedIn">
+                        <p  style="margin-left:24px">{{ 'PLEASE' | translate}} <a href="#/login" class="login-already">{{ 'LOGIN' | translate}}</a> {{ 'TO_FEEDBACK' | translate}}.</p>
+                    </div>
+                    </li>
+                </ul>
+                <div class="decoration" ng-if="showFeedback == 1"></div>
+
+                <ul class="font-icon-list" ng-if="showComments == 1">
                     <li><a href="javascript:void(0)"><i class="fa fa-comment-o"></i><strong>{{ 'COMMENTS' | translate}}</strong></a></li>
-                    <div class="pleaselogin">
+                    <div class="pleaselogin" ng-if="!loggedIn">
                         <p  style="margin-left:24px">{{ 'PLEASE' | translate}} <a href="#/login" class="login-already">{{ 'LOGIN' | translate}}</a> {{ 'TO_COMMENT' | translate}}.</p>
                     </div>
                 </ul>
-			</div>
-		</div>
+            </div>
+        </div>
 
-		<div class="container no-bottom">
+
+        <div class="container no-bottom"  ng-if="showComments == 1">
 
             <div class="container no-bottom">
 
-              <div class="one-third-responsive full-bottom pleasecomment hide">
-              	<div class="static-notification bg-green-dark tap-dismiss commentsuccess">
-					<p><i class="fa fa-check"></i> {{ 'COMMENT_SUCCESS' | translate}}.</p>
-			  	</div>
-                <form name="userForm" ng-submit="setComment(userForm.$valid)" novalidate>
-                  <textarea placeholder="{{ 'WRITE_COMMENT' | translate}}..."  ng-model="Comment" id="Comment" name="Comment" class="contactTextarea requiredField" required></textarea>
-                    <input type="submit" value="{{ 'SUBMIT' | translate}}" class="buttonWrap button button-green contactSubmitButton" ng-disabled="userForm.$invalid">
-                    <div id="comment-error" style="color:red" ng-show="userForm.Comment.$dirty && userForm.Comment.$invalid">
-                    <span ng-show="userForm.Comment.$error.required">{{ 'COMMENT_REQUIRE' | translate}}.</span>
-                  </div>
+                <div class="one-third-responsive full-bottom pleasecomment" ng-if="loggedIn">
+                    <div class="static-notification bg-green-dark tap-dismiss commentsuccess hide">
+                        <p><i class="fa fa-check"></i> {{ 'COMMENT_SUCCESS' | translate}}.</p>
+                    </div>
+                    <form name="userForm" ng-submit="setComment(userForm.$valid)" novalidate>
+                        <textarea placeholder="{{ 'WRITE_COMMENT' | translate}}..."  ng-model="Comment" id="Comment" name="Comment" class="contactTextarea requiredField" required></textarea>
+                        <input type="submit" value="{{ 'SUBMIT' | translate}}" class="buttonWrap button button-green contactSubmitButton" ng-disabled="userForm.$invalid">
+                        <div id="comment-error" style="color:red" ng-show="userForm.Comment.$dirty && userForm.Comment.$invalid">
+                            <span ng-show="userForm.Comment.$error.required">{{ 'COMMENT_REQUIRE' | translate}}.</span>
+                        </div>
+                    </form>
+                </div>
+            </div>
 
-              	</form>
-              </div>     
-    	</div>
             <div class="one-half-responsive addcomments">
 
             </div>
+
+
+        </div>
     </div>
 </div></div>
