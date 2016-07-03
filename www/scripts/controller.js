@@ -544,7 +544,6 @@ GoHereApp.config(['$routeProvider',
 		  request.success(
 			  function( data ) {
 				  var markers = Array();
-				  
 				  if(data.response!="No record found"){
 					  $.each(data.response,function(i,val){
 						  var marker = {
@@ -575,7 +574,7 @@ GoHereApp.config(['$routeProvider',
 					};
 				  $scope.scrollbarConfig = {
 					  theme: 'dark',
-					  scrollInertia: 500
+					  scrollInertia: 1500
 				  }
 
 
