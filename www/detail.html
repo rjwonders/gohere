@@ -34,7 +34,17 @@
                     </li>
                     <li class="col-xs-9 sub"><a href="javascript:void(0)">{{WashroomAddress}}</a></li>
                 </ul>
-                <div class="decoration" ng-if="WashroomSchedule || WashroomPhone"></div>
+                <div class="decoration" ng-if="website"></div>
+                <ul class="font-icon-list" ng-if="website">
+                    <li>
+                        <a  href="javascript:void(0)">
+                            <i class="fa fa-globe"></i>
+                            <strong class="red">{{ 'Website' | translate}}</strong>
+                        </a>
+                    </li>
+                    <li class="col-xs-9 sub"><a href="{{website}}" target="_blank">{{website}}</a></li>
+                </ul>
+                <div class="decoration"></div>
 
                 <ul class="font-icon-list" ng-if="keyRequired == 1">
 
@@ -42,17 +52,21 @@
                 </ul>
                 <div class="decoration" ng-if="keyRequired == 1"></div>
 
-                <ul class="font-icon-list" ng-if="WashroomSchedule">
+                <ul class="font-icon-list">
                     <li><a href="javascript:void(0)"><i class="fa fa-clock-o"></i><strong>{{ 'OP_HOURS' | translate}}</strong></a></li>
-                    <li class="sub">
+                    <li class="sub" ng-if="WashroomSchedule">
                         <span ng-repeat="scheduleDay in WashroomSchedule" style="display:block">{{scheduleDay}}</span>
 
                     </li>
+                    <li class="sub" ng-if="!WashroomSchedule">
+                        <span style="display:block">Not Available</span>
+                    </li>
                 </ul>
-                <ul class="font-icon-list" ng-if="!WashroomSchedule && WashroomPhone">
+                <div class="decoration" ng-if="WashroomPhone"></div>
+                <ul class="font-icon-list" ng-if="WashroomPhone">
                     <li><a href="javascript:void(0)"><i class="fa fa-phone"></i><strong>{{ 'PHONE' | translate}}</strong></a></li>
                     <li class="sub">
-                        <a href="javascript:void(0)">
+                        <a href="callto:{{WashroomPhone}}" target="">
                             {{WashroomPhone}}
                         </a>
 
@@ -133,8 +147,9 @@
                         <p><i class="fa fa-check"></i> {{ 'COMMENT_SUCCESS' | translate}}.</p>
                     </div>
                     <form name="userForm" ng-submit="setComment(userForm.$valid)" novalidate>
-                        <textarea placeholder="{{ 'WRITE_COMMENT' | translate}}..."  ng-model="Comment" id="Comment" name="Comment" class="contactTextarea requiredField" required></textarea>
-                        <input type="submit" value="{{ 'SUBMIT' | translate}}" class="buttonWrap button button-green contactSubmitButton" ng-disabled="userForm.$invalid">
+                        <div class="static-notification bg-red-dark tap-dismiss comment-danger hide" style="color: #ffffff"></div>
+                        <textarea placeholder="{{ 'WRITE_COMMENT' | translate}}..."  ng-model="Comment" id="currentComment" name="Comment" class="contactTextarea requiredField" required></textarea>
+                        <input type="submit" value="{{ 'SUBMIT' | translate}}" class="buttonWrap button button-green contactSubmitButton">
                         <div id="comment-error" style="color:red" ng-show="userForm.Comment.$dirty && userForm.Comment.$invalid">
                             <span ng-show="userForm.Comment.$error.required">{{ 'COMMENT_REQUIRE' | translate}}.</span>
                         </div>
