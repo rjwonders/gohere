@@ -415,7 +415,8 @@ GoHereApp.config(['$routeProvider',
 				}
 			);
 		} else {
-			
+            $(".alert-danger").removeClass("hide");
+            $(".alert-danger").html('<span class="fa fa-user" aria-hidden="true"></span><span class="sr-only">Error:</span> All fields are required.');
 		}
 	}
   }]);
@@ -477,7 +478,7 @@ GoHereApp.config(['$routeProvider',
             
         ];
 		//$scope.polylines = path;
-		console.log(path);
+		//console.log(path);
 	   	var request = $http({
 			method: "post",
 			url: globalUrl+"/washrooms/locations.json",
@@ -544,7 +545,6 @@ GoHereApp.config(['$routeProvider',
 		  request.success(
 			  function( data ) {
 				  var markers = Array();
-				  
 				  if(data.response!="No record found"){
 					  $.each(data.response,function(i,val){
 						  var marker = {
@@ -575,7 +575,7 @@ GoHereApp.config(['$routeProvider',
 					};
 				  $scope.scrollbarConfig = {
 					  theme: 'dark',
-					  scrollInertia: 500
+					  scrollInertia: 1500
 				  }
 
 
@@ -613,7 +613,7 @@ GoHereApp.config(['$routeProvider',
 				$scope.map.homemarker = {
 					markid: 'homemarker',
 				  	name: "Current Location",
-				  	icon: 'images/gps.png',
+				  	icon: 'images/gpss.gif',
 				  	coords: {
 					 	latitude	: Watchlat,
 					  	longitude	: Watchlong
@@ -672,6 +672,26 @@ GoHereApp.config(['$routeProvider',
 		//alert(currPage);
 	}
 	$(document).ready(function(){
+        $(document).on("click",".myfavs", function (e) {
+            var washrooms = $(this).data("washroom");
+            if($rootScope.currentUser == '' || $rootScope.currentUser == undefined){
+                alert("Please login to make this washroom as favourite.");
+                return false;
+            }
+            var request = $http({
+                method: "post",
+                url: globalUrl+"/favourites/add.json",
+                data: {
+                    user_id		: $rootScope.currentUser,
+                    washroom_id	: washrooms,
+                }
+            });
+            request.success(
+                function( result ) {
+                    $(".favid").html('<i class="fa fa-star"></i>');
+                }
+            );
+        });
 		$(".hidetext").css("display","none");
 		var WindowHeight = $( window ).height() - 130;
 		$('.direction-controls .btn-icon').click(function(){
@@ -801,26 +821,6 @@ GoHereApp.config(['$routeProvider',
 
 
 	}
-      $scope.checkFavorite = function(){
-          alert(5);
-          if($rootScope.currentUser == '' || $rootScope.currentUser == undefined){
-              alert("Please login to make this washroom as favourite.");
-              return false;
-          }
-          var request = $http({
-              method: "post",
-              url: globalUrl+"/favourites/add.json",
-              data: {
-                  user_id		: $rootScope.currentUser,
-                  washroom_id	: $routeParams.id,
-              }
-          });
-          request.success(
-              function( result ) {
-                  $(".favid").html('<i class="fa fa-star"></i>');
-              }
-          );
-      }
 
       $scope.expandMap = function(){
 		var WindowHeight = $( window ).height() - 130;
@@ -861,26 +861,33 @@ GoHereApp.config(['$routeProvider',
 			}
 		);
 	}
-	$scope.saveRoutes = function(){
-		if($rootScope.currentUser == '' || $rootScope.currentUser == undefined){
-			$('.simple-modal-content3').modal();
-			return;
-		}
-		if($.trim($scope.FromAddress)!="" && $.trim($scope.ToAddress)!=""){
-			if(typeof $scope.FromAddress === 'object' ){
-				$scope.FromAddress = $scope.FromAddress.formatted_address;
-			}
-			if(typeof $scope.ToAddress === 'object' ){
-				$scope.ToAddress = $scope.ToAddress.formatted_address;
-			} 
-			$('.simple-modal-content').modal();
-			return;
-		} else {
-			$('.simple-modal-content2').modal();
-			return;
-		}
-	}
-	$scope.showdirectionsMap = function(){
+
+      $(document).on("click","#showPopups", function () {
+          $("#boxforroute").click();
+      });
+      $scope.saveRoutesBox = function() {
+          if ($rootScope.currentUser == '' || $rootScope.currentUser == undefined) {
+              $('.simple-modal-content3').modal();
+              return;
+          }
+          if ($.trim($scope.FromAddress) != "" && $.trim($scope.ToAddress) != "") {
+              if (typeof $scope.FromAddress === 'object') {
+                  $scope.FromAddress = $scope.FromAddress.formatted_address;
+              }
+              if (typeof $scope.ToAddress === 'object') {
+                  $scope.ToAddress = $scope.ToAddress.formatted_address;
+              }
+              $('.simple-modal-content').modal();
+              return;
+          } else {
+              $('.simple-modal-content2').modal();
+              return;
+          }
+      }
+      $scope.saveRoutes = function() {
+        $('.simple-modal-content10').modal();
+    }
+      $scope.showdirectionsMap = function(){
 		if($.trim($scope.FromAddress)!="" && $.trim($scope.ToAddress)!=""){
 			if(typeof $scope.FromAddress === 'object' ){
 				$scope.FromAddress = $scope.FromAddress.formatted_address;
@@ -1012,7 +1019,7 @@ GoHereApp.config(['$routeProvider',
 			$scope.Currentlats  = position.coords.latitude;
 			$scope.Currentlongs = position.coords.longitude;
 		});
-		
+
 		$http.get(globalUrl+"/washrooms/view/"+$routeParams.id+".json").then(function(response) {
 			var collectComment = '';
 			var requester = $http({
@@ -1063,6 +1070,7 @@ GoHereApp.config(['$routeProvider',
 			$scope.showComments = response.data.response.Washroom.show_comments;
 			$scope.showFeedback = response.data.response.Washroom.show_feedback;
 			$scope.keyRequired = response.data.response.Washroom.key_required;
+			$scope.website = response.data.response.Washroom.website;
 
 			if(response.data.response.Washroom.rating==null){
 				var washroomrating = 0;
@@ -1155,7 +1163,7 @@ GoHereApp.config(['$routeProvider',
 						$('#OverallRating').rating('update', response.data.response.avg_rate);
 					});
 					$(".alert-success").removeClass("hide");
-					$(".alert-success").html('<span class="fa fa-user" aria-hidden="true"></span><span class="sr-only">Success:</span> Your Rating has been uploaded successfully');
+					$(".alert-success").html('<p><i class="fa fa-times"></i>No comments have been posted.</p>');
 				}
 			);
 		}
@@ -1179,50 +1187,57 @@ GoHereApp.config(['$routeProvider',
 			);		
 		}
 		$scope.setComment = function(){
-			if ($scope.userForm.$valid) {
-				var request = $http({
-					method: "post",
-					url: globalUrl+"/comments/add.json",
-					data: {
-						user_id		: $rootScope.currentUser,
-						washroom_id	: $routeParams.id,
-						name		: $scope.Comment
-					}
-				});
-				request.success(
-					function( result ) {
-						if(result.response.status == true){
-							$scope.Comment = "";
-							$(".commentsuccess").removeClass("hide");
-							var collectComment = '';
-							var requester = $http({
-								method: "post",
-								url: globalUrl+"/comments/index/"+$routeParams.id+".json",
-							});
-							requester.success(
-								function( result ) {
-									if(result.response.length == 0){
-										collectComment = '<div class="static-notification bg-red-dark tap-dismiss"><p><i class="fa fa-times"></i>Be the first to comment...</p></div> ';
-									} else {
-										$.each(result.response,function(i,data){
-											if(i%2==0){
-												var BubbleType = "left";
-												var BubbleColor = "blue-bubble";
-											} else {
-												var BubbleType = "right";
-												var BubbleColor = "";
-											}
-											collectComment = collectComment+'<em class="speach-'+BubbleType+'-title">'+data.Comment.username+' <i class="fa fa-clock-o"></i> '+data.Comment.created+' :</em><p class="speach-'+BubbleType+' '+BubbleColor+'">'+data.Comment.name+'</p><div class="clear"></div>';
-										});
-									}
-									
-									$(".addcomments").html(collectComment);
-								}
-							);
-						}
-					}
-				);
-			}
+            $(".comment-danger").addClass("hide");
+            $(".comment-danger").html('');
+            var comments = $("#currentComment").val();
+            if ($.trim(comments)!="") {
+                var request = $http({
+                    method: "post",
+                    url: globalUrl+"/comments/add.json",
+                    data: {
+                        user_id		: $rootScope.currentUser,
+                        washroom_id	: $routeParams.id,
+                        name		: comments
+                    }
+                });
+                request.success(
+                    function( result ) {
+                        if(result.response.status == true){
+                            $("#currentComment").val("");
+                            $(".commentsuccess").removeClass("hide");
+                            var collectComment = '';
+                            var requester = $http({
+                                method: "post",
+                                url: globalUrl+"/comments/index/"+$routeParams.id+".json",
+                            });
+                            requester.success(
+                                function( result ) {
+                                    if(result.response.length == 0){
+                                        collectComment = '<div class="static-notification bg-red-dark tap-dismiss"><p><i class="fa fa-times"></i>Be the first to comment...</p></div> ';
+                                    } else {
+                                        $.each(result.response,function(i,data){
+                                            if(i%2==0){
+                                                var BubbleType = "left";
+                                                var BubbleColor = "blue-bubble";
+                                            } else {
+                                                var BubbleType = "right";
+                                                var BubbleColor = "";
+                                            }
+                                            collectComment = collectComment+'<em class="speach-'+BubbleType+'-title">'+data.Comment.username+' <i class="fa fa-clock-o"></i> '+data.Comment.created+' :</em><p class="speach-'+BubbleType+' '+BubbleColor+'">'+data.Comment.name+'</p><div class="clear"></div>';
+                                        });
+                                    }
+
+                                    $(".addcomments").html(collectComment);
+                                }
+                            );
+                        }
+                    }
+                );
+            } else {
+                $(".comment-danger").removeClass("hide");
+                $(".comment-danger").html('<span class="sr-only">Error:</span> Please add comment.');
+            }
+            
 		};
 	  	$scope.setFeedback = function() {
 			if ($scope.feedbackForm.$valid) {
