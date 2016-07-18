@@ -13,11 +13,11 @@
                     <i class="fa fa-map-marker"></i>
                 </a>
 
-                <a class="col-xs-12 text-center"  href="javascript:void(0)">
+                <!--<a class="col-xs-12 text-center"  href="javascript:void(0)">
                     <i class="fa fa-wheelchair"></i>
-                </a>
+                </a>-->
 
-                <a class="col-xs-12 text-center"  href ng-click="checkFavorites()" class="favid">
+                <a class="col-xs-12 text-center favid"  href ng-click="checkFavorites()" >
                     <i class="fa fa-star-o"></i>
                 </a>
             </div>
@@ -76,18 +76,22 @@
                 <div class="decoration" ng-if="WashroomDesc"></div>
                 <p ng-if="WashroomDesc">{{WashroomDesc}}</p>
                 <div class="decoration"></div>
-
-                <ul class="font-icon-list" ng-show="showRatings == 1">
-                    <li><a href="javascript:void(0)"><i class="fa fa-star-o"></i><strong>{{ 'RATING' | translate}}</strong></a></li>
+                <div class="overall-rating">
+                    <li>
+                            <strong>{{ 'RATING' | translate}}</strong>
+                    </li>
                     <li class="sub logincomment" ng-if="!loggedIn">{{ 'RATING_LOGIN' | translate}}</li>
-                    <li class="sub">
-                        <input type="number" id="OverallRating" class="rating" min=1 max=5 step=1 data-size="sm" data-symbol="&#xf005;" showCaption="false"  data-rating-class="rating-fa" data-disabled="true" value="" data-glyphicon="false">
+                    <li class="">
+                        <input type="number" id="OverallRating" class="rating" min=1 max=5 step=1 data-size="sm" showCaption="false"    data-disabled="true" value="" data-glyphicon="false">
                         <!--<i class="fa fa-star" style="color:#ffcb34"></i>
                         <i class="fa fa-star" style="color:#ffcb34"></i>
                         <i class="fa fa-star" style="color:#ffcb34"></i>
                         <i class="fa fa-star" style="color:#ffcb34"></i>
                         <i class="fa fa-star-o" style="color:#ffcb34"></i>-->
                     </li>
+                </div>
+                <ul class="font-icon-list" ng-show="showRatings == 1">
+
                     <li class="ratingbox" ng-show="loggedIn">
                         <form name="ratingForm" ng-submit="submitRating(ratingForm.$valid)" novalidate>
                             <h5>{{ 'CLEANLINESS' | translate}}</h5>
@@ -149,7 +153,7 @@
                     <form name="userForm" ng-submit="setComment(userForm.$valid)" novalidate>
                         <div class="static-notification bg-red-dark tap-dismiss comment-danger hide" style="color: #ffffff"></div>
                         <textarea placeholder="{{ 'WRITE_COMMENT' | translate}}..."  ng-model="Comment" id="currentComment" name="Comment" class="contactTextarea requiredField" required></textarea>
-                        <input type="submit" value="{{ 'SUBMIT' | translate}}" class="buttonWrap button button-green contactSubmitButton">
+                        <input type="submit" value="{{ 'SUBMIT' | translate}}" class="buttonWrap button button-green comments-submit contactSubmitButton">
                         <div id="comment-error" style="color:red" ng-show="userForm.Comment.$dirty && userForm.Comment.$invalid">
                             <span ng-show="userForm.Comment.$error.required">{{ 'COMMENT_REQUIRE' | translate}}.</span>
                         </div>

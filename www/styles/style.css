@@ -111,9 +111,20 @@
 }
 #header-fixed h3{
     /* color:white!important */
+    text-align:center;
 }
 
-/*Put content under header, adjust for fullscren pages*/
+#header-fixed h3 span{
+    margin:0 auto;
+    max-width:170px;
+    overflow:hidden;
+    white-space: nowrap;
+    display:block;
+    text-overflow:ellipsis;
+    font-size:14px;
+}
+
+ent under header, adjust for fullscren pages*/
 .cover-screen, .map-fullscreen{
     margin-top:-60px;
 }
@@ -762,4 +773,38 @@ form[name='feedbackForm'] input[type='text']{padding-left:20px}
 
 .snap-content { margin-bottom:38px; }
 
-#location-list-toggle-up,#location-list-toggle-down{text-align:center; font-size:16px; padding-top:2px}
+#location-list-toggle-up,
+#location-list-toggle-down{
+    text-align:center; font-size:16px; padding-top:2px
+}
+.overall-rating{
+    list-style:none;
+    border:1px solid #aaa;
+    padding:10px;
+    border-radius:5px;
+    margin-bottom:30px;
+}
+
+.comments-submit{
+    padding: initial!important;
+    text-align: center;
+}
+
+.route-controls a{
+    font-size:11px;
+    /* width: 97px; */
+    display:block;
+    line-height: 14px;
+    text-align: center;
+    color:#666;
+}
+
+.route-controls.col-xs-3{
+    padding:0px;
+    border:1px solid #aaa;
+    padding:4px;
+    width:23%!Important;
+    margin-bottom:10px;
+    margin-left:1%;
+    border-radius:4px;
+}

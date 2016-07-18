@@ -230,7 +230,7 @@ GoHereApp.config(['$routeProvider',
 		$("#preloader").fadeOut("fast");
 	});
   }]);
-  	
+
   GoHereApp.controller('logoutController', ['$scope', '$rootScope', '$location', '$http', '$sce', '$cordovaInAppBrowser', function($scope,$rootScope, $location, $http,$sce, $cordovaInAppBrowser) {
 	  	localStorage.removeItem('currentUser');
 		$rootScope.currentUser = '';
@@ -240,9 +240,9 @@ GoHereApp.config(['$routeProvider',
   }]);
   GoHereApp.controller('forgetController', ['$scope', '$rootScope', '$location', '$http', '$sce', '$cordovaInAppBrowser', '$translate', function($scope,$rootScope, $location, $http,$sce, $cordovaInAppBrowser, $translate) {
 	  GoHereApp.snapper.close();
-	  $(".menu-item").removeClass('menu-item-active');  
-	  $("#active-login").addClass('menu-item-active');  
-	  $(".custom-header").css("display","block");  
+	  $(".menu-item").removeClass('menu-item-active');
+	  $("#active-login").addClass('menu-item-active');
+	  $(".custom-header").css("display","block");
 	  $rootScope.PageName = 'RESET_PASSWORD';
 	  align_cover_elements();
 	  $scope.resetpass = function(){
@@ -279,12 +279,12 @@ GoHereApp.config(['$routeProvider',
   }]);
   GoHereApp.controller('loginController', ['$scope', '$rootScope', '$location', "$cordovaOauth", '$http', '$sce',  '$cordovaInAppBrowser', '$translate', function($scope,$rootScope, $location, $cordovaOauth, $http,$sce, $cordovaInAppBrowser, $translate) {
 	GoHereApp.snapper.close();
-	$(".menu-item").removeClass('menu-item-active');  
-	$("#active-login").addClass('menu-item-active');  
-	$(".custom-header").css("display","block"); 
+	$(".menu-item").removeClass('menu-item-active');
+	$("#active-login").addClass('menu-item-active');
+	$(".custom-header").css("display","block");
 	$rootScope.PageName = 'LOGIN';
-	align_cover_elements(); 
-	
+	align_cover_elements();
+
 	displayData = function ($http, access_token){
 		$http.get("https://graph.facebook.com/v2.2/me", {params: {access_token: access_token, fields: "name,email,gender,location,picture", format: "json" }}).then(function(result) {
 			var request = $http({
@@ -366,13 +366,18 @@ GoHereApp.config(['$routeProvider',
 		}
 	}
   }]);
-  
+
   
   GoHereApp.controller('signupController', ['$scope', '$rootScope', '$location', '$http', '$sce', '$cordovaInAppBrowser', '$translate', function($scope,$rootScope, $location, $http,$sce, $cordovaInAppBrowser, $translate) {
 	GoHereApp.snapper.close();
-	$(".menu-item").removeClass('menu-item-active');  
-	$("#active-login").addClass('menu-item-active');  
-	$(".custom-header").css("display","block");  
+	$(".menu-item").removeClass('menu-item-active');
+	$("#active-login").addClass('menu-item-active');
+	$(".custom-header").css("display","block");
+	  $('.pageapp-signup').on('scroll touchmove mousewheel', function(e){
+		  e.preventDefault();
+		  e.stopPropagation();
+		  return false;
+	  })
 	$rootScope.PageName = 'SIGNUP';
 	align_cover_elements();
 	$scope.checkRegister = function(){
@@ -411,7 +416,7 @@ GoHereApp.config(['$routeProvider',
 						$("#status").fadeOut(); // will first fade out the loading animation
 						$("#preloader").fadeOut("fast");
 					}
-					
+
 				}
 			);
 		} else {
@@ -420,7 +425,7 @@ GoHereApp.config(['$routeProvider',
 		}
 	}
   }]);
-  
+
   GoHereApp.controller('mapController', ['$scope', '$rootScope', '$http', '$sce', '$cordovaGeolocation',  'uiGmapGoogleMapApi', 'uiGmapIsReady', '$routeParams', '$translate', function($scope,$rootScope, $http,$sce, $cordovaGeolocation, uiGmapGoogleMapApi,uiGmapIsReady,$routeParams, $translate) {
 	GoHereApp.snapper.close();
 	$(".menu-item").removeClass('menu-item-active');  
@@ -1422,8 +1427,8 @@ GoHereApp.config(['$routeProvider',
 			if(response.data.response.length>0){
 				$.each(response.data.response,function(i,val){
 					html = html + '<div class="row"><div class="col-xs-6 route-title" style="text-transform: capitalize">'+val.Route.name+'</div><div class="col-xs-3 route-controls">' +
-						'<a class="btn btn-small btn-default" href="https://www.google.ca/maps/dir/'+val.Route.source+'/'+val.Route.distination+'">Directions</a></div><div class="col-xs-3 route-controls">' +
-						'<a class="btn btn-small btn-default" href="#/map/'+val.Route.source+'/'+val.Route.distination+'">Route</a></div></div><div class="decoration"></div>';
+						'<a class="btn btn-small btn-default" href="https://www.google.ca/maps/dir/'+val.Route.source+'/'+val.Route.distination+'">Google Directions</a></div><div class="col-xs-3 route-controls">' +
+						'<a class="btn btn-small btn-default" href="#/map/'+val.Route.source+'/'+val.Route.distination+'">Washrooms on this Route</a></div></div><div class="decoration"></div>';
 					//html = html + '<a href="#/detail/'+val.Favourite.washroom_id+'" class="user-list-item2"><div class"row"><div class="col-xs-12"><strong>'+val.Washroom.name+'<br/></strong><em>'+val.Washroom.address+'</em></div></div></a><div class="decoration"></div>';
 				});
 			} else {
